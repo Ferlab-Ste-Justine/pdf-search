@@ -35,9 +35,13 @@ class Parser(languages: String = "eng") {
         is more readable.
          */
 
-        List.range(0, document.getNumberOfPages).foldLeft("") {
+        val asText = List.range(0, 1).foldLeft("") {
             (acc, page) => acc + parsePage(document, renderer, page)
         }
+
+        document.close()    //need to close the document before exiting this function
+
+        asText
     }
 
     /*
