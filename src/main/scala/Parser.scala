@@ -35,7 +35,7 @@ class Parser(languages: String = "eng") {
         is more readable.
          */
 
-        List.range(0, 1).foldLeft("") {
+        List.range(0, document.getNumberOfPages).foldLeft("") {
             (acc, page) => acc + parsePage(document, renderer, page)
         }
     }

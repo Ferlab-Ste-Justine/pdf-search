@@ -1,28 +1,28 @@
 [info] Updating ...
-[debug] :: resolving dependencies :: default#clin-pdf-indexer_2.12;0.1
+[debug] :: resolving dependencies :: clin-pdf-indexer#clin-pdf-indexer_2.12;0.1
 [debug] 	confs: [compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool]
 [debug] 	validate = true
 [debug] 	refresh = false
 [debug] resolving dependencies for configuration 'compile'
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->default(compile)]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] sbt-chain: Checking cache for: dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] sbt-chain: module revision found in cache: org.scala-lang#scala-library;2.12.8
 [debug] 	found org.scala-lang#scala-library;2.12.8 in sbt-chain
 [debug] 	[2.12.8] org.scala-lang#scala-library;2.12.8
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->master]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->default(compile)]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->master]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] sbt-chain: Checking cache for: dependency: net.sourceforge.tess4j#tess4j;4.0.0 {compile=[default(compile)]}
 [debug] sbt-chain: module revision found in cache: net.sourceforge.tess4j#tess4j;4.0.0
 [debug] 	found net.sourceforge.tess4j#tess4j;4.0.0 in sbt-chain
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->compile]
 [debug] == resolving dependencies net.sourceforge.tess4j#tess4j;4.0.0->net.java.dev.jna#jna;4.1.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -340,15 +340,15 @@
 [debug] == resolving dependencies net.sourceforge.tess4j#tess4j;4.0.0->org.slf4j#jcl-over-slf4j;1.7.25 [runtime->compile]
 [debug] == resolving dependencies net.sourceforge.tess4j#tess4j;4.0.0->org.slf4j#log4j-over-slf4j;1.7.25 [runtime->runtime(*)]
 [debug] == resolving dependencies net.sourceforge.tess4j#tess4j;4.0.0->org.slf4j#log4j-over-slf4j;1.7.25 [runtime->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->master]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->default(compile)]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->master]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] sbt-chain: Checking cache for: dependency: io.searchbox#jest-common;0.1.1 {compile=[default(compile)]}
 [debug] sbt-chain: module revision found in cache: io.searchbox#jest-common;0.1.1
 [debug] 	found io.searchbox#jest-common;0.1.1 in sbt-chain
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->compile]
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->com.google.guava#guava;16.0.1 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -382,25 +382,25 @@
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->com.google.code.gson#gson;2.2.4 [runtime->compile]
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->org.apache.commons#commons-lang3;3.3.1 [runtime->runtime(*)]
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->org.apache.commons#commons-lang3;3.3.1 [runtime->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->master]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->master]
 [debug] resolving dependencies for configuration 'runtime'
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [runtime]
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->default(compile)]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [runtime]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->master]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->default(compile)]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->master]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->compile]
 [debug] == resolving dependencies net.sourceforge.tess4j#tess4j;4.0.0->net.java.dev.jna#jna;4.1.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -669,14 +669,14 @@
 [debug] == resolving dependencies net.sourceforge.tess4j#tess4j;4.0.0->org.slf4j#log4j-over-slf4j;1.7.25 [runtime->compile]
 [debug] == resolving dependencies org.slf4j#log4j-over-slf4j;1.7.25->org.slf4j#slf4j-api;1.7.25 [runtime->runtime(*)]
 [debug] == resolving dependencies org.slf4j#log4j-over-slf4j;1.7.25->org.slf4j#slf4j-api;1.7.25 [runtime->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->master]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->default(compile)]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->master]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->compile]
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->com.google.guava#guava;16.0.1 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -701,30 +701,30 @@
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->com.google.code.gson#gson;2.2.4 [runtime->compile]
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->org.apache.commons#commons-lang3;3.3.1 [runtime->runtime(*)]
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->org.apache.commons#commons-lang3;3.3.1 [runtime->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->master]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->master]
 [debug] resolving dependencies for configuration 'test'
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [test]
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [runtime]
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->default(compile)]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [test]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [runtime]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->master]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->default(compile)]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->master]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->compile]
 [debug] == resolving dependencies net.sourceforge.tess4j#tess4j;4.0.0->net.java.dev.jna#jna;4.1.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -1045,16 +1045,16 @@
 [debug] == resolving dependencies net.sourceforge.tess4j#tess4j;4.0.0->org.slf4j#log4j-over-slf4j;1.7.25 [runtime->compile]
 [debug] == resolving dependencies org.slf4j#log4j-over-slf4j;1.7.25->org.slf4j#slf4j-api;1.7.25 [runtime->runtime(*)]
 [debug] == resolving dependencies org.slf4j#log4j-over-slf4j;1.7.25->org.slf4j#slf4j-api;1.7.25 [runtime->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->master]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->default(compile)]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->master]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->compile]
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->com.google.guava#guava;16.0.1 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -1085,15 +1085,15 @@
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->com.google.code.gson#gson;2.2.4 [runtime->compile]
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->org.apache.commons#commons-lang3;3.3.1 [runtime->runtime(*)]
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->org.apache.commons#commons-lang3;3.3.1 [runtime->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->master]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->master]
 [debug] resolving dependencies for configuration 'provided'
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [provided]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [provided]
 [debug] resolving dependencies for configuration 'optional'
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [optional]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [optional]
 [debug] resolving dependencies for configuration 'compile-internal'
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [compile-internal]
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->default(compile)]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [compile-internal]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
@@ -1102,10 +1102,10 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->master]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->default(compile)]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->master]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
@@ -1114,8 +1114,8 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->compile]
 [debug] == resolving dependencies net.sourceforge.tess4j#tess4j;4.0.0->net.java.dev.jna#jna;4.1.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -1488,8 +1488,8 @@
 [debug] == resolving dependencies net.sourceforge.tess4j#tess4j;4.0.0->org.slf4j#log4j-over-slf4j;1.7.25 [runtime->compile]
 [debug] == resolving dependencies org.slf4j#log4j-over-slf4j;1.7.25->org.slf4j#slf4j-api;1.7.25 [runtime->runtime(*)]
 [debug] == resolving dependencies org.slf4j#log4j-over-slf4j;1.7.25->org.slf4j#slf4j-api;1.7.25 [runtime->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->master]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->default(compile)]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->master]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
@@ -1498,8 +1498,8 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->compile]
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->com.google.guava#guava;16.0.1 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -1536,14 +1536,14 @@
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->com.google.code.gson#gson;2.2.4 [runtime->compile]
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->org.apache.commons#commons-lang3;3.3.1 [runtime->runtime(*)]
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->org.apache.commons#commons-lang3;3.3.1 [runtime->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->master]
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [optional]
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [provided]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->master]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [optional]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [provided]
 [debug] resolving dependencies for configuration 'runtime-internal'
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [runtime-internal]
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [runtime]
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->default(compile)]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [runtime-internal]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [runtime]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
@@ -1552,10 +1552,10 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->master]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->default(compile)]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->master]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
@@ -1564,8 +1564,8 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->compile]
 [debug] == resolving dependencies net.sourceforge.tess4j#tess4j;4.0.0->net.java.dev.jna#jna;4.1.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -1938,8 +1938,8 @@
 [debug] == resolving dependencies net.sourceforge.tess4j#tess4j;4.0.0->org.slf4j#log4j-over-slf4j;1.7.25 [runtime->compile]
 [debug] == resolving dependencies org.slf4j#log4j-over-slf4j;1.7.25->org.slf4j#slf4j-api;1.7.25 [runtime->runtime(*)]
 [debug] == resolving dependencies org.slf4j#log4j-over-slf4j;1.7.25->org.slf4j#slf4j-api;1.7.25 [runtime->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->master]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->default(compile)]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->master]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
@@ -1948,8 +1948,8 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->compile]
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->com.google.guava#guava;16.0.1 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -1986,14 +1986,14 @@
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->com.google.code.gson#gson;2.2.4 [runtime->compile]
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->org.apache.commons#commons-lang3;3.3.1 [runtime->runtime(*)]
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->org.apache.commons#commons-lang3;3.3.1 [runtime->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->master]
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [optional]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->master]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [optional]
 [debug] resolving dependencies for configuration 'test-internal'
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [test-internal]
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [test]
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [runtime]
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->default(compile)]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [test-internal]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [test]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [runtime]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
@@ -2006,10 +2006,10 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->master]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->default(compile)]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [compile->master]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
@@ -2022,8 +2022,8 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->compile]
 [debug] == resolving dependencies net.sourceforge.tess4j#tess4j;4.0.0->net.java.dev.jna#jna;4.1.0 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -2500,8 +2500,8 @@
 [debug] == resolving dependencies net.sourceforge.tess4j#tess4j;4.0.0->org.slf4j#log4j-over-slf4j;1.7.25 [runtime->compile]
 [debug] == resolving dependencies org.slf4j#log4j-over-slf4j;1.7.25->org.slf4j#slf4j-api;1.7.25 [runtime->runtime(*)]
 [debug] == resolving dependencies org.slf4j#log4j-over-slf4j;1.7.25->org.slf4j#slf4j-api;1.7.25 [runtime->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->master]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->default(compile)]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->net.sourceforge.tess4j#tess4j;4.0.0 [compile->master]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->default(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
@@ -2514,8 +2514,8 @@
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->compile]
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->com.google.guava#guava;16.0.1 [compile->master(compile)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
@@ -2564,23 +2564,23 @@
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->com.google.code.gson#gson;2.2.4 [runtime->compile]
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->org.apache.commons#commons-lang3;3.3.1 [runtime->runtime(*)]
 [debug] == resolving dependencies io.searchbox#jest-common;0.1.1->org.apache.commons#commons-lang3;3.3.1 [runtime->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->master]
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [optional]
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [provided]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->io.searchbox#jest-common;0.1.1 [compile->master]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [optional]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [provided]
 [debug] resolving dependencies for configuration 'plugin'
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [plugin]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [plugin]
 [debug] resolving dependencies for configuration 'pom'
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [pom]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [pom]
 [debug] resolving dependencies for configuration 'scala-tool'
-[debug] == resolving dependencies for default#clin-pdf-indexer_2.12;0.1 [scala-tool]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-compiler;2.12.8 [scala-tool->default]
+[debug] == resolving dependencies for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 [scala-tool]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-compiler;2.12.8 [scala-tool->default]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]} => dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] dependency descriptor has been mediated: MergedDescriptors(dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)]},dependency: org.scala-lang#scala-library;2.12.8 {compile=[default(compile)]}) => dependency: org.scala-lang#scala-library;2.12.8 {scala-tool=[default, optional(default)], compile=[default(compile)]}
 [debug] sbt-chain: Checking cache for: dependency: org.scala-lang#scala-compiler;2.12.8 {scala-tool=[default, optional(default)]}
 [debug] sbt-chain: module revision found in cache: org.scala-lang#scala-compiler;2.12.8
 [debug] 	found org.scala-lang#scala-compiler;2.12.8 in sbt-chain
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-compiler;2.12.8 [scala-tool->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-compiler;2.12.8 [scala-tool->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-compiler;2.12.8 [scala-tool->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-compiler;2.12.8 [scala-tool->compile]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.8 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.8 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.8 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.8 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.8->org.scala-lang#scala-library;2.12.8 [compile->master(compile)]
@@ -2683,12 +2683,12 @@
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.8->org.scala-lang#scala-reflect;2.12.8 [runtime->compile]
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.8->org.scala-lang.modules#scala-xml_2.12;1.0.6 [runtime->runtime(*)]
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.8->org.scala-lang.modules#scala-xml_2.12;1.0.6 [runtime->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-compiler;2.12.8 [scala-tool->master]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-compiler;2.12.8 [scala-tool->master]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.8 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.8 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.8 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.8 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.8 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.8 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.8 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.8 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-compiler;2.12.8 [scala-tool->optional(default)]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-compiler;2.12.8 [scala-tool->optional(default)]
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.12.8 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.12.8 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] dependency descriptor has been mediated: dependency: org.scala-lang#scala-reflect;2.12.8 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-reflect;2.12.8 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.8->jline#jline;2.14.6 [optional->master(compile)]
@@ -2710,156 +2710,60 @@
 [debug] sbt-chain: module revision found in cache: jline#jline;2.14.6
 [debug] 	found jline#jline;2.14.6 in sbt-chain
 [debug] == resolving dependencies org.scala-lang#scala-compiler;2.12.8->jline#jline;2.14.6 [optional->compile(*)]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [scala-tool->default]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [scala-tool->runtime]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [scala-tool->compile]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [scala-tool->master]
-[debug] == resolving dependencies default#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [scala-tool->optional(default)]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [scala-tool->default]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [scala-tool->runtime]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [scala-tool->compile]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [scala-tool->master]
+[debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer_2.12;0.1->org.scala-lang#scala-library;2.12.8 [scala-tool->optional(default)]
 [debug] ignoring unhandled DependencyDescriptorMediator: class sbt.internal.librarymanagement.IvyScalaUtil$OverrideScalaMediator
 [debug] 	resolved ivy file produced in cache
 [debug] :: downloading artifacts ::
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.8!scala-library.jar
 [debug] 	[NOT REQUIRED] net.sourceforge.tess4j#tess4j;4.0.0!tess4j.jar
-[debug] 	[NOT REQUIRED] io.searchbox#jest-common;0.1.1!jest-common.jar
 [debug] 	[NOT REQUIRED] net.java.dev.jna#jna;4.1.0!jna.jar
-[debug] no default ivy user dir defined: set to /home/charlie/.ivy2
-[debug] 	[NOT REQUIRED] com.github.jai-imageio#jai-imageio-core;1.4.0!jai-imageio-core.jar(bundle)
 [debug] 	[NOT REQUIRED] org.ghost4j#ghost4j;1.0.1!ghost4j.jar
-[debug] no default ivy user dir defined: set to /home/charlie/.ivy2
-[debug] no default ivy user dir defined: set to /home/charlie/.ivy2
-[debug] no default ivy user dir defined: set to /home/charlie/.ivy2
-[debug] no default ivy user dir defined: set to /home/charlie/.ivy2
-[debug] no default ivy user dir defined: set to /home/charlie/.ivy2
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-public.xml
-[debug] no default cache defined: set to /home/charlie/.ivy2/cache
-[debug] no default cache defined: set to /home/charlie/.ivy2/cache
-[debug] no default cache defined: set to /home/charlie/.ivy2/cache
-[debug] no default cache defined: set to /home/charlie/.ivy2/cache
-[debug] no default cache defined: set to /home/charlie/.ivy2/cache
-[debug] no default cache defined: set to /home/charlie/.ivy2/cache
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-shared.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-local.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-main-chain.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] settings loaded (31ms)
-[debug] 	default cache: /home/charlie/.ivy2/cache
-[debug] 	default resolver: default
-[debug] 	-- 5 resolvers:
-[debug] 	shared [file]
-[debug] 	default [chain] [local, main]
-[debug] 	public [ibiblio]
-[debug] 	main [chain] [shared, public]
-[debug] 	local [file]
-[debug] settings loaded (31ms)
-[debug] 	default cache: /home/charlie/.ivy2/cache
-[debug] 	default resolver: default
-[debug] 	-- 5 resolvers:
-[debug] 	shared [file]
-[debug] settings loaded (31ms)
-[debug] 	default [chain] [local, main]
-[debug] settings loaded (31ms)
-[debug] 	default cache: /home/charlie/.ivy2/cache
-[debug] 	default cache: /home/charlie/.ivy2/cache
-[debug] 	public [ibiblio]
-[debug] 	default resolver: default
-[debug] 	default resolver: default
-[debug] settings loaded (31ms)
-[debug] 	-- 5 resolvers:
-[debug] 	-- 5 resolvers:
-[debug] 	main [chain] [shared, public]
-[debug] 	default cache: /home/charlie/.ivy2/cache
-[debug] 	shared [file]
-[debug] 	shared [file]
-[debug] 	default resolver: default
-[debug] 	local [file]
-[debug] settings loaded (32ms)
-[debug] 	default [chain] [local, main]
-[debug] 	default [chain] [local, main]
-[debug] 	-- 5 resolvers:
-[debug] 	default cache: /home/charlie/.ivy2/cache
-[debug] 	shared [file]
-[debug] 	public [ibiblio]
-[debug] 	public [ibiblio]
-[debug] 	default resolver: default
-[debug] 	-- 5 resolvers:
-[debug] 	default [chain] [local, main]
-[debug] 	shared [file]
-[debug] 	main [chain] [shared, public]
-[debug] 	main [chain] [shared, public]
-[debug] 	public [ibiblio]
-[debug] 	local [file]
-[debug] 	local [file]
-[debug] 	default [chain] [local, main]
-[debug] 	main [chain] [shared, public]
-[debug] 	public [ibiblio]
-[debug] 	local [file]
-[debug] 	main [chain] [shared, public]
-[debug] 	local [file]
+[debug] 	[NOT REQUIRED] io.searchbox#jest-common;0.1.1!jest-common.jar
+[debug] 	[NOT REQUIRED] com.github.jai-imageio#jai-imageio-core;1.4.0!jai-imageio-core.jar(bundle)
 [debug] 	[NOT REQUIRED] org.apache.pdfbox#pdfbox-tools;2.0.9!pdfbox-tools.jar
-[debug] 	[NOT REQUIRED] net.sourceforge.lept4j#lept4j;1.9.3!lept4j.jar
 [debug] 	[NOT REQUIRED] org.apache.pdfbox#pdfbox;2.0.9!pdfbox.jar(bundle)
 [debug] 	[NOT REQUIRED] org.apache.pdfbox#jbig2-imageio;3.0.0!jbig2-imageio.jar
 [debug] 	[NOT REQUIRED] commons-io#commons-io;2.6!commons-io.jar
+[debug] 	[NOT REQUIRED] net.sourceforge.lept4j#lept4j;1.9.3!lept4j.jar
 [debug] 	[NOT REQUIRED] org.jboss#jboss-vfs;3.2.12.Final!jboss-vfs.jar
-[debug] 	[NOT REQUIRED] ch.qos.logback#logback-classic;1.2.3!logback-classic.jar
 [debug] 	[NOT REQUIRED] org.slf4j#jul-to-slf4j;1.7.25!jul-to-slf4j.jar
-[debug] 	[NOT REQUIRED] org.slf4j#jcl-over-slf4j;1.7.25!jcl-over-slf4j.jar
 [debug] 	[NOT REQUIRED] org.slf4j#log4j-over-slf4j;1.7.25!log4j-over-slf4j.jar
-[debug] 	[NOT REQUIRED] log4j#log4j;1.2.17!log4j.jar(bundle)
+[debug] 	[NOT REQUIRED] ch.qos.logback#logback-classic;1.2.3!logback-classic.jar
+[debug] 	[NOT REQUIRED] org.slf4j#jcl-over-slf4j;1.7.25!jcl-over-slf4j.jar
 [debug] 	[NOT REQUIRED] commons-beanutils#commons-beanutils;1.9.2!commons-beanutils.jar
-[debug] 	[NOT REQUIRED] com.lowagie#itext;2.1.7!itext.jar
+[debug] 	[NOT REQUIRED] log4j#log4j;1.2.17!log4j.jar(bundle)
 [debug] 	[NOT REQUIRED] org.apache.xmlgraphics#xmlgraphics-commons;1.4!xmlgraphics-commons.jar
 [debug] 	[NOT REQUIRED] commons-collections#commons-collections;3.2.1!commons-collections.jar
-[debug] 	[NOT REQUIRED] commons-logging#commons-logging;1.2!commons-logging.jar
+[debug] 	[NOT REQUIRED] com.lowagie#itext;2.1.7!itext.jar
 [debug] 	[NOT REQUIRED] org.apache.pdfbox#fontbox;2.0.9!fontbox.jar(bundle)
 [debug] 	[NOT REQUIRED] org.apache.pdfbox#pdfbox-debugger;2.0.9!pdfbox-debugger.jar
 [debug] 	[NOT REQUIRED] org.jboss.logging#jboss-logging;3.1.4.GA!jboss-logging.jar
+[debug] 	[NOT REQUIRED] commons-logging#commons-logging;1.2!commons-logging.jar
 [debug] 	[NOT REQUIRED] ch.qos.logback#logback-core;1.2.3!logback-core.jar
 [debug] 	[NOT REQUIRED] org.slf4j#slf4j-api;1.7.25!slf4j-api.jar
+[debug] 	[NOT REQUIRED] com.google.code.gson#gson;2.2.4!gson.jar
 [debug] 	[NOT REQUIRED] com.google.guava#guava;16.0.1!guava.jar(bundle)
 [debug] 	[NOT REQUIRED] org.apache.commons#commons-lang3;3.3.1!commons-lang3.jar
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.8!scala-compiler.jar
-[debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.8!scala-reflect.jar
-[debug] 	[NOT REQUIRED] com.google.code.gson#gson;2.2.4!gson.jar
-[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.6!scala-xml_2.12.jar(bundle)
 [debug] 	[NOT REQUIRED] jline#jline;2.14.6!jline.jar
-[debug] :: resolution report :: resolve 892ms :: artifacts dl 52ms
-[debug] 	report for default#clin-pdf-indexer_2.12;0.1 compile produced in /home/charlie/IdeaProjects/clin-pdf-indexer/target/scala-2.12/resolution-cache/reports/default-clin-pdf-indexer_2.12-compile.xml
-[debug] 	report for default#clin-pdf-indexer_2.12;0.1 runtime produced in /home/charlie/IdeaProjects/clin-pdf-indexer/target/scala-2.12/resolution-cache/reports/default-clin-pdf-indexer_2.12-runtime.xml
-[debug] 	report for default#clin-pdf-indexer_2.12;0.1 test produced in /home/charlie/IdeaProjects/clin-pdf-indexer/target/scala-2.12/resolution-cache/reports/default-clin-pdf-indexer_2.12-test.xml
-[debug] 	report for default#clin-pdf-indexer_2.12;0.1 provided produced in /home/charlie/IdeaProjects/clin-pdf-indexer/target/scala-2.12/resolution-cache/reports/default-clin-pdf-indexer_2.12-provided.xml
-[debug] 	report for default#clin-pdf-indexer_2.12;0.1 optional produced in /home/charlie/IdeaProjects/clin-pdf-indexer/target/scala-2.12/resolution-cache/reports/default-clin-pdf-indexer_2.12-optional.xml
-[debug] 	report for default#clin-pdf-indexer_2.12;0.1 compile-internal produced in /home/charlie/IdeaProjects/clin-pdf-indexer/target/scala-2.12/resolution-cache/reports/default-clin-pdf-indexer_2.12-compile-internal.xml
-[debug] 	report for default#clin-pdf-indexer_2.12;0.1 runtime-internal produced in /home/charlie/IdeaProjects/clin-pdf-indexer/target/scala-2.12/resolution-cache/reports/default-clin-pdf-indexer_2.12-runtime-internal.xml
-[debug] 	report for default#clin-pdf-indexer_2.12;0.1 test-internal produced in /home/charlie/IdeaProjects/clin-pdf-indexer/target/scala-2.12/resolution-cache/reports/default-clin-pdf-indexer_2.12-test-internal.xml
-[debug] 	report for default#clin-pdf-indexer_2.12;0.1 plugin produced in /home/charlie/IdeaProjects/clin-pdf-indexer/target/scala-2.12/resolution-cache/reports/default-clin-pdf-indexer_2.12-plugin.xml
-[debug] 	report for default#clin-pdf-indexer_2.12;0.1 pom produced in /home/charlie/IdeaProjects/clin-pdf-indexer/target/scala-2.12/resolution-cache/reports/default-clin-pdf-indexer_2.12-pom.xml
-[debug] 	report for default#clin-pdf-indexer_2.12;0.1 scala-tool produced in /home/charlie/IdeaProjects/clin-pdf-indexer/target/scala-2.12/resolution-cache/reports/default-clin-pdf-indexer_2.12-scala-tool.xml
-[debug] 	resolve done (892ms resolve - 52ms download)
+[debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.6!scala-xml_2.12.jar(bundle)
+[debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.8!scala-reflect.jar
+[debug] :: resolution report :: resolve 257ms :: artifacts dl 6ms
+[debug] 	report for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 compile produced in /home/charlie/IdeaProjects/clin-pdf-search/target/scala-2.12/resolution-cache/reports/clin-pdf-indexer-clin-pdf-indexer_2.12-compile.xml
+[debug] 	report for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 runtime produced in /home/charlie/IdeaProjects/clin-pdf-search/target/scala-2.12/resolution-cache/reports/clin-pdf-indexer-clin-pdf-indexer_2.12-runtime.xml
+[debug] 	report for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 test produced in /home/charlie/IdeaProjects/clin-pdf-search/target/scala-2.12/resolution-cache/reports/clin-pdf-indexer-clin-pdf-indexer_2.12-test.xml
+[debug] 	report for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 provided produced in /home/charlie/IdeaProjects/clin-pdf-search/target/scala-2.12/resolution-cache/reports/clin-pdf-indexer-clin-pdf-indexer_2.12-provided.xml
+[debug] 	report for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 optional produced in /home/charlie/IdeaProjects/clin-pdf-search/target/scala-2.12/resolution-cache/reports/clin-pdf-indexer-clin-pdf-indexer_2.12-optional.xml
+[debug] 	report for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 compile-internal produced in /home/charlie/IdeaProjects/clin-pdf-search/target/scala-2.12/resolution-cache/reports/clin-pdf-indexer-clin-pdf-indexer_2.12-compile-internal.xml
+[debug] 	report for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 runtime-internal produced in /home/charlie/IdeaProjects/clin-pdf-search/target/scala-2.12/resolution-cache/reports/clin-pdf-indexer-clin-pdf-indexer_2.12-runtime-internal.xml
+[debug] 	report for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 test-internal produced in /home/charlie/IdeaProjects/clin-pdf-search/target/scala-2.12/resolution-cache/reports/clin-pdf-indexer-clin-pdf-indexer_2.12-test-internal.xml
+[debug] 	report for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 plugin produced in /home/charlie/IdeaProjects/clin-pdf-search/target/scala-2.12/resolution-cache/reports/clin-pdf-indexer-clin-pdf-indexer_2.12-plugin.xml
+[debug] 	report for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 pom produced in /home/charlie/IdeaProjects/clin-pdf-search/target/scala-2.12/resolution-cache/reports/clin-pdf-indexer-clin-pdf-indexer_2.12-pom.xml
+[debug] 	report for clin-pdf-indexer#clin-pdf-indexer_2.12;0.1 scala-tool produced in /home/charlie/IdeaProjects/clin-pdf-search/target/scala-2.12/resolution-cache/reports/clin-pdf-indexer-clin-pdf-indexer_2.12-scala-tool.xml
+[debug] 	resolve done (257ms resolve - 6ms download)
 [info] Done updating.
 [warn] There may be incompatibilities among your library dependencies; run 'evicted' to see detailed eviction warnings.
