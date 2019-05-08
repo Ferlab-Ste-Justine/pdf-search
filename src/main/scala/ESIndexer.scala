@@ -1,6 +1,9 @@
 import java.util.StringJoiner
 
+import scala.collection.mutable
+
 class ESIndexer {
+    //https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/java-docs-index.html
     //https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/java-docs-index.html
 
     def index(info: (String, String, Array[(String, String)])): Unit = {
@@ -9,24 +12,21 @@ class ESIndexer {
 
     def makeJson(info: Any): String = info match {
         case info: (String, String, Array[(String, String)]) => { //admin case
-            var jsonBuilder = new StringBuilder("{title: \"")
-            jsonBuilder.append(info._1).append("\", text: \"").append(info._2).append("\", words: { ")
 
-            var stringJoiner = new StringJoiner()   //TODO!
+            var json = new mutable.HashMap[String, String]
+
+            json.put("title", info._1)
+            json.put("text", info._2)
+
+            var wordTagJson = new mutable.HashMap[String, String]
 
             val bidon: Unit = info._3.foreach{
-                wordTag: (String, String) => jsonBuilder.append("\"").append(wordTag._1).append("\": \"").append(wordTag._2).append("\", ")
+                wordTag: (String, String) => wordTagJson.put(wordTag._1, wordTag._2)
             }
 
-            jsonBuilder.de
+            json.put("words", wordTagJson.toString())
 
-            val wordsAndTags = info._3.foldLeft("") {
-                (acc, wordTag: (String, String)) => {
-                    acc + wordTag._1 + ": " + wordTag._2 + ", "
-                }
-            }
-
-            json + wordsAndTags + "}}"
+            json.toString()
         }
     }
 }
