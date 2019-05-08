@@ -4,27 +4,43 @@ import java.io.File
 //https://github.com/overview/pdfocr
 
 object Main {
-    def main(args: Array[String]) {
-        fixBug()
+    var ocrParser: OCRParser = _
+    var nlpParser: NLPParser = _
+    var esIndexer: ESIndexer = _
 
-        val parser = new Parser
-        val titleText = getFiles("./input/").map(parser.parsePDF)
+    def main(args: Array[String]) {
+        ocrParser = new OCRParser
+        nlpParser = new NLPParser
+        esIndexer = new ESIndexer
+
+        val titleText = getFiles("./input/").map({ x =>
+
+            val text = ocrParser.parsePDF(x)
+
+            (nlpParser.getNouns(text), text)
+        })
 
         println(titleText)
+
+        val temp = nlpParser.getNouns("Brain cancer is bad. This sucks: it is not fun, man...")
+
+        println(temp)
+
+        val temp2 = admin_indexFiles("./input/")
+
+        print(esIndexer.makeJson(temp2(0)))
+
+        //println(titleText)
         //TODO index the jsons in ES for Vincent
     }
 
-    def fixBug(): Unit = {
-        /*
-        Bug on tesseract 4.0.0: crash when calling procedure is not tesseract itself. To fix, we're changing the locale
-        to C using java's Native library (see CLibrary.java)
+    def admin_indexFiles(path: String): Array[(String, String, Array[(String, String)])] = {
+        getFiles(path).map({ x =>
 
-        https://github.com/nguyenq/tess4j/issues/106
-         */
+            val text = ocrParser.parsePDF(x)
 
-        CLibrary.INSTANCE.setlocale(CLibrary.LC_ALL, "C")
-        CLibrary.INSTANCE.setlocale(CLibrary.LC_NUMERIC, "C")
-        CLibrary.INSTANCE.setlocale(CLibrary.LC_CTYPE, "C")
+            (x.getName, text, nlpParser.getTokenTags(text))
+        })
     }
 
     /**
@@ -32,6 +48,7 @@ object Main {
       * @param path
       * @return
       */
-    def getFiles(path: String): List[File] = new File(path).listFiles().toList
+    def getFiles(path: String): Array[File] = new File(path).listFiles()
+
 
 }
