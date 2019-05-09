@@ -40,10 +40,13 @@ object Main {
 
             val text = ocrParser.parsePDF(x)
             val wordTags = nlpParser.getTokenTags(text)
+            val name = getFileName(x)
 
-            esIndexer.bulkIndex(List(AdminFile(x.getName, text), AdminWord(x.getName, wordTags), AdminFileWord(x.getName, text, wordTags)))
+            esIndexer.bulkIndex(List(AdminFile(name, text), AdminWord(name, wordTags), AdminFileWord(name, text, wordTags)))
         }
     }
+
+    def getFileName(file: File): String = file.getName.replaceAll("(.pdf)$", "")
 
     /**
       * TODO TEMP change this to get all files from ES once
