@@ -13,6 +13,7 @@ object Main {
         nlpParser = new NLPParser
         esIndexer = new ESIndexer
 
+        /*
         val titleText = getFiles("./input/").map({ x =>
 
             val text = ocrParser.parsePDF(x)
@@ -24,23 +25,24 @@ object Main {
 
         val temp = nlpParser.getNouns("Brain cancer is bad. This sucks: it is not fun, man...")
 
-        println(temp)
+        println(temp)*/
 
-        val temp2 = admin_indexFiles("./input/")
+        adminIndexFiles("./input/")
 
-        print(esIndexer.makeJson(temp2(0)))
+        //print(esIndexer.makeJson(temp2(0)))
 
         //println(titleText)
         //TODO index the jsons in ES for Vincent
     }
 
-    def admin_indexFiles(path: String): Array[(String, String, Array[(String, String)])] = {
-        getFiles(path).map({ x =>
+    def adminIndexFiles(path: String): Unit = {
+        getFiles(path).foreach{ x =>
 
             val text = ocrParser.parsePDF(x)
+            val wordTags = nlpParser.getTokenTags(text)
 
-            (x.getName, text, nlpParser.getTokenTags(text))
-        })
+            esIndexer.bulkIndex(List(AdminFile(x.getName, text), AdminWord(x.getName, wordTags), AdminFileWord(x.getName, text, wordTags)))
+        }
     }
 
     /**

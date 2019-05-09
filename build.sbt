@@ -14,3 +14,6 @@ libraryDependencies += "io.searchbox" % "jest-common" % "0.1.1"
 libraryDependencies += "org.apache.opennlp" % "opennlp-tools" % "1.9.1"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % "test"
+
+// https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-high-level-client
+libraryDependencies += "org.elasticsearch.client" % "elasticsearch-rest-high-level-client" % "7.0.1"

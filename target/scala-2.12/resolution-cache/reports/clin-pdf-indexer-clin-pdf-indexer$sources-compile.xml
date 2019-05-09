@@ -7,10 +7,106 @@
 		revision="0.1"
 		conf="compile"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool"
-		date="20190508125125"/>
+		date="20190509095458"/>
 	<dependencies>
+		<module organisation="org.elasticsearch.client" name="elasticsearch-rest-high-level-client">
+			<revision name="7.0.1" status="release" pubdate="20190429104008" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="64">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3604" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch.client/elasticsearch-rest-high-level-client/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/client/elasticsearch-rest-high-level-client/7.0.1/elasticsearch-rest-high-level-client-7.0.1.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="elasticsearch-rest-high-level-client" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="662635" time="667" location="/home/charlie/.ivy2/cache/org.elasticsearch.client/elasticsearch-rest-high-level-client/srcs/elasticsearch-rest-high-level-client-7.0.1-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/client/elasticsearch-rest-high-level-client/7.0.1/elasticsearch-rest-high-level-client-7.0.1-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.elasticsearch.plugin" name="parent-join-client">
+			<revision name="7.0.1" status="release" pubdate="20190429104044" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="73">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="2586" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/parent-join-client/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/parent-join-client/7.0.1/parent-join-client-7.0.1.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="parent-join-client" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="49879" time="205" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/parent-join-client/srcs/parent-join-client-7.0.1-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/parent-join-client/7.0.1/parent-join-client-7.0.1-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.elasticsearch" name="elasticsearch">
+			<revision name="7.0.1" status="release" pubdate="20190429103943" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="63">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="10139" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch/7.0.1/elasticsearch-7.0.1.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="elasticsearch" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="6256390" time="784" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch/srcs/elasticsearch-7.0.1-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch/7.0.1/elasticsearch-7.0.1-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.hdrhistogram" name="HdrHistogram">
+			<revision name="2.1.9" status="release" pubdate="20160518103331" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://hdrhistogram.github.io/HdrHistogram/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="74">
+				<license name="Public Domain, per Creative Commons CC0" url="http://creativecommons.org/publicdomain/zero/1.0/"/>
+				<metadata-artifact status="no" details="" size="4190" time="0" location="/home/charlie/.ivy2/cache/org.hdrhistogram/HdrHistogram/ivy-2.1.9.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/hdrhistogram/HdrHistogram/2.1.9/HdrHistogram-2.1.9.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="2.1.9" rev-constraint-default="2.1.9" rev-constraint-dynamic="2.1.9" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="HdrHistogram" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="111315" time="199" location="/home/charlie/.ivy2/cache/org.hdrhistogram/HdrHistogram/srcs/HdrHistogram-2.1.9-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/hdrhistogram/HdrHistogram/2.1.9/HdrHistogram-2.1.9-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.lucene" name="lucene-join">
+			<revision name="8.0.0" status="release" pubdate="20190313072232" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="68">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="408392" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-join/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-join/8.0.0/lucene-join-8.0.0.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="lucene-join" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="64449" time="519" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-join/srcs/lucene-join-8.0.0-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-join/8.0.0/lucene-join-8.0.0-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.elasticsearch.client" name="elasticsearch-rest-client">
+			<revision name="7.0.1" status="release" pubdate="20190429104004" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="60">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="4577" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch.client/elasticsearch-rest-client/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/client/elasticsearch-rest-client/7.0.1/elasticsearch-rest-client-7.0.1.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="elasticsearch-rest-client" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="43829" time="293" location="/home/charlie/.ivy2/cache/org.elasticsearch.client/elasticsearch-rest-client/srcs/elasticsearch-rest-client-7.0.1-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/client/elasticsearch-rest-client/7.0.1/elasticsearch-rest-client-7.0.1-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.tdunning" name="t-digest">
+			<revision name="3.2" status="release" pubdate="20170806202411" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/tdunning/t-digest" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="55">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3963" time="0" location="/home/charlie/.ivy2/cache/com.tdunning/t-digest/ivy-3.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/tdunning/t-digest/3.2/t-digest-3.2.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="3.2" rev-constraint-default="3.2" rev-constraint-dynamic="3.2" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="t-digest" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="37839" time="208" location="/home/charlie/.ivy2/cache/com.tdunning/t-digest/srcs/t-digest-3.2-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/tdunning/t-digest/3.2/t-digest-3.2-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.elasticsearch" name="elasticsearch-cli">
+			<revision name="7.0.1" status="release" pubdate="20190429103947" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="53">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="2894" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-cli/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-cli/7.0.1/elasticsearch-cli-7.0.1.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="elasticsearch-cli" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="13793" time="202" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-cli/srcs/elasticsearch-cli-7.0.1-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-cli/7.0.1/elasticsearch-cli-7.0.1-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
 		<module organisation="io.searchbox" name="jest-common">
-			<revision name="0.1.1" status="release" pubdate="20140420171054" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/searchbox-io/Jest" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="19">
+			<revision name="0.1.1" status="release" pubdate="20140420171054" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/searchbox-io/Jest" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="49">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="11089" time="0" location="/home/charlie/.ivy2/cache/io.searchbox/jest-common/ivy-0.1.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/io/searchbox/jest-common/0.1.1/jest-common-0.1.1.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="0.1.1" rev-constraint-default="0.1.1" rev-constraint-dynamic="0.1.1" callerrev="0.1"/>
@@ -22,7 +118,7 @@
 			</revision>
 		</module>
 		<module organisation="org.apache.commons" name="commons-lang3">
-			<revision name="3.3.1" status="release" pubdate="20140315090434" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://commons.apache.org/proper/commons-lang/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="23">
+			<revision name="3.3.1" status="release" pubdate="20140315090434" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://commons.apache.org/proper/commons-lang/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="56">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="10669" time="0" location="/home/charlie/.ivy2/cache/org.apache.commons/commons-lang3/ivy-3.3.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.3.1/commons-lang3-3.3.1.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="3.3.1" rev-constraint-default="3.3.1" rev-constraint-dynamic="3.3.1" callerrev="0.1"/>
@@ -34,7 +130,7 @@
 			</revision>
 		</module>
 		<module organisation="com.google.code.gson" name="gson">
-			<revision name="2.2.4" status="release" pubdate="20130513175652" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://code.google.com/p/google-gson/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="20">
+			<revision name="2.2.4" status="release" pubdate="20130513175652" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://code.google.com/p/google-gson/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="50">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="3381" time="0" location="/home/charlie/.ivy2/cache/com.google.code.gson/gson/ivy-2.2.4.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/google/code/gson/gson/2.2.4/gson-2.2.4.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="2.2.4" rev-constraint-default="2.2.4" rev-constraint-dynamic="2.2.4" callerrev="0.1"/>
@@ -46,7 +142,7 @@
 			</revision>
 		</module>
 		<module organisation="com.google.guava" name="guava">
-			<revision name="16.0.1" status="release" pubdate="20140203174528" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="29">
+			<revision name="16.0.1" status="release" pubdate="20140203174528" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="72">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="5619" time="0" location="/home/charlie/.ivy2/cache/com.google.guava/guava/ivy-16.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/google/guava/guava/16.0.1/guava-16.0.1.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="16.0.1" rev-constraint-default="16.0.1" rev-constraint-dynamic="16.0.1" callerrev="0.1"/>
@@ -57,8 +153,44 @@
 				</artifacts>
 			</revision>
 		</module>
+		<module organisation="joda-time" name="joda-time">
+			<revision name="2.10.1" status="release" pubdate="20181027145121" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://www.joda.org/joda-time/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="48">
+				<license name="Apache 2" url="https://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="6880" time="0" location="/home/charlie/.ivy2/cache/joda-time/joda-time/ivy-2.10.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/joda-time/joda-time/2.10.1/joda-time-2.10.1.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="2.10.1" rev-constraint-default="2.10.1" rev-constraint-dynamic="2.10.1" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="joda-time" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="804319" time="337" location="/home/charlie/.ivy2/cache/joda-time/joda-time/srcs/joda-time-2.10.1-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/joda-time/joda-time/2.10.1/joda-time-2.10.1-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.carrotsearch" name="hppc">
+			<revision name="0.7.1" status="release" pubdate="20150507033334" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="46">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="7109" time="0" location="/home/charlie/.ivy2/cache/com.carrotsearch/hppc/ivy-0.7.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/carrotsearch/hppc/0.7.1/hppc-0.7.1.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="0.7.1" rev-constraint-default="0.7.1" rev-constraint-dynamic="0.7.1" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="hppc" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="738368" time="337" location="/home/charlie/.ivy2/cache/com.carrotsearch/hppc/srcs/hppc-0.7.1-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/carrotsearch/hppc/0.7.1/hppc-0.7.1-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.lucene" name="lucene-suggest">
+			<revision name="8.0.0" status="release" pubdate="20190313072043" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="44">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="408687" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-suggest/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-suggest/8.0.0/lucene-suggest-8.0.0.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="lucene-suggest" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="200151" time="297" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-suggest/srcs/lucene-suggest-8.0.0-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-suggest/8.0.0/lucene-suggest-8.0.0-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
 		<module organisation="org.apache.opennlp" name="opennlp-tools">
-			<revision name="1.9.1" status="release" pubdate="20181227141627" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="16">
+			<revision name="1.9.1" status="release" pubdate="20181227141627" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="43">
 				<license name="Apache License, Version 2.0" url="https://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="6929" time="0" location="/home/charlie/.ivy2/cache/org.apache.opennlp/opennlp-tools/ivy-1.9.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/opennlp/opennlp-tools/1.9.1/opennlp-tools-1.9.1.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="1.9.1" rev-constraint-default="1.9.1" rev-constraint-dynamic="1.9.1" callerrev="0.1"/>
@@ -69,8 +201,56 @@
 				</artifacts>
 			</revision>
 		</module>
+		<module organisation="org.elasticsearch" name="elasticsearch-x-content">
+			<revision name="7.0.1" status="release" pubdate="20190429103955" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="38">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="4069" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-x-content/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-x-content/7.0.1/elasticsearch-x-content-7.0.1.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="elasticsearch-x-content" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="77582" time="285" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-x-content/srcs/elasticsearch-x-content-7.0.1-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-x-content/7.0.1/elasticsearch-x-content-7.0.1-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.fasterxml.jackson.dataformat" name="jackson-dataformat-cbor">
+			<revision name="2.8.11" status="release" pubdate="20171223221807" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://github.com/FasterXML/jackson-dataformats-binary" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="65">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="9673" time="0" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor/ivy-2.8.11.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.8.11/jackson-dataformat-cbor-2.8.11.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="2.8.11" rev-constraint-default="2.8.11" rev-constraint-dynamic="2.8.11" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="jackson-dataformat-cbor" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="41064" time="619" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor/srcs/jackson-dataformat-cbor-2.8.11-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.8.11/jackson-dataformat-cbor-2.8.11-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.fasterxml.jackson.dataformat" name="jackson-dataformat-smile">
+			<revision name="2.8.11" status="release" pubdate="20171223221825" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://github.com/FasterXML/jackson-dataformats-binary" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="66">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="9623" time="0" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-smile/ivy-2.8.11.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-smile/2.8.11/jackson-dataformat-smile-2.8.11.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="2.8.11" rev-constraint-default="2.8.11" rev-constraint-dynamic="2.8.11" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="jackson-dataformat-smile" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="70019" time="645" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-smile/srcs/jackson-dataformat-smile-2.8.11-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-smile/2.8.11/jackson-dataformat-smile-2.8.11-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.logging.log4j" name="log4j-api">
+			<revision name="2.11.1" status="release" pubdate="20180722234454" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="37">
+				<license name="Apache License, Version 2.0" url="https://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="38373" time="0" location="/home/charlie/.ivy2/cache/org.apache.logging.log4j/log4j-api/ivy-2.11.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-api/2.11.1/log4j-api-2.11.1.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="2.11.1" rev-constraint-default="2.11.1" rev-constraint-dynamic="2.11.1" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="log4j-api" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="245840" time="308" location="/home/charlie/.ivy2/cache/org.apache.logging.log4j/log4j-api/srcs/log4j-api-2.11.1-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-api/2.11.1/log4j-api-2.11.1-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
 		<module organisation="net.sourceforge.tess4j" name="tess4j">
-			<revision name="4.0.0" status="release" pubdate="20180428193226" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://tess4j.sourceforge.net" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="12">
+			<revision name="4.0.0" status="release" pubdate="20180428193226" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://tess4j.sourceforge.net" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="36">
 				<license name="Apache License 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="6265" time="0" location="/home/charlie/.ivy2/cache/net.sourceforge.tess4j/tess4j/ivy-4.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/sourceforge/tess4j/tess4j/4.0.0/tess4j-4.0.0.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="4.0.0" rev-constraint-default="4.0.0" rev-constraint-dynamic="4.0.0" callerrev="0.1"/>
@@ -82,7 +262,7 @@
 			</revision>
 		</module>
 		<module organisation="org.slf4j" name="jcl-over-slf4j">
-			<revision name="1.7.25" status="release" pubdate="20170316123729" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.slf4j.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="17">
+			<revision name="1.7.25" status="release" pubdate="20170316123729" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.slf4j.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="45">
 				<license name="MIT License" url="http://www.opensource.org/licenses/mit-license.php"/>
 				<metadata-artifact status="no" details="" size="5267" time="0" location="/home/charlie/.ivy2/cache/org.slf4j/jcl-over-slf4j/ivy-1.7.25.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/slf4j/jcl-over-slf4j/1.7.25/jcl-over-slf4j-1.7.25.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="1.7.25" rev-constraint-default="1.7.25" rev-constraint-dynamic="1.7.25" callerrev="0.1"/>
@@ -94,7 +274,7 @@
 			</revision>
 		</module>
 		<module organisation="net.sourceforge.lept4j" name="lept4j">
-			<revision name="1.9.3" status="release" pubdate="20180416101743" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/nguyenq/lept4j" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="28">
+			<revision name="1.9.3" status="release" pubdate="20180416101743" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/nguyenq/lept4j" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="70">
 				<license name="Apache License 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="3849" time="0" location="/home/charlie/.ivy2/cache/net.sourceforge.lept4j/lept4j/ivy-1.9.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/sourceforge/lept4j/lept4j/1.9.3/lept4j-1.9.3.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="1.9.3" rev-constraint-default="1.9.3" rev-constraint-dynamic="1.9.3" callerrev="0.1"/>
@@ -106,7 +286,7 @@
 			</revision>
 		</module>
 		<module organisation="commons-io" name="commons-io">
-			<revision name="2.6" status="release" pubdate="20171015060052" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://commons.apache.org/proper/commons-io/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="21">
+			<revision name="2.6" status="release" pubdate="20171015060052" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://commons.apache.org/proper/commons-io/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="51">
 				<license name="Apache License, Version 2.0" url="https://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="12838" time="0" location="/home/charlie/.ivy2/cache/commons-io/commons-io/ivy-2.6.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/commons-io/commons-io/2.6/commons-io-2.6.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="2.6" rev-constraint-default="2.6" rev-constraint-dynamic="2.6" callerrev="0.1"/>
@@ -118,7 +298,7 @@
 			</revision>
 		</module>
 		<module organisation="org.apache.pdfbox" name="pdfbox-tools">
-			<revision name="2.0.9" status="release" pubdate="20180320123001" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="24">
+			<revision name="2.0.9" status="release" pubdate="20180320123001" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="57">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="7214" time="0" location="/home/charlie/.ivy2/cache/org.apache.pdfbox/pdfbox-tools/ivy-2.0.9.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/pdfbox/pdfbox-tools/2.0.9/pdfbox-tools-2.0.9.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="2.0.9" rev-constraint-default="2.0.9" rev-constraint-dynamic="2.0.9" callerrev="0.1"/>
@@ -130,7 +310,7 @@
 			</revision>
 		</module>
 		<module organisation="org.apache.pdfbox" name="pdfbox-debugger">
-			<revision name="2.0.9" status="release" pubdate="20180320122930" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="18">
+			<revision name="2.0.9" status="release" pubdate="20180320122930" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="47">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="7050" time="0" location="/home/charlie/.ivy2/cache/org.apache.pdfbox/pdfbox-debugger/ivy-2.0.9.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/pdfbox/pdfbox-debugger/2.0.9/pdfbox-debugger-2.0.9.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="2.0.9" rev-constraint-default="2.0.9" rev-constraint-dynamic="2.0.9" callerrev="0.1"/>
@@ -142,7 +322,7 @@
 			</revision>
 		</module>
 		<module organisation="org.ghost4j" name="ghost4j">
-			<revision name="1.0.1" status="release" pubdate="20160314192648" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.ghost4j.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="14">
+			<revision name="1.0.1" status="release" pubdate="20160314192648" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.ghost4j.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="40">
 				<license name="GNU LESSER GENERAL PUBLIC LICENSE" url="http://www.gnu.org/licenses/lgpl-3.0-standalone.html"/>
 				<metadata-artifact status="no" details="" size="4770" time="0" location="/home/charlie/.ivy2/cache/org.ghost4j/ghost4j/ivy-1.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/ghost4j/ghost4j/1.0.1/ghost4j-1.0.1.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="1.0.1" rev-constraint-default="1.0.1" rev-constraint-dynamic="1.0.1" callerrev="0.1"/>
@@ -154,7 +334,7 @@
 			</revision>
 		</module>
 		<module organisation="commons-beanutils" name="commons-beanutils">
-			<revision name="1.9.2" status="release" pubdate="20140526151928" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://commons.apache.org/proper/commons-beanutils/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="30">
+			<revision name="1.9.2" status="release" pubdate="20140526151928" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://commons.apache.org/proper/commons-beanutils/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="75">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="10608" time="0" location="/home/charlie/.ivy2/cache/commons-beanutils/commons-beanutils/ivy-1.9.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/commons-beanutils/commons-beanutils/1.9.2/commons-beanutils-1.9.2.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="1.9.2" rev-constraint-default="1.9.2" rev-constraint-dynamic="1.9.2" callerrev="0.1"/>
@@ -166,7 +346,7 @@
 			</revision>
 		</module>
 		<module organisation="commons-collections" name="commons-collections">
-			<revision name="3.2.1" status="release" pubdate="20080414210924" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://commons.apache.org/collections/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="25">
+			<revision name="3.2.1" status="release" pubdate="20080414210924" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://commons.apache.org/collections/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="61">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="4831" time="0" location="/home/charlie/.ivy2/cache/commons-collections/commons-collections/ivy-3.2.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="3.2.1" rev-constraint-default="3.2.1" rev-constraint-dynamic="3.2.1" callerrev="0.1"/>
@@ -178,7 +358,7 @@
 			</revision>
 		</module>
 		<module organisation="net.java.dev.jna" name="jna">
-			<revision name="4.1.0" status="release" pubdate="20140306105605" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/twall/jna" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="15">
+			<revision name="4.1.0" status="release" pubdate="20140306105605" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/twall/jna" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="42">
 				<license name="LGPL, version 2.1" url="http://www.gnu.org/licenses/licenses.html"/>
 				<license name="ASL, version 2" url="http://www.apache.org/licenses/"/>
 				<metadata-artifact status="no" details="" size="2534" time="0" location="/home/charlie/.ivy2/cache/net.java.dev.jna/jna/ivy-4.1.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/java/dev/jna/jna/4.1.0/jna-4.1.0.pom"/>
@@ -190,8 +370,32 @@
 				</artifacts>
 			</revision>
 		</module>
+		<module organisation="net.sf.jopt-simple" name="jopt-simple">
+			<revision name="5.0.2" status="release" pubdate="20160608141008" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://pholser.github.io/jopt-simple" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="34">
+				<license name="The MIT License" url="http://www.opensource.org/licenses/mit-license.php"/>
+				<metadata-artifact status="no" details="" size="4258" time="0" location="/home/charlie/.ivy2/cache/net.sf.jopt-simple/jopt-simple/ivy-5.0.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/sf/jopt-simple/jopt-simple/5.0.2/jopt-simple-5.0.2.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="5.0.2" rev-constraint-default="5.0.2" rev-constraint-dynamic="5.0.2" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="jopt-simple" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="85461" time="219" location="/home/charlie/.ivy2/cache/net.sf.jopt-simple/jopt-simple/srcs/jopt-simple-5.0.2-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/net/sf/jopt-simple/jopt-simple/5.0.2/jopt-simple-5.0.2-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.elasticsearch.plugin" name="rank-eval-client">
+			<revision name="7.0.1" status="release" pubdate="20190429104048" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="33">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="2575" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/rank-eval-client/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/rank-eval-client/7.0.1/rank-eval-client-7.0.1.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="rank-eval-client" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="45051" time="213" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/rank-eval-client/srcs/rank-eval-client-7.0.1-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/rank-eval-client/7.0.1/rank-eval-client-7.0.1-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
 		<module organisation="org.apache.xmlgraphics" name="xmlgraphics-commons">
-			<revision name="1.4" status="release" pubdate="20100826105218" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://xmlgraphics.apache.org/commons/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="10">
+			<revision name="1.4" status="release" pubdate="20100826105218" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://xmlgraphics.apache.org/commons/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="31">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="3063" time="0" location="/home/charlie/.ivy2/cache/org.apache.xmlgraphics/xmlgraphics-commons/ivy-1.4.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/xmlgraphics/xmlgraphics-commons/1.4/xmlgraphics-commons-1.4.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="1.4" rev-constraint-default="1.4" rev-constraint-dynamic="1.4" callerrev="0.1"/>
@@ -203,7 +407,7 @@
 			</revision>
 		</module>
 		<module organisation="org.jboss" name="jboss-vfs">
-			<revision name="3.2.12.Final" status="release" pubdate="20160506065713" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.jboss.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="9">
+			<revision name="3.2.12.Final" status="release" pubdate="20160506065713" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.jboss.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="30">
 				<license name="asl" url="http://repository.jboss.org/licenses/apache-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="10683" time="0" location="/home/charlie/.ivy2/cache/org.jboss/jboss-vfs/ivy-3.2.12.Final.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/jboss/jboss-vfs/3.2.12.Final/jboss-vfs-3.2.12.Final.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="3.2.12.Final" rev-constraint-default="3.2.12.Final" rev-constraint-dynamic="3.2.12.Final" callerrev="0.1"/>
@@ -215,7 +419,7 @@
 			</revision>
 		</module>
 		<module organisation="org.jboss.logging" name="jboss-logging">
-			<revision name="3.1.4.GA" status="release" pubdate="20131220134248" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.jboss.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="22">
+			<revision name="3.1.4.GA" status="release" pubdate="20131220134248" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.jboss.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="52">
 				<license name="Apache License, version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="8438" time="0" location="/home/charlie/.ivy2/cache/org.jboss.logging/jboss-logging/ivy-3.1.4.GA.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/jboss/logging/jboss-logging/3.1.4.GA/jboss-logging-3.1.4.GA.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="3.1.4.GA" rev-constraint-default="3.1.4.GA" rev-constraint-dynamic="3.1.4.GA" callerrev="0.1"/>
@@ -226,8 +430,32 @@
 				</artifacts>
 			</revision>
 		</module>
+		<module organisation="org.apache.httpcomponents" name="httpasyncclient">
+			<revision name="4.1.4" status="release" pubdate="20180720045209" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://hc.apache.org/httpcomponents-asyncclient" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="29">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="9854" time="0" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpasyncclient/ivy-4.1.4.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpasyncclient/4.1.4/httpasyncclient-4.1.4.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="4.1.4" rev-constraint-default="4.1.4" rev-constraint-dynamic="4.1.4" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="httpasyncclient" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="140899" time="215" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpasyncclient/srcs/httpasyncclient-4.1.4-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpasyncclient/4.1.4/httpasyncclient-4.1.4-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.httpcomponents" name="httpcore-nio">
+			<revision name="4.4.11" status="release" pubdate="20190115052531" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://hc.apache.org/httpcomponents-core-ga" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="28">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="9476" time="0" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpcore-nio/ivy-4.4.11.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpcore-nio/4.4.11/httpcore-nio-4.4.11.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="4.4.11" rev-constraint-default="4.4.11" rev-constraint-dynamic="4.4.11" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="httpcore-nio" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="367962" time="214" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpcore-nio/srcs/httpcore-nio-4.4.11-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpcore-nio/4.4.11/httpcore-nio-4.4.11-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
 		<module organisation="org.apache.pdfbox" name="pdfbox">
-			<revision name="2.0.9" status="release" pubdate="20180320122455" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="8">
+			<revision name="2.0.9" status="release" pubdate="20180320122455" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="27">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="7916" time="0" location="/home/charlie/.ivy2/cache/org.apache.pdfbox/pdfbox/ivy-2.0.9.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/pdfbox/pdfbox/2.0.9/pdfbox-2.0.9.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="2.0.9" rev-constraint-default="2.0.9" rev-constraint-dynamic="2.0.9" callerrev="0.1"/>
@@ -239,7 +467,7 @@
 			</revision>
 		</module>
 		<module organisation="org.apache.pdfbox" name="jbig2-imageio">
-			<revision name="3.0.0" status="release" pubdate="20180221160345" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="27">
+			<revision name="3.0.0" status="release" pubdate="20180221160345" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="69">
 				<license name="Apache License, Version 2.0" url="https://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="4293" time="0" location="/home/charlie/.ivy2/cache/org.apache.pdfbox/jbig2-imageio/ivy-3.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/pdfbox/jbig2-imageio/3.0.0/jbig2-imageio-3.0.0.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="3.0.0" rev-constraint-default="3.0.0" rev-constraint-dynamic="3.0.0" callerrev="0.1"/>
@@ -251,7 +479,7 @@
 			</revision>
 		</module>
 		<module organisation="org.apache.pdfbox" name="fontbox">
-			<revision name="2.0.9" status="release" pubdate="20180320122055" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://pdfbox.apache.org/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="13">
+			<revision name="2.0.9" status="release" pubdate="20180320122055" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://pdfbox.apache.org/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="39">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="6815" time="0" location="/home/charlie/.ivy2/cache/org.apache.pdfbox/fontbox/ivy-2.0.9.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/pdfbox/fontbox/2.0.9/fontbox-2.0.9.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="2.0.9" rev-constraint-default="2.0.9" rev-constraint-dynamic="2.0.9" callerrev="0.1"/>
@@ -263,7 +491,7 @@
 			</revision>
 		</module>
 		<module organisation="ch.qos.logback" name="logback-classic">
-			<revision name="1.2.3" status="release" pubdate="20170331152753" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="7">
+			<revision name="1.2.3" status="release" pubdate="20170331152753" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="26">
 				<license name="Eclipse Public License - v 1.0" url="http://www.eclipse.org/legal/epl-v10.html"/>
 				<license name="GNU Lesser General Public License" url="http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html"/>
 				<metadata-artifact status="no" details="" size="10412" time="0" location="/home/charlie/.ivy2/cache/ch.qos.logback/logback-classic/ivy-1.2.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.pom"/>
@@ -276,7 +504,7 @@
 			</revision>
 		</module>
 		<module organisation="ch.qos.logback" name="logback-core">
-			<revision name="1.2.3" status="release" pubdate="20170331152715" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="26">
+			<revision name="1.2.3" status="release" pubdate="20170331152715" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="67">
 				<license name="Eclipse Public License - v 1.0" url="http://www.eclipse.org/legal/epl-v10.html"/>
 				<license name="GNU Lesser General Public License" url="http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html"/>
 				<metadata-artifact status="no" details="" size="7917" time="0" location="/home/charlie/.ivy2/cache/ch.qos.logback/logback-core/ivy-1.2.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/ch/qos/logback/logback-core/1.2.3/logback-core-1.2.3.pom"/>
@@ -288,8 +516,44 @@
 				</artifacts>
 			</revision>
 		</module>
+		<module organisation="org.apache.lucene" name="lucene-misc">
+			<revision name="8.0.0" status="release" pubdate="20190313072052" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="25">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="408405" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-misc/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-misc/8.0.0/lucene-misc-8.0.0.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="lucene-misc" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="84674" time="213" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-misc/srcs/lucene-misc-8.0.0-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-misc/8.0.0/lucene-misc-8.0.0-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.elasticsearch.plugin" name="lang-mustache-client">
+			<revision name="7.0.1" status="release" pubdate="20190429104054" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="23">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="2765" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/lang-mustache-client/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/lang-mustache-client/7.0.1/lang-mustache-client-7.0.1.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="lang-mustache-client" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="32713" time="286" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/lang-mustache-client/srcs/lang-mustache-client-7.0.1-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/lang-mustache-client/7.0.1/lang-mustache-client-7.0.1-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.spullara.mustache.java" name="compiler">
+			<revision name="0.9.3" status="release" pubdate="20160719135639" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://github.com/spullara/mustache.java" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="59">
+				<license name="Apache License 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="3484" time="0" location="/home/charlie/.ivy2/cache/com.github.spullara.mustache.java/compiler/ivy-0.9.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/spullara/mustache/java/compiler/0.9.3/compiler-0.9.3.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="0.9.3" rev-constraint-default="0.9.3" rev-constraint-dynamic="0.9.3" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="compiler" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="53817" time="187" location="/home/charlie/.ivy2/cache/com.github.spullara.mustache.java/compiler/srcs/compiler-0.9.3-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/spullara/mustache/java/compiler/0.9.3/compiler-0.9.3-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
 		<module organisation="com.lowagie" name="itext">
-			<revision name="2.1.7" status="release" pubdate="20090708183910" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.lowagie.com/iText/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="5">
+			<revision name="2.1.7" status="release" pubdate="20090708183910" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.lowagie.com/iText/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="22">
 				<license name="Mozilla Public License" url="http://www.mozilla.org/MPL/MPL-1.1.html"/>
 				<metadata-artifact status="no" details="" size="3016" time="0" location="/home/charlie/.ivy2/cache/com.lowagie/itext/ivy-2.1.7.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/lowagie/itext/2.1.7/itext-2.1.7.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="2.1.7" rev-constraint-default="2.1.7" rev-constraint-dynamic="2.1.7" callerrev="0.1"/>
@@ -300,32 +564,32 @@
 				</artifacts>
 			</revision>
 		</module>
-		<module organisation="commons-logging" name="commons-logging">
-			<revision name="1.2" status="release" pubdate="20140705141228" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://commons.apache.org/proper/commons-logging/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="4">
+		<module organisation="org.elasticsearch" name="elasticsearch-secure-sm">
+			<revision name="7.0.1" status="release" pubdate="20190429103953" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="20">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="no" details="" size="11623" time="0" location="/home/charlie/.ivy2/cache/commons-logging/commons-logging/ivy-1.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.pom"/>
-				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="1.2" rev-constraint-default="1.2" rev-constraint-dynamic="1.2" callerrev="0.1"/>
+				<metadata-artifact status="no" details="" size="2563" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-secure-sm/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-secure-sm/7.0.1/elasticsearch-secure-sm-7.0.1.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="0.1"/>
 				<artifacts>
-					<artifact name="commons-logging" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="73295" time="0" location="/home/charlie/.ivy2/cache/commons-logging/commons-logging/srcs/commons-logging-1.2-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2-sources.jar"/>
+					<artifact name="elasticsearch-secure-sm" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="10704" time="290" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-secure-sm/srcs/elasticsearch-secure-sm-7.0.1-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-secure-sm/7.0.1/elasticsearch-secure-sm-7.0.1-sources.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
-		<module organisation="log4j" name="log4j">
-			<revision name="1.2.17" status="release" pubdate="20120526054339" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://logging.apache.org/log4j/1.2/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="6">
+		<module organisation="org.elasticsearch.plugin" name="aggs-matrix-stats-client">
+			<revision name="7.0.1" status="release" pubdate="20190429104050" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="19">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="no" details="" size="3670" time="0" location="/home/charlie/.ivy2/cache/log4j/log4j/ivy-1.2.17.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/log4j/log4j/1.2.17/log4j-1.2.17.pom"/>
-				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="1.2.17" rev-constraint-default="1.2.17" rev-constraint-dynamic="1.2.17" callerrev="0.1"/>
+				<metadata-artifact status="no" details="" size="2620" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/aggs-matrix-stats-client/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/aggs-matrix-stats-client/7.0.1/aggs-matrix-stats-client-7.0.1.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="0.1"/>
 				<artifacts>
-					<artifact name="log4j" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="481200" time="0" location="/home/charlie/.ivy2/cache/log4j/log4j/srcs/log4j-1.2.17-sources.jar">
-						<origin-location is-local="false" location="https://repo1.maven.org/maven2/log4j/log4j/1.2.17/log4j-1.2.17-sources.jar"/>
+					<artifact name="aggs-matrix-stats-client" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="37178" time="286" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/aggs-matrix-stats-client/srcs/aggs-matrix-stats-client-7.0.1-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/aggs-matrix-stats-client/7.0.1/aggs-matrix-stats-client-7.0.1-sources.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="com.github.jai-imageio" name="jai-imageio-core">
-			<revision name="1.4.0" status="release" pubdate="20180416033019" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/jai-imageio/jai-imageio-core" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="3">
+			<revision name="1.4.0" status="release" pubdate="20180416033019" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/jai-imageio/jai-imageio-core" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="17">
 				<license name="BSD 3-clause License w/nuclear disclaimer" url="LICENSE.txt"/>
 				<metadata-artifact status="no" details="" size="3750" time="0" location="/home/charlie/.ivy2/cache/com.github.jai-imageio/jai-imageio-core/ivy-1.4.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/jai-imageio/jai-imageio-core/1.4.0/jai-imageio-core-1.4.0.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="1.4.0" rev-constraint-default="1.4.0" rev-constraint-dynamic="1.4.0" callerrev="0.1"/>
@@ -336,8 +600,32 @@
 				</artifacts>
 			</revision>
 		</module>
+		<module organisation="org.apache.lucene" name="lucene-backward-codecs">
+			<revision name="8.0.0" status="release" pubdate="20190313072003" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="16">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="408492" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-backward-codecs/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-backward-codecs/8.0.0/lucene-backward-codecs-8.0.0.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="lucene-backward-codecs" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="42870" time="308" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-backward-codecs/srcs/lucene-backward-codecs-8.0.0-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-backward-codecs/8.0.0/lucene-backward-codecs-8.0.0-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.elasticsearch" name="elasticsearch-core">
+			<revision name="7.0.1" status="release" pubdate="20190429103949" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="15">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="2548" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-core/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-core/7.0.1/elasticsearch-core-7.0.1.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="elasticsearch-core" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="32784" time="288" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-core/srcs/elasticsearch-core-7.0.1-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-core/7.0.1/elasticsearch-core-7.0.1-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
 		<module organisation="org.slf4j" name="log4j-over-slf4j">
-			<revision name="1.7.25" status="release" pubdate="20170316123739" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.slf4j.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="2">
+			<revision name="1.7.25" status="release" pubdate="20170316123739" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.slf4j.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="14">
 				<license name="Apache Software Licenses" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="5278" time="0" location="/home/charlie/.ivy2/cache/org.slf4j/log4j-over-slf4j/ivy-1.7.25.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/slf4j/log4j-over-slf4j/1.7.25/log4j-over-slf4j-1.7.25.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="1.7.25" rev-constraint-default="1.7.25" rev-constraint-dynamic="1.7.25" callerrev="0.1"/>
@@ -348,8 +636,56 @@
 				</artifacts>
 			</revision>
 		</module>
+		<module organisation="org.elasticsearch" name="jna">
+			<revision name="4.5.1" status="release" pubdate="20180111065107" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/java-native-access/jna" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="13">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="2554" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/jna/ivy-4.5.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/jna/4.5.1/jna-4.5.1.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="4.5.1" rev-constraint-default="4.5.1" rev-constraint-dynamic="4.5.1" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="jna" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="147067" time="204" location="/home/charlie/.ivy2/cache/org.elasticsearch/jna/srcs/jna-4.5.1-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/jna/4.5.1/jna-4.5.1-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.lucene" name="lucene-spatial">
+			<revision name="8.0.0" status="release" pubdate="20190313072225" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="12">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="408479" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-spatial/8.0.0/lucene-spatial-8.0.0.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="lucene-spatial" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="16952" time="210" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial/srcs/lucene-spatial-8.0.0-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-spatial/8.0.0/lucene-spatial-8.0.0-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.fasterxml.jackson.dataformat" name="jackson-dataformat-yaml">
+			<revision name="2.8.11" status="release" pubdate="20171223222338" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/FasterXML/jackson" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="10">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="8860" time="0" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/ivy-2.8.11.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.8.11/jackson-dataformat-yaml-2.8.11.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="2.8.11" rev-constraint-default="2.8.11" rev-constraint-dynamic="2.8.11" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="jackson-dataformat-yaml" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="30604" time="226" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/srcs/jackson-dataformat-yaml-2.8.11-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.8.11/jackson-dataformat-yaml-2.8.11-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.yaml" name="snakeyaml">
+			<revision name="1.17" status="release" pubdate="20160219081344" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.snakeyaml.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="62">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3956" time="0" location="/home/charlie/.ivy2/cache/org.yaml/snakeyaml/ivy-1.17.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/yaml/snakeyaml/1.17/snakeyaml-1.17.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="1.17" rev-constraint-default="1.17" rev-constraint-dynamic="1.17" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="snakeyaml" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="171312" time="658" location="/home/charlie/.ivy2/cache/org.yaml/snakeyaml/srcs/snakeyaml-1.17-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/yaml/snakeyaml/1.17/snakeyaml-1.17-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
 		<module organisation="org.slf4j" name="jul-to-slf4j">
-			<revision name="1.7.25" status="release" pubdate="20170316123746" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.slf4j.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="1">
+			<revision name="1.7.25" status="release" pubdate="20170316123746" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.slf4j.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="9">
 				<license name="MIT License" url="http://www.opensource.org/licenses/mit-license.php"/>
 				<metadata-artifact status="no" details="" size="5254" time="0" location="/home/charlie/.ivy2/cache/org.slf4j/jul-to-slf4j/ivy-1.7.25.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/slf4j/jul-to-slf4j/1.7.25/jul-to-slf4j-1.7.25.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="1.7.25" rev-constraint-default="1.7.25" rev-constraint-dynamic="1.7.25" callerrev="0.1"/>
@@ -361,7 +697,7 @@
 			</revision>
 		</module>
 		<module organisation="org.slf4j" name="slf4j-api">
-			<revision name="1.7.25" status="release" pubdate="20170316123632" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.slf4j.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="11">
+			<revision name="1.7.25" status="release" pubdate="20170316123632" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.slf4j.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="32">
 				<license name="MIT License" url="http://www.opensource.org/licenses/mit-license.php"/>
 				<metadata-artifact status="no" details="" size="5377" time="0" location="/home/charlie/.ivy2/cache/org.slf4j/slf4j-api/ivy-1.7.25.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="1.7.25" rev-constraint-default="1.7.25" rev-constraint-dynamic="1.7.25" callerrev="0.1"/>
@@ -373,13 +709,217 @@
 			</revision>
 		</module>
 		<module organisation="org.scala-lang" name="scala-library">
-			<revision name="2.12.8" status="release" pubdate="20181204051556" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" extra-info.apiURL="http://www.scala-lang.org/api/2.12.8/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="0">
+			<revision name="2.12.8" status="release" pubdate="20181204051556" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" extra-info.apiURL="http://www.scala-lang.org/api/2.12.8/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="8">
 				<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0"/>
 				<metadata-artifact status="no" details="" size="2656" time="0" location="/home/charlie/.ivy2/cache/org.scala-lang/scala-library/ivy-2.12.8.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.8/scala-library-2.12.8.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="0.1" extra-info.apiURL="http://www.scala-lang.org/api/2.12.8/"/>
 				<artifacts>
 					<artifact name="scala-library" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="1020924" time="0" location="/home/charlie/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.12.8-sources.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.8/scala-library-2.12.8-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.lucene" name="lucene-highlighter">
+			<revision name="8.0.0" status="release" pubdate="20190313071954" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="6">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="409248" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-highlighter/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-highlighter/8.0.0/lucene-highlighter-8.0.0.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="lucene-highlighter" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="164965" time="250" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-highlighter/srcs/lucene-highlighter-8.0.0-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-highlighter/8.0.0/lucene-highlighter-8.0.0-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.lucene" name="lucene-analyzers-common">
+			<revision name="8.0.0" status="release" pubdate="20190313072327" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="18">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="408481" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-analyzers-common/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-analyzers-common/8.0.0/lucene-analyzers-common-8.0.0.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="lucene-analyzers-common" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="1644918" time="344" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-analyzers-common/srcs/lucene-analyzers-common-8.0.0-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-analyzers-common/8.0.0/lucene-analyzers-common-8.0.0-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.lucene" name="lucene-memory">
+			<revision name="8.0.0" status="release" pubdate="20190313072216" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="11">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="408922" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-memory/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-memory/8.0.0/lucene-memory-8.0.0.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="lucene-memory" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="27028" time="219" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-memory/srcs/lucene-memory-8.0.0-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-memory/8.0.0/lucene-memory-8.0.0-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.lucene" name="lucene-queryparser">
+			<revision name="8.0.0" status="release" pubdate="20190313072146" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="54">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="409018" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-queryparser/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-queryparser/8.0.0/lucene-queryparser-8.0.0.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="lucene-queryparser" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="386696" time="223" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-queryparser/srcs/lucene-queryparser-8.0.0-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-queryparser/8.0.0/lucene-queryparser-8.0.0-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.lucene" name="lucene-sandbox">
+			<revision name="8.0.0" status="release" pubdate="20190313072316" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="7">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="408397" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-sandbox/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-sandbox/8.0.0/lucene-sandbox-8.0.0.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="lucene-sandbox" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="194582" time="250" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-sandbox/srcs/lucene-sandbox-8.0.0-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-sandbox/8.0.0/lucene-sandbox-8.0.0-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.httpcomponents" name="httpclient">
+			<revision name="4.5.7" status="release" pubdate="20190120092320" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://hc.apache.org/httpcomponents-client" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="4">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="11456" time="0" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpclient/ivy-4.5.7.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.7/httpclient-4.5.7.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="4.5.7" rev-constraint-default="4.5.7" rev-constraint-dynamic="4.5.7" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="httpclient" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="729725" time="517" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpclient/srcs/httpclient-4.5.7-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.7/httpclient-4.5.7-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="commons-codec" name="commons-codec">
+			<revision name="1.11" status="release" pubdate="20171017105430" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://commons.apache.org/proper/commons-codec/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="35">
+				<license name="Apache License, Version 2.0" url="https://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="12632" time="0" location="/home/charlie/.ivy2/cache/commons-codec/commons-codec/ivy-1.11.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/commons-codec/commons-codec/1.11/commons-codec-1.11.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="1.11" rev-constraint-default="1.11" rev-constraint-dynamic="1.11" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="commons-codec" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="342809" time="239" location="/home/charlie/.ivy2/cache/commons-codec/commons-codec/srcs/commons-codec-1.11-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/commons-codec/commons-codec/1.11/commons-codec-1.11-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.httpcomponents" name="httpcore">
+			<revision name="4.4.11" status="release" pubdate="20190115052425" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://hc.apache.org/httpcomponents-core-ga" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="41">
+				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="9311" time="0" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpcore/ivy-4.4.11.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.11/httpcore-4.4.11.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="4.4.11" rev-constraint-default="4.4.11" rev-constraint-dynamic="4.4.11" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="httpcore" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="408591" time="299" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpcore/srcs/httpcore-4.4.11-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.11/httpcore-4.4.11-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="commons-logging" name="commons-logging">
+			<revision name="1.2" status="release" pubdate="20140705141228" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://commons.apache.org/proper/commons-logging/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="21">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="11623" time="0" location="/home/charlie/.ivy2/cache/commons-logging/commons-logging/ivy-1.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="1.2" rev-constraint-default="1.2" rev-constraint-dynamic="1.2" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="commons-logging" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="73295" time="0" location="/home/charlie/.ivy2/cache/commons-logging/commons-logging/srcs/commons-logging-1.2-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="log4j" name="log4j">
+			<revision name="1.2.17" status="release" pubdate="20120526054339" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://logging.apache.org/log4j/1.2/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="24">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3670" time="0" location="/home/charlie/.ivy2/cache/log4j/log4j/ivy-1.2.17.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/log4j/log4j/1.2.17/log4j-1.2.17.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="1.2.17" rev-constraint-default="1.2.17" rev-constraint-dynamic="1.2.17" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="log4j" type="src" ext="jar" extra-classifier="sources" status="no" details="" size="481200" time="0" location="/home/charlie/.ivy2/cache/log4j/log4j/srcs/log4j-1.2.17-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/log4j/log4j/1.2.17/log4j-1.2.17-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.lucene" name="lucene-spatial-extras">
+			<revision name="8.0.0" status="release" pubdate="20190313071841" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="3">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="409696" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial-extras/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-spatial-extras/8.0.0/lucene-spatial-extras-8.0.0.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="lucene-spatial-extras" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="175668" time="487" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial-extras/srcs/lucene-spatial-extras-8.0.0-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-spatial-extras/8.0.0/lucene-spatial-extras-8.0.0-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.lucene" name="lucene-spatial3d">
+			<revision name="8.0.0" status="release" pubdate="20190313071901" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="71">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="408496" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial3d/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-spatial3d/8.0.0/lucene-spatial3d-8.0.0.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="lucene-spatial3d" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="270986" time="205" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial3d/srcs/lucene-spatial3d-8.0.0-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-spatial3d/8.0.0/lucene-spatial3d-8.0.0-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.elasticsearch" name="elasticsearch-geo">
+			<revision name="7.0.1" status="release" pubdate="20190429103957" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="2">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="2559" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-geo/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-geo/7.0.1/elasticsearch-geo-7.0.1.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="elasticsearch-geo" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="25330" time="487" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-geo/srcs/elasticsearch-geo-7.0.1-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-geo/7.0.1/elasticsearch-geo-7.0.1-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.fasterxml.jackson.core" name="jackson-core">
+			<revision name="2.8.11" status="release" pubdate="20171223211303" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/FasterXML/jackson-core" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="1">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="7424" time="0" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.core/jackson-core/ivy-2.8.11.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.8.11/jackson-core-2.8.11.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="2.8.11" rev-constraint-default="2.8.11" rev-constraint-dynamic="2.8.11" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="jackson-core" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="294668" time="546" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.core/jackson-core/srcs/jackson-core-2.8.11-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.8.11/jackson-core-2.8.11-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.lucene" name="lucene-grouping">
+			<revision name="8.0.0" status="release" pubdate="20190313072137" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="0">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="408682" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-grouping/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-grouping/8.0.0/lucene-grouping-8.0.0.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="lucene-grouping" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="58318" time="487" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-grouping/srcs/lucene-grouping-8.0.0-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-grouping/8.0.0/lucene-grouping-8.0.0-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.lucene" name="lucene-queries">
+			<revision name="8.0.0" status="release" pubdate="20190313071910" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="58">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="409421" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-queries/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-queries/8.0.0/lucene-queries-8.0.0.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="lucene-queries" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="142703" time="229" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-queries/srcs/lucene-queries-8.0.0-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-queries/8.0.0/lucene-queries-8.0.0-sources.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.lucene" name="lucene-core">
+			<revision name="8.0.0" status="release" pubdate="20190313072155" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="5">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="408022" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-core/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-core/8.0.0/lucene-core-8.0.0.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer$sources" conf="compile" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="lucene-core" type="src" ext="jar" extra-classifier="sources" status="successful" details="" size="2160418" time="594" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-core/srcs/lucene-core-8.0.0-sources.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-core/8.0.0/lucene-core-8.0.0-sources.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
