@@ -43,11 +43,18 @@ class OCRParser(languages: String = "eng") {
         Unfornuately, it doesn't, so we either have to map on the List of the indexes of the document's pages, or we
         have to use parseRec to recursively OCR every page. Both methods use the indexes of the pages, but the map
         is more readable.
+
+        The real best way would simply be an Imperative-style for loop, though, avoiding having to create intermediary
+        data structures...
          */
 
+        /*
         val asText = List.range(0, document.getNumberOfPages).foldLeft("") {
             (acc, page) => acc + parsePage(document, renderer, page)
-        }
+        }*/
+
+        var asText = ""
+        for(i <- 0 until document.getNumberOfPages) asText += parsePage(document, renderer, i)
 
         document.close()    //need to close the document before exiting this function
 
