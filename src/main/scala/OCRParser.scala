@@ -20,11 +20,6 @@ class OCRParser(languages: String = "eng") {
     CLibrary.INSTANCE.setlocale(CLibrary.LC_NUMERIC, "C")
     CLibrary.INSTANCE.setlocale(CLibrary.LC_CTYPE, "C")
 
-    private def loadDoc(pdf: PDFCases): PDDocument = pdf match {
-        case pdf: PDFFile => PDDocument.load(pdf.getPDF.asInstanceOf[File])
-        case pdf: PDFStream => PDDocument.load(pdf.getPDF.asInstanceOf[InputStream])
-    }
-
     /**
       * Syntactic suger for parsePDF(pdf: Stream)
       *

@@ -78,10 +78,19 @@ object Main {
             if(index >= array.length) acc   //the accumulator is now done
             else listBuild(index + 1, array, f, acc :+ f(array(index))) //increment the index and add an element to acc
         }
+
+        or even a simple loop and then to list: O(2n) instead of O(n+n!)
          */
 
         listBuild(array, f, List())
     }
+
+    //TODO def adminIndexFiles qui est comme adminIndexFilesLocal mais qui utilise le S3Downloader pour prendre les
+    //TODO fichiers a partir de S3
+
+    //TODO def adminFuture, qui return un future et prend en param le nom d'un fichier et un stream ou file idk
+    //TODO comme ca, adminIndexFilesLocal et adminIndexFiles appelleraient juste adminFuture(nom, stream/file) betement
+    //TODO puisque le code est le meme dans le fond...
 
     /**
       * Indexes files from a local directory into ES
