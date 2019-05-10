@@ -17,4 +17,29 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
         val result = nlpParser.getNouns(ocrParser.parsePDF(new File("./testInput/yoda.pdf")))
         result shouldBe List("Yoda", "he's", "lightsabers")  //note: he's should probably not be here, but it's ML...
     }
+
+    "ocr -> nlp -> es.makeJson" should "return [Yoda he's lightsaber] with input ./testInput/yoda.pdf" in {
+        val text = ocrParser.parsePDF(new File("./testInput/yoda.pdf")).replace('\n', ' ')
+        //the shouldBe has trouble with \n, so we replace it with ' '
+
+        val tokenTags = nlpParser.getTokenTags(text)
+
+        val result = esIndexer invokePrivate publicMakeJson(AdminFileWord("yoda", text, tokenTags))
+
+        result shouldBe List(
+            s"""
+              |{"title":"yoda",
+              |"text":"$text",
+              |"words":
+                  |[{"word":"Yoda","tag":"NNP"},
+                  |{"word":"is","tag":"VBZ"},
+                  |{"word":"amazing,","tag":"JJ"},
+                  |{"word":"he's","tag":"NN"},
+                  |{"word":"just","tag":"RB"},
+                  |{"word":"so","tag":"RB"},
+                  |{"word":"great","tag":"JJ"},
+                  |{"word":"with","tag":"IN"},
+                  |{"word":"lightsabers!","tag":"NN"}]
+              |}""".stripMargin.replaceAll("\n", ""))   //realllllly doesn't like newlines...
+    }
 }
