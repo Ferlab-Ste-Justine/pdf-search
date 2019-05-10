@@ -12,6 +12,7 @@ import org.elasticsearch.common.xcontent.XContentType
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
+import scala.concurrent.Future
 
 sealed abstract class IndexInfoRequest(info: Any) {
     override def toString: String = this.getClass.getName
@@ -25,6 +26,8 @@ case class AdminFileWord(title: String, text: String, wordTag: Array[(String, St
 class ESIndexer(url: String = "http://localhost:9200") {
     //https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/java-docs-index.html
     //https://www.elastic.co/guide/en/elasticsearch/reference/7.0/docs-index_.html
+    //https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html
+    //https://www.elastic.co/guide/en/elasticsearch/client/java-rest/master/java-rest-high-document-bulk.html
 
     val esClient = new RestHighLevelClient(RestClient.builder(HttpHost.create(url)))
 
@@ -43,10 +46,27 @@ class ESIndexer(url: String = "http://localhost:9200") {
             }
         }
 
-        esClient.bulkAsync(request, RequestOptions.DEFAULT, getListener)
+        /*
+        We could use bulkAsync; however, bulk allows us to work with Futures easier AND we're already going Async with
+        said futures.
+
+        Bulk with block the ones that get here first; and then they'll just continue later once it unblocks
+         */
+        esClient.bulk(request, RequestOptions.DEFAULT)
+
+        //esClient.bulkAsync(request, RequestOptions.DEFAULT, getListener)
     }
 
-    private def makeJson(req: IndexInfoRequest): List[String] = req match {
+    /**
+      * Grabs an IndexInfoRequest and outputs the correct JSON (matching with which request type it received)
+      *
+      * Returning a List would be "Prettier", but we're receiving Arrays from certain java functions and transforming
+      * them to lists is a semi-costly operation
+      *
+      * @param req the IndexInfoRequest
+      * @return the Array of JSONs that match the request
+      */
+    private def makeJson(req: IndexInfoRequest): Array[String] = req match {
         case req: AdminFile =>
             val json = jsonBuilder
 
@@ -55,7 +75,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
             json.field("text", req.text)
             json.endObject()
 
-            List(Strings.toString(json))
+            Array(Strings.toString(json))
 
         case req: AdminWord =>
             req.wordTags.map{ wordTag =>
@@ -67,8 +87,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
                 json.endObject()
 
                 Strings.toString(json)
-
-            }.toList
+            }
 
         case req: AdminFileWord =>
             val json = jsonBuilder
@@ -87,7 +106,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
 
             json.endObject()
 
-            List(Strings.toString(json))
+            Array(Strings.toString(json))
 
         /*
         case info: (String, String, Array[(String, String)]) => //admin case

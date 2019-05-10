@@ -6,7 +6,7 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
     val ocrParser = new OCRParser
     val nlpParser = new NLPParser
     val esIndexer = new ESIndexer
-    val publicMakeJson: PrivateMethod[List[String]] = PrivateMethod[List[String]]('makeJson)
+    val publicMakeJson: PrivateMethod[Array[String]] = PrivateMethod[Array[String]]('makeJson)
 
     "ocr -> nlp" should "return [Brain cancer sucks man] with input ./testInput/brainCancer.pdf" in {
         val result = nlpParser.getNouns(ocrParser.parsePDF(new File("./testInput/brainCancer.pdf")))
@@ -26,7 +26,7 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
 
         val result = esIndexer invokePrivate publicMakeJson(AdminFileWord("yoda", text, tokenTags))
 
-        result shouldBe List(
+        result shouldBe Array(
             s"""
               |{"title":"yoda",
               |"text":"$text",

@@ -20,10 +20,6 @@ class OCRParser(languages: String = "eng") {
     CLibrary.INSTANCE.setlocale(CLibrary.LC_NUMERIC, "C")
     CLibrary.INSTANCE.setlocale(CLibrary.LC_CTYPE, "C")
 
-    val tesseract: Tesseract = new Tesseract()  //the Tesseract used to do the OCR. Instantiated only once
-    tesseract.setDatapath("./tessdata")         //we're using the local tessdata folder
-    tesseract.setLanguage(languages)            //by default we're reading English (TODO add more tessdata)
-
     /**
       * Parses the requested pdf into a string
       *
@@ -32,6 +28,15 @@ class OCRParser(languages: String = "eng") {
       */
     def parsePDF(pdf: File): String = {
         println("Reading document " + pdf.getName)
+
+        /*
+        https://sourceforge.net/p/tess4j/discussion/1202293/thread/4562eccb/
+
+        Each thread needs its tesseract
+         */
+        val tesseract: Tesseract = new Tesseract()  //the Tesseract used to do the OCR.
+        tesseract.setDatapath("./tessdata")         //we're using the local tessdata folder
+        tesseract.setLanguage(languages)            //by default we're reading English (TODO add more tessdata)
 
         val document = PDDocument.load(pdf)
         val renderer = new PDFRenderer(document)
@@ -54,7 +59,7 @@ class OCRParser(languages: String = "eng") {
         }*/
 
         var asText = ""
-        for(i <- 0 until document.getNumberOfPages) asText += parsePage(document, renderer, i)
+        for(i <- 0 until document.getNumberOfPages) asText += parsePage(tesseract, document, renderer, i)
 
         document.close()    //need to close the document before exiting this function
 
@@ -78,7 +83,7 @@ class OCRParser(languages: String = "eng") {
       * @param index The requested page's index
       * @return The OCR of the page
       */
-    def parsePage(document: PDDocument, renderer: PDFRenderer, index: Int): String = {
+    def parsePage(tesseract: Tesseract, document: PDDocument, renderer: PDFRenderer, index: Int): String = {
         println("\tReading page "+index)
         tesseract.doOCR(renderer.renderImageWithDPI(index, 750, ImageType.GRAY))
     }
