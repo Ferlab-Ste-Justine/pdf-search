@@ -99,10 +99,8 @@ object Main {
             (file: File) => {                   //for every file
                 val name = getFileName(file)
 
-                val stream = new FileInputStream(file)
-
                 val future = Future[Unit] {     //start a future to do: OCR -> NLP -> ES
-                    val text = ocrParser.parsePDF(stream)
+                    val text = ocrParser.parsePDF(file)
                     val wordTags = nlpParser.getTokenTags(text)
 
                     esIndexer.bulkIndex(List(AdminFile(name, text), AdminWord(name, wordTags), AdminFileWord(name, text, wordTags)))
