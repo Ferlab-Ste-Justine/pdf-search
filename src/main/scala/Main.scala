@@ -1,4 +1,4 @@
-import java.io.File
+import java.io.{File, FileInputStream, InputStream}
 
 import scala.concurrent.Future
 import scala.concurrent._
@@ -38,12 +38,7 @@ object Main {
 
         println(temp)*/
 
-        adminIndexFiles("./input/")
-
-        //print(esIndexer.makeJson(temp2(0)))
-
-        //println(titleText)
-        //TODO index the jsons in ES for Vincent
+        adminIndexFilesLocal("./input/")
     }
 
     /**
@@ -61,33 +56,53 @@ object Main {
       */
     def arrayToListWithF[T, B](array: Array[T], f: T => B): List[B] = {
         /**
-          * Builds the list element by element.
+          * Builds the list element by element
           *
-          * We're using the array's indexes to get the elements as pattern matching an array is not well documented
-          * (it's hard to remove it's head and continue with it's tail as you'd normally do with a List)
-          *
-          * @param index the index of the element
-          * @param array
-          * @param f
-          * @param acc
-          * @return
+          * @param array the array to build
+          * @param f the function to use on its elements
+          * @param acc the accumulator building the list
+          * @return the list
           */
+        @tailrec
+        def listBuild(array: Array[T], f: T => B, acc: List[B]): List[B] = array match {
+            case Array() => acc //if the array is empty, we're done!
+            case Array(x, _*) =>
+                listBuild(array.drop(1), f, acc :+ f(x)) //drop the array's head and continue
+        }
+
+        /*
+        If pattern matching is slow (?), this also works:
+
         @tailrec
         def listBuild(index: Int, array: Array[T], f: T => B, acc: List[B]): List[B] = {
             if(index >= array.length) acc   //the accumulator is now done
             else listBuild(index + 1, array, f, acc :+ f(array(index))) //increment the index and add an element to acc
         }
+         */
 
-        listBuild(0, array, f, List())
+        listBuild(array, f, List())
     }
 
-    def adminIndexFiles(path: String): Unit = {
+    /**
+      * Indexes files from a local directory into ES
+      *
+      * @param path the path to the folder containing the files
+      */
+    def adminIndexFilesLocal(path: String): Unit = {
+        /*
+        To use Future.sequence we need a List, not an Array.
+
+        So we're transforming the array in-place using arrayToListWithF
+         */
+
         val futures = arrayToListWithF(getFiles(path),  //futures will be a List of all the Futures we launched
             (file: File) => {                   //for every file
                 val name = getFileName(file)
 
+                val stream = new FileInputStream(file)
+
                 val future = Future[Unit] {     //start a future to do: OCR -> NLP -> ES
-                    val text = ocrParser.parsePDF(file)
+                    val text = ocrParser.parsePDF(stream)
                     val wordTags = nlpParser.getTokenTags(text)
 
                     esIndexer.bulkIndex(List(AdminFile(name, text), AdminWord(name, wordTags), AdminFileWord(name, text, wordTags)))
@@ -95,7 +110,7 @@ object Main {
 
                 future.onComplete {             //when said future completes
                     case Success(u: Unit) =>        //print success message
-                        println("" + name + "has been indexed")
+                        println("" + name + " has been indexed")
                     case Failure(e: Exception) =>   //otherwise exit if a problem occured
                         println("A problem occured. Please make sure your ES url is valid and try again.")
                         e.printStackTrace()
@@ -111,14 +126,6 @@ object Main {
 
         println("" + futures.length + " files indexed\nAdmin indexing done. Exiting now...")
         System.exit(0)
-    }
-
-    def waitOnFutures[A](futures: Array[Future[A]]): Unit = {
-        futures.foldLeft("")( (acc, f) => acc + "x").andThen( str => {
-                println("" + str + " files indexed\nAdmin indexing done. Exiting now...")
-                System.exit(0)
-            }
-        )
     }
 
     def getFileName(file: File): String = file.getName.replaceAll("(.pdf)$", "")

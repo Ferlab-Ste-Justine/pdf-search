@@ -4,7 +4,7 @@
 		module="clin-pdf-indexer_2.12"
 		revision="0.1"
 		status="integration"
-		publication="20190509095437"
+		publication="20190510151849"
 	>
 		<description>
 		clin-pdf-indexer
@@ -37,5 +37,6 @@
 		<dependency org="org.apache.opennlp" name="opennlp-tools" rev="1.9.1" conf="compile->default(compile)"/>
 		<dependency org="org.scalatest" name="scalatest_2.12" rev="3.0.5" conf="test->default(compile)"/>
 		<dependency org="org.elasticsearch.client" name="elasticsearch-rest-high-level-client" rev="7.0.1" conf="compile->default(compile)"/>
+		<dependency org="com.amazonaws" name="aws-java-sdk-s3" rev="1.11.549" conf="compile->default(compile)"/>
 	</dependencies>
 </ivy-module>

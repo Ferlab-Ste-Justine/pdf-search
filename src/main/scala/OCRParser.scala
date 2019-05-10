@@ -1,5 +1,5 @@
 import java.awt.image.BufferedImage
-import java.io.File
+import java.io.{File, FileInputStream, InputStream}
 import java.nio.file.{Path, Paths}
 import java.util.Locale
 
@@ -20,14 +20,27 @@ class OCRParser(languages: String = "eng") {
     CLibrary.INSTANCE.setlocale(CLibrary.LC_NUMERIC, "C")
     CLibrary.INSTANCE.setlocale(CLibrary.LC_CTYPE, "C")
 
+    private def loadDoc(pdf: PDFCases): PDDocument = pdf match {
+        case pdf: PDFFile => PDDocument.load(pdf.getPDF.asInstanceOf[File])
+        case pdf: PDFStream => PDDocument.load(pdf.getPDF.asInstanceOf[InputStream])
+    }
+
+    /**
+      * Syntactic suger for parsePDF(pdf: Stream)
+      *
+      * @param pdf the java.io.File to input to parsePDF
+      * @return the text of the pdf
+      */
+    def parsePDF(pdf: File): String = parsePDF(new FileInputStream(pdf))
+
     /**
       * Parses the requested pdf into a string
       *
-      * @param pdf The pdf (must be a java.io.File)
+      * @param pdf The pdf (as a stream)
       * @return The string (text) of the pdf
       */
-    def parsePDF(pdf: File): String = {
-        println("Reading document " + pdf.getName)
+    def parsePDF(pdf: InputStream): String = {
+        //println("Reading document " + pdf.getName)
 
         /*
         https://sourceforge.net/p/tess4j/discussion/1202293/thread/4562eccb/
@@ -39,6 +52,7 @@ class OCRParser(languages: String = "eng") {
         tesseract.setLanguage(languages)            //by default we're reading English (TODO add more tessdata)
 
         val document = PDDocument.load(pdf)
+
         val renderer = new PDFRenderer(document)
 
         /*

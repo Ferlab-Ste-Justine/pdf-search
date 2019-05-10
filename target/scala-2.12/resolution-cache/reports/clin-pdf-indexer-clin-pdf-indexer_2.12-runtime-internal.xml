@@ -7,171 +7,265 @@
 		revision="0.1"
 		conf="runtime-internal"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool"
-		date="20190509095437"/>
+		date="20190510151849"/>
 	<dependencies>
-		<module organisation="org.elasticsearch.client" name="elasticsearch-rest-high-level-client">
-			<revision name="7.0.1" status="release" pubdate="20190429104008" resolver="public" artresolver="public" homepage="https://github.com/elastic/elasticsearch" downloaded="true" searched="true" default="false" conf="default, compile, runtime, default(compile), master" position="32">
+		<module organisation="com.amazonaws" name="aws-java-sdk-s3">
+			<revision name="1.11.549" status="release" pubdate="20190508170224" resolver="public" artresolver="public" homepage="https://aws.amazon.com/sdkforjava" downloaded="true" searched="true" default="false" conf="default, compile, runtime, default(compile), master" position="77">
+				<license name="Apache License, Version 2.0" url="https://aws.amazon.com/apache2.0"/>
+				<metadata-artifact status="successful" details="" size="3758" time="848" location="/home/charlie/.ivy2/cache/com.amazonaws/aws-java-sdk-s3/ivy-1.11.549.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/com.amazonaws/aws-java-sdk-s3/ivy-1.11.549.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/1.11.549/aws-java-sdk-s3-1.11.549.pom"/>
+				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer_2.12" conf="compile, runtime-internal, runtime, optional" rev="1.11.549" rev-constraint-default="1.11.549" rev-constraint-dynamic="1.11.549" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="aws-java-sdk-s3" type="jar" ext="jar" status="successful" details="" size="1009841" time="2185" location="/home/charlie/.ivy2/cache/com.amazonaws/aws-java-sdk-s3/jars/aws-java-sdk-s3-1.11.549.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-s3/1.11.549/aws-java-sdk-s3-1.11.549.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.amazonaws" name="aws-java-sdk-kms">
+			<revision name="1.11.549" status="release" pubdate="20190508170500" resolver="public" artresolver="public" homepage="https://aws.amazon.com/sdkforjava" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="78">
+				<license name="Apache License, Version 2.0" url="https://aws.amazon.com/apache2.0"/>
+				<metadata-artifact status="successful" details="" size="3543" time="389" location="/home/charlie/.ivy2/cache/com.amazonaws/aws-java-sdk-kms/ivy-1.11.549.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/com.amazonaws/aws-java-sdk-kms/ivy-1.11.549.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-kms/1.11.549/aws-java-sdk-kms-1.11.549.pom"/>
+				<caller organisation="com.amazonaws" name="aws-java-sdk-s3" conf="default, compile, runtime, master" rev="1.11.549" rev-constraint-default="1.11.549" rev-constraint-dynamic="1.11.549" callerrev="1.11.549"/>
+				<artifacts>
+					<artifact name="aws-java-sdk-kms" type="jar" ext="jar" status="successful" details="" size="476352" time="1895" location="/home/charlie/.ivy2/cache/com.amazonaws/aws-java-sdk-kms/jars/aws-java-sdk-kms-1.11.549.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-kms/1.11.549/aws-java-sdk-kms-1.11.549.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.amazonaws" name="jmespath-java">
+			<revision name="1.11.549" status="release" pubdate="20190508170258" resolver="public" artresolver="public" homepage="https://aws.amazon.com/sdkforjava" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="83">
+				<license name="Apache License, Version 2.0" url="https://aws.amazon.com/apache2.0"/>
+				<metadata-artifact status="successful" details="" size="3416" time="91" location="/home/charlie/.ivy2/cache/com.amazonaws/jmespath-java/ivy-1.11.549.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/com.amazonaws/jmespath-java/ivy-1.11.549.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/amazonaws/jmespath-java/1.11.549/jmespath-java-1.11.549.pom"/>
+				<caller organisation="com.amazonaws" name="aws-java-sdk-s3" conf="default, compile, runtime, master" rev="1.11.549" rev-constraint-default="1.11.549" rev-constraint-dynamic="1.11.549" callerrev="1.11.549"/>
+				<caller organisation="com.amazonaws" name="aws-java-sdk-kms" conf="compile, runtime" rev="1.11.549" rev-constraint-default="1.11.549" rev-constraint-dynamic="1.11.549" callerrev="1.11.549"/>
+				<artifacts>
+					<artifact name="jmespath-java" type="jar" ext="jar" status="successful" details="" size="26876" time="1053" location="/home/charlie/.ivy2/cache/com.amazonaws/jmespath-java/jars/jmespath-java-1.11.549.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/amazonaws/jmespath-java/1.11.549/jmespath-java-1.11.549.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.amazonaws" name="aws-java-sdk-core">
+			<revision name="1.11.549" status="release" pubdate="20190508170505" resolver="public" artresolver="public" homepage="https://aws.amazon.com/sdkforjava" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="79">
+				<license name="Apache License, Version 2.0" url="https://aws.amazon.com/apache2.0"/>
+				<metadata-artifact status="successful" details="" size="4331" time="636" location="/home/charlie/.ivy2/cache/com.amazonaws/aws-java-sdk-core/ivy-1.11.549.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/com.amazonaws/aws-java-sdk-core/ivy-1.11.549.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-core/1.11.549/aws-java-sdk-core-1.11.549.pom"/>
+				<caller organisation="com.amazonaws" name="aws-java-sdk-s3" conf="default, compile, runtime, master" rev="1.11.549" rev-constraint-default="1.11.549" rev-constraint-dynamic="1.11.549" callerrev="1.11.549"/>
+				<caller organisation="com.amazonaws" name="aws-java-sdk-kms" conf="compile, runtime" rev="1.11.549" rev-constraint-default="1.11.549" rev-constraint-dynamic="1.11.549" callerrev="1.11.549"/>
+				<artifacts>
+					<artifact name="aws-java-sdk-core" type="jar" ext="jar" status="successful" details="" size="944521" time="2174" location="/home/charlie/.ivy2/cache/com.amazonaws/aws-java-sdk-core/jars/aws-java-sdk-core-1.11.549.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-core/1.11.549/aws-java-sdk-core-1.11.549.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.fasterxml.jackson.core" name="jackson-databind">
+			<revision name="2.6.7.2" status="release" pubdate="20181113014929" resolver="public" artresolver="public" homepage="http://github.com/FasterXML/jackson" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="81">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="2259" time="175" location="/home/charlie/.ivy2/cache/org.elasticsearch.client/elasticsearch-rest-high-level-client/ivy-7.0.1.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.elasticsearch.client/elasticsearch-rest-high-level-client/ivy-7.0.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/client/elasticsearch-rest-high-level-client/7.0.1/elasticsearch-rest-high-level-client-7.0.1.pom"/>
+				<metadata-artifact status="successful" details="" size="6068" time="144" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.core/jackson-databind/ivy-2.6.7.2.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.core/jackson-databind/ivy-2.6.7.2.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.6.7.2/jackson-databind-2.6.7.2.pom"/>
+				<caller organisation="com.amazonaws" name="aws-java-sdk-core" conf="compile, runtime" rev="2.6.7.2" rev-constraint-default="2.6.7.2" rev-constraint-dynamic="2.6.7.2" callerrev="1.11.549"/>
+				<caller organisation="com.amazonaws" name="jmespath-java" conf="compile, runtime" rev="2.6.7.2" rev-constraint-default="2.6.7.2" rev-constraint-dynamic="2.6.7.2" callerrev="1.11.549"/>
+				<artifacts>
+					<artifact name="jackson-databind" type="bundle" ext="jar" status="successful" details="" size="1171691" time="2189" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.core/jackson-databind/bundles/jackson-databind-2.6.7.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.6.7.2/jackson-databind-2.6.7.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.fasterxml.jackson.core" name="jackson-annotations">
+			<revision name="2.6.0" status="release" pubdate="20150716200350" resolver="public" artresolver="public" homepage="http://github.com/FasterXML/jackson" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="82">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1219" time="90" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.core/jackson-annotations/ivy-2.6.0.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.core/jackson-annotations/ivy-2.6.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.6.0/jackson-annotations-2.6.0.pom"/>
+				<caller organisation="com.fasterxml.jackson.core" name="jackson-databind" conf="compile, runtime" rev="2.6.0" rev-constraint-default="2.6.0" rev-constraint-dynamic="2.6.0" callerrev="2.6.7.2"/>
+				<artifacts>
+					<artifact name="jackson-annotations" type="bundle" ext="jar" status="successful" details="" size="46968" time="643" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.core/jackson-annotations/bundles/jackson-annotations-2.6.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.6.0/jackson-annotations-2.6.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="software.amazon.ion" name="ion-java">
+			<revision name="1.0.2" status="release" pubdate="20170207190019" resolver="public" artresolver="public" homepage="https://github.com/amznlabs/ion-java/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="80">
+				<license name="The Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="successful" details="" size="8847" time="651" location="/home/charlie/.ivy2/cache/software.amazon.ion/ion-java/ivy-1.0.2.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/software.amazon.ion/ion-java/ivy-1.0.2.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/software/amazon/ion/ion-java/1.0.2/ion-java-1.0.2.pom"/>
+				<caller organisation="com.amazonaws" name="aws-java-sdk-core" conf="compile, runtime" rev="1.0.2" rev-constraint-default="1.0.2" rev-constraint-dynamic="1.0.2" callerrev="1.11.549"/>
+				<artifacts>
+					<artifact name="ion-java" type="bundle" ext="jar" status="successful" details="" size="565410" time="2044" location="/home/charlie/.ivy2/cache/software.amazon.ion/ion-java/bundles/ion-java-1.0.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/software/amazon/ion/ion-java/1.0.2/ion-java-1.0.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.elasticsearch.client" name="elasticsearch-rest-high-level-client">
+			<revision name="7.0.1" status="release" pubdate="20190429104008" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="32">
+				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="no" details="" size="3604" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch.client/elasticsearch-rest-high-level-client/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/client/elasticsearch-rest-high-level-client/7.0.1/elasticsearch-rest-high-level-client-7.0.1.pom"/>
 				<caller organisation="clin-pdf-indexer" name="clin-pdf-indexer_2.12" conf="compile, runtime-internal, runtime, optional" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="0.1"/>
 				<artifacts>
-					<artifact name="elasticsearch-rest-high-level-client" type="jar" ext="jar" status="successful" details="" size="989767" time="703" location="/home/charlie/.ivy2/cache/org.elasticsearch.client/elasticsearch-rest-high-level-client/jars/elasticsearch-rest-high-level-client-7.0.1.jar">
+					<artifact name="elasticsearch-rest-high-level-client" type="jar" ext="jar" status="no" details="" size="989767" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch.client/elasticsearch-rest-high-level-client/jars/elasticsearch-rest-high-level-client-7.0.1.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/client/elasticsearch-rest-high-level-client/7.0.1/elasticsearch-rest-high-level-client-7.0.1.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.elasticsearch.plugin" name="lang-mustache-client">
-			<revision name="7.0.1" status="release" pubdate="20190429104054" resolver="public" artresolver="public" homepage="https://github.com/elastic/elasticsearch" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="75">
+			<revision name="7.0.1" status="release" pubdate="20190429104054" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="75">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="1264" time="102" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/lang-mustache-client/ivy-7.0.1.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/lang-mustache-client/ivy-7.0.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/lang-mustache-client/7.0.1/lang-mustache-client-7.0.1.pom"/>
+				<metadata-artifact status="no" details="" size="2765" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/lang-mustache-client/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/lang-mustache-client/7.0.1/lang-mustache-client-7.0.1.pom"/>
 				<caller organisation="org.elasticsearch.client" name="elasticsearch-rest-high-level-client" conf="default, compile, runtime, master" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="lang-mustache-client" type="jar" ext="jar" status="successful" details="" size="61143" time="722" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/lang-mustache-client/jars/lang-mustache-client-7.0.1.jar">
+					<artifact name="lang-mustache-client" type="jar" ext="jar" status="no" details="" size="61143" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/lang-mustache-client/jars/lang-mustache-client-7.0.1.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/lang-mustache-client/7.0.1/lang-mustache-client-7.0.1.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="com.github.spullara.mustache.java" name="compiler">
-			<revision name="0.9.3" status="release" pubdate="20160719135639" resolver="public" artresolver="public" homepage="http://github.com/spullara/mustache.java" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="76">
+			<revision name="0.9.3" status="release" pubdate="20160719135639" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://github.com/spullara/mustache.java" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="76">
 				<license name="Apache License 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="successful" details="" size="3710" time="101" location="/home/charlie/.ivy2/cache/com.github.spullara.mustache.java/compiler/ivy-0.9.3.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/com.github.spullara.mustache.java/compiler/ivy-0.9.3.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/spullara/mustache/java/compiler/0.9.3/compiler-0.9.3.pom"/>
+				<metadata-artifact status="no" details="" size="3484" time="0" location="/home/charlie/.ivy2/cache/com.github.spullara.mustache.java/compiler/ivy-0.9.3.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/spullara/mustache/java/compiler/0.9.3/compiler-0.9.3.pom"/>
 				<caller organisation="org.elasticsearch.plugin" name="lang-mustache-client" conf="compile, runtime" rev="0.9.3" rev-constraint-default="0.9.3" rev-constraint-dynamic="0.9.3" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="compiler" type="jar" ext="jar" status="successful" details="" size="99939" time="186" location="/home/charlie/.ivy2/cache/com.github.spullara.mustache.java/compiler/jars/compiler-0.9.3.jar">
+					<artifact name="compiler" type="jar" ext="jar" status="no" details="" size="99939" time="0" location="/home/charlie/.ivy2/cache/com.github.spullara.mustache.java/compiler/jars/compiler-0.9.3.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/spullara/mustache/java/compiler/0.9.3/compiler-0.9.3.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.elasticsearch.plugin" name="rank-eval-client">
-			<revision name="7.0.1" status="release" pubdate="20190429104048" resolver="public" artresolver="public" homepage="https://github.com/elastic/elasticsearch" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="74">
+			<revision name="7.0.1" status="release" pubdate="20190429104048" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="74">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="1038" time="115" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/rank-eval-client/ivy-7.0.1.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/rank-eval-client/ivy-7.0.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/rank-eval-client/7.0.1/rank-eval-client-7.0.1.pom"/>
+				<metadata-artifact status="no" details="" size="2575" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/rank-eval-client/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/rank-eval-client/7.0.1/rank-eval-client-7.0.1.pom"/>
 				<caller organisation="org.elasticsearch.client" name="elasticsearch-rest-high-level-client" conf="default, compile, runtime, master" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="rank-eval-client" type="jar" ext="jar" status="successful" details="" size="76105" time="792" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/rank-eval-client/jars/rank-eval-client-7.0.1.jar">
+					<artifact name="rank-eval-client" type="jar" ext="jar" status="no" details="" size="76105" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/rank-eval-client/jars/rank-eval-client-7.0.1.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/rank-eval-client/7.0.1/rank-eval-client-7.0.1.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.elasticsearch.plugin" name="aggs-matrix-stats-client">
-			<revision name="7.0.1" status="release" pubdate="20190429104050" resolver="public" artresolver="public" homepage="https://github.com/elastic/elasticsearch" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="73">
+			<revision name="7.0.1" status="release" pubdate="20190429104050" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="73">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="1083" time="98" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/aggs-matrix-stats-client/ivy-7.0.1.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/aggs-matrix-stats-client/ivy-7.0.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/aggs-matrix-stats-client/7.0.1/aggs-matrix-stats-client-7.0.1.pom"/>
+				<metadata-artifact status="no" details="" size="2620" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/aggs-matrix-stats-client/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/aggs-matrix-stats-client/7.0.1/aggs-matrix-stats-client-7.0.1.pom"/>
 				<caller organisation="org.elasticsearch.client" name="elasticsearch-rest-high-level-client" conf="default, compile, runtime, master" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="aggs-matrix-stats-client" type="jar" ext="jar" status="successful" details="" size="59860" time="589" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/aggs-matrix-stats-client/jars/aggs-matrix-stats-client-7.0.1.jar">
+					<artifact name="aggs-matrix-stats-client" type="jar" ext="jar" status="no" details="" size="59860" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/aggs-matrix-stats-client/jars/aggs-matrix-stats-client-7.0.1.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/aggs-matrix-stats-client/7.0.1/aggs-matrix-stats-client-7.0.1.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.elasticsearch.plugin" name="parent-join-client">
-			<revision name="7.0.1" status="release" pubdate="20190429104044" resolver="public" artresolver="public" homepage="https://github.com/elastic/elasticsearch" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="72">
+			<revision name="7.0.1" status="release" pubdate="20190429104044" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="72">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="1049" time="141" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/parent-join-client/ivy-7.0.1.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/parent-join-client/ivy-7.0.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/parent-join-client/7.0.1/parent-join-client-7.0.1.pom"/>
+				<metadata-artifact status="no" details="" size="2586" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/parent-join-client/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/parent-join-client/7.0.1/parent-join-client-7.0.1.pom"/>
 				<caller organisation="org.elasticsearch.client" name="elasticsearch-rest-high-level-client" conf="default, compile, runtime, master" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="parent-join-client" type="jar" ext="jar" status="successful" details="" size="81576" time="792" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/parent-join-client/jars/parent-join-client-7.0.1.jar">
+					<artifact name="parent-join-client" type="jar" ext="jar" status="no" details="" size="81576" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch.plugin/parent-join-client/jars/parent-join-client-7.0.1.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/plugin/parent-join-client/7.0.1/parent-join-client-7.0.1.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.elasticsearch.client" name="elasticsearch-rest-client">
-			<revision name="7.0.1" status="release" pubdate="20190429104004" resolver="public" artresolver="public" homepage="https://github.com/elastic/elasticsearch" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="66">
+			<revision name="7.0.1" status="release" pubdate="20190429104004" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="66">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="3538" time="117" location="/home/charlie/.ivy2/cache/org.elasticsearch.client/elasticsearch-rest-client/ivy-7.0.1.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.elasticsearch.client/elasticsearch-rest-client/ivy-7.0.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/client/elasticsearch-rest-client/7.0.1/elasticsearch-rest-client-7.0.1.pom"/>
+				<metadata-artifact status="no" details="" size="4577" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch.client/elasticsearch-rest-client/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/client/elasticsearch-rest-client/7.0.1/elasticsearch-rest-client-7.0.1.pom"/>
 				<caller organisation="org.elasticsearch.client" name="elasticsearch-rest-high-level-client" conf="default, compile, runtime, master" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="elasticsearch-rest-client" type="jar" ext="jar" status="successful" details="" size="62091" time="507" location="/home/charlie/.ivy2/cache/org.elasticsearch.client/elasticsearch-rest-client/jars/elasticsearch-rest-client-7.0.1.jar">
+					<artifact name="elasticsearch-rest-client" type="jar" ext="jar" status="no" details="" size="62091" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch.client/elasticsearch-rest-client/jars/elasticsearch-rest-client-7.0.1.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/client/elasticsearch-rest-client/7.0.1/elasticsearch-rest-client-7.0.1.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.apache.httpcomponents" name="httpcore-nio">
-			<revision name="4.4.11" status="release" pubdate="20190115052531" resolver="public" artresolver="public" homepage="http://hc.apache.org/httpcomponents-core-ga" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="70">
+			<revision name="4.4.11" status="release" pubdate="20190115052531" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://hc.apache.org/httpcomponents-core-ga" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="70">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="5551" time="97" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpcore-nio/ivy-4.4.11.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpcore-nio/ivy-4.4.11.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpcore-nio/4.4.11/httpcore-nio-4.4.11.pom"/>
+				<metadata-artifact status="no" details="" size="9476" time="0" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpcore-nio/ivy-4.4.11.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpcore-nio/4.4.11/httpcore-nio-4.4.11.pom"/>
 				<caller organisation="org.elasticsearch.client" name="elasticsearch-rest-client" conf="compile, runtime" rev="4.4.11" rev-constraint-default="4.4.11" rev-constraint-dynamic="4.4.11" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="httpcore-nio" type="jar" ext="jar" status="successful" details="" size="365892" time="225" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpcore-nio/jars/httpcore-nio-4.4.11.jar">
+					<artifact name="httpcore-nio" type="jar" ext="jar" status="no" details="" size="365892" time="0" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpcore-nio/jars/httpcore-nio-4.4.11.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpcore-nio/4.4.11/httpcore-nio-4.4.11.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.apache.httpcomponents" name="httpasyncclient">
-			<revision name="4.1.4" status="release" pubdate="20180720045209" resolver="public" artresolver="public" homepage="http://hc.apache.org/httpcomponents-asyncclient" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="69">
+			<revision name="4.1.4" status="release" pubdate="20180720045209" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://hc.apache.org/httpcomponents-asyncclient" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="69">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="5940" time="99" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpasyncclient/ivy-4.1.4.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpasyncclient/ivy-4.1.4.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpasyncclient/4.1.4/httpasyncclient-4.1.4.pom"/>
+				<metadata-artifact status="no" details="" size="9854" time="0" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpasyncclient/ivy-4.1.4.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpasyncclient/4.1.4/httpasyncclient-4.1.4.pom"/>
 				<caller organisation="org.elasticsearch.client" name="elasticsearch-rest-client" conf="compile, runtime" rev="4.1.4" rev-constraint-default="4.1.4" rev-constraint-dynamic="4.1.4" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="httpasyncclient" type="jar" ext="jar" status="successful" details="" size="179964" time="208" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpasyncclient/jars/httpasyncclient-4.1.4.jar">
+					<artifact name="httpasyncclient" type="jar" ext="jar" status="no" details="" size="179964" time="0" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpasyncclient/jars/httpasyncclient-4.1.4.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpasyncclient/4.1.4/httpasyncclient-4.1.4.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.apache.httpcomponents" name="httpclient">
-			<revision name="4.5.7" status="release" pubdate="20190120092320" resolver="public" artresolver="public" homepage="http://hc.apache.org/httpcomponents-client" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="67">
+			<revision name="4.5.7" status="release" pubdate="20190120092320" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://hc.apache.org/httpcomponents-client" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="67">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="6608" time="120" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpclient/ivy-4.5.7.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpclient/ivy-4.5.7.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.7/httpclient-4.5.7.pom"/>
+				<metadata-artifact status="no" details="" size="11456" time="0" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpclient/ivy-4.5.7.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.7/httpclient-4.5.7.pom"/>
+				<caller organisation="com.amazonaws" name="aws-java-sdk-core" conf="compile, runtime" rev="4.5.5" rev-constraint-default="4.5.5" rev-constraint-dynamic="4.5.5" callerrev="1.11.549"/>
 				<caller organisation="org.elasticsearch.client" name="elasticsearch-rest-client" conf="compile, runtime" rev="4.5.7" rev-constraint-default="4.5.7" rev-constraint-dynamic="4.5.7" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="httpclient" type="jar" ext="jar" status="successful" details="" size="767916" time="269" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpclient/jars/httpclient-4.5.7.jar">
+					<artifact name="httpclient" type="jar" ext="jar" status="no" details="" size="767916" time="0" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpclient/jars/httpclient-4.5.7.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.7/httpclient-4.5.7.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
+			<revision name="4.5.5" evicted="latest-revision" evicted-reason="" downloaded="false" searched="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
+				<evicted-by rev="4.5.7"/>
+				<caller organisation="com.amazonaws" name="aws-java-sdk-core" conf="compile, runtime" rev="4.5.5" rev-constraint-default="4.5.5" rev-constraint-dynamic="4.5.5" callerrev="1.11.549"/>
+				<artifacts>
+				</artifacts>
+			</revision>
 		</module>
 		<module organisation="commons-codec" name="commons-codec">
-			<revision name="1.11" status="release" pubdate="20171017105430" resolver="public" artresolver="public" homepage="http://commons.apache.org/proper/commons-codec/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="71">
+			<revision name="1.11" status="release" pubdate="20171017105430" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://commons.apache.org/proper/commons-codec/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="71">
 				<license name="Apache License, Version 2.0" url="https://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="13966" time="105" location="/home/charlie/.ivy2/cache/commons-codec/commons-codec/ivy-1.11.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/commons-codec/commons-codec/ivy-1.11.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/commons-codec/commons-codec/1.11/commons-codec-1.11.pom"/>
+				<metadata-artifact status="no" details="" size="12632" time="0" location="/home/charlie/.ivy2/cache/commons-codec/commons-codec/ivy-1.11.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/commons-codec/commons-codec/1.11/commons-codec-1.11.pom"/>
 				<caller organisation="org.elasticsearch.client" name="elasticsearch-rest-client" conf="compile, runtime" rev="1.11" rev-constraint-default="1.11" rev-constraint-dynamic="1.11" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="commons-codec" type="jar" ext="jar" status="successful" details="" size="335042" time="220" location="/home/charlie/.ivy2/cache/commons-codec/commons-codec/jars/commons-codec-1.11.jar">
+					<artifact name="commons-codec" type="jar" ext="jar" status="no" details="" size="335042" time="0" location="/home/charlie/.ivy2/cache/commons-codec/commons-codec/jars/commons-codec-1.11.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/commons-codec/commons-codec/1.11/commons-codec-1.11.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.apache.httpcomponents" name="httpcore">
-			<revision name="4.4.11" status="release" pubdate="20190115052425" resolver="public" artresolver="public" homepage="http://hc.apache.org/httpcomponents-core-ga" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="68">
+			<revision name="4.4.11" status="release" pubdate="20190115052425" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://hc.apache.org/httpcomponents-core-ga" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="68">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="5173" time="96" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpcore/ivy-4.4.11.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpcore/ivy-4.4.11.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.11/httpcore-4.4.11.pom"/>
+				<metadata-artifact status="no" details="" size="9311" time="0" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpcore/ivy-4.4.11.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.11/httpcore-4.4.11.pom"/>
 				<caller organisation="org.elasticsearch.client" name="elasticsearch-rest-client" conf="compile, runtime" rev="4.4.11" rev-constraint-default="4.4.11" rev-constraint-dynamic="4.4.11" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="httpcore" type="jar" ext="jar" status="successful" details="" size="326874" time="296" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpcore/jars/httpcore-4.4.11.jar">
+					<artifact name="httpcore" type="jar" ext="jar" status="no" details="" size="326874" time="0" location="/home/charlie/.ivy2/cache/org.apache.httpcomponents/httpcore/jars/httpcore-4.4.11.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.11/httpcore-4.4.11.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.elasticsearch" name="elasticsearch">
-			<revision name="7.0.1" status="release" pubdate="20190429103943" resolver="public" artresolver="public" homepage="https://github.com/elastic/elasticsearch" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="33">
+			<revision name="7.0.1" status="release" pubdate="20190429103943" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="33">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="10888" time="143" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch/ivy-7.0.1.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch/ivy-7.0.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch/7.0.1/elasticsearch-7.0.1.pom"/>
+				<metadata-artifact status="no" details="" size="10139" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch/7.0.1/elasticsearch-7.0.1.pom"/>
 				<caller organisation="org.elasticsearch.client" name="elasticsearch-rest-high-level-client" conf="default, compile, runtime, master" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="elasticsearch" type="jar" ext="jar" status="successful" details="" size="10997301" time="1536" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch/jars/elasticsearch-7.0.1.jar">
+					<artifact name="elasticsearch" type="jar" ext="jar" status="no" details="" size="10997301" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch/jars/elasticsearch-7.0.1.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch/7.0.1/elasticsearch-7.0.1.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.elasticsearch" name="jna">
-			<revision name="4.5.1" status="release" pubdate="20180111065107" resolver="public" artresolver="public" homepage="https://github.com/java-native-access/jna" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="65">
+			<revision name="4.5.1" status="release" pubdate="20180111065107" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/java-native-access/jna" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="65">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="1035" time="93" location="/home/charlie/.ivy2/cache/org.elasticsearch/jna/ivy-4.5.1.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.elasticsearch/jna/ivy-4.5.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/jna/4.5.1/jna-4.5.1.pom"/>
+				<metadata-artifact status="no" details="" size="2554" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/jna/ivy-4.5.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/jna/4.5.1/jna-4.5.1.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="4.5.1" rev-constraint-default="4.5.1" rev-constraint-dynamic="4.5.1" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="jna" type="jar" ext="jar" status="successful" details="" size="885297" time="400" location="/home/charlie/.ivy2/cache/org.elasticsearch/jna/jars/jna-4.5.1.jar">
+					<artifact name="jna" type="jar" ext="jar" status="no" details="" size="885297" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/jna/jars/jna-4.5.1.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/jna/4.5.1/jna-4.5.1.jar"/>
 					</artifact>
 				</artifacts>
@@ -190,362 +284,383 @@
 			</revision>
 		</module>
 		<module organisation="org.hdrhistogram" name="HdrHistogram">
-			<revision name="2.1.9" status="release" pubdate="20160518103331" resolver="public" artresolver="public" homepage="http://hdrhistogram.github.io/HdrHistogram/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="63">
+			<revision name="2.1.9" status="release" pubdate="20160518103331" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://hdrhistogram.github.io/HdrHistogram/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="63">
 				<license name="Public Domain, per Creative Commons CC0" url="http://creativecommons.org/publicdomain/zero/1.0/"/>
-				<metadata-artifact status="successful" details="" size="9661" time="88" location="/home/charlie/.ivy2/cache/org.hdrhistogram/HdrHistogram/ivy-2.1.9.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.hdrhistogram/HdrHistogram/ivy-2.1.9.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/hdrhistogram/HdrHistogram/2.1.9/HdrHistogram-2.1.9.pom"/>
+				<metadata-artifact status="no" details="" size="4190" time="0" location="/home/charlie/.ivy2/cache/org.hdrhistogram/HdrHistogram/ivy-2.1.9.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/hdrhistogram/HdrHistogram/2.1.9/HdrHistogram-2.1.9.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="2.1.9" rev-constraint-default="2.1.9" rev-constraint-dynamic="2.1.9" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="HdrHistogram" type="bundle" ext="jar" status="successful" details="" size="114165" time="371" location="/home/charlie/.ivy2/cache/org.hdrhistogram/HdrHistogram/bundles/HdrHistogram-2.1.9.jar">
+					<artifact name="HdrHistogram" type="bundle" ext="jar" status="no" details="" size="114165" time="0" location="/home/charlie/.ivy2/cache/org.hdrhistogram/HdrHistogram/bundles/HdrHistogram-2.1.9.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/hdrhistogram/HdrHistogram/2.1.9/HdrHistogram-2.1.9.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="com.tdunning" name="t-digest">
-			<revision name="3.2" status="release" pubdate="20170806202411" resolver="public" artresolver="public" homepage="https://github.com/tdunning/t-digest" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="62">
+			<revision name="3.2" status="release" pubdate="20170806202411" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/tdunning/t-digest" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="62">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="9881" time="87" location="/home/charlie/.ivy2/cache/com.tdunning/t-digest/ivy-3.2.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/com.tdunning/t-digest/ivy-3.2.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/tdunning/t-digest/3.2/t-digest-3.2.pom"/>
+				<metadata-artifact status="no" details="" size="3963" time="0" location="/home/charlie/.ivy2/cache/com.tdunning/t-digest/ivy-3.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/tdunning/t-digest/3.2/t-digest-3.2.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="3.2" rev-constraint-default="3.2" rev-constraint-dynamic="3.2" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="t-digest" type="jar" ext="jar" status="successful" details="" size="51208" time="357" location="/home/charlie/.ivy2/cache/com.tdunning/t-digest/jars/t-digest-3.2.jar">
+					<artifact name="t-digest" type="jar" ext="jar" status="no" details="" size="51208" time="0" location="/home/charlie/.ivy2/cache/com.tdunning/t-digest/jars/t-digest-3.2.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/tdunning/t-digest/3.2/t-digest-3.2.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="joda-time" name="joda-time">
-			<revision name="2.10.1" status="release" pubdate="20181027145121" resolver="public" artresolver="public" homepage="https://www.joda.org/joda-time/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="61">
+			<revision name="2.10.1" status="release" pubdate="20181027145121" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://www.joda.org/joda-time/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="61">
 				<license name="Apache 2" url="https://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="36525" time="95" location="/home/charlie/.ivy2/cache/joda-time/joda-time/ivy-2.10.1.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/joda-time/joda-time/ivy-2.10.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/joda-time/joda-time/2.10.1/joda-time-2.10.1.pom"/>
+				<metadata-artifact status="no" details="" size="6880" time="0" location="/home/charlie/.ivy2/cache/joda-time/joda-time/ivy-2.10.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/joda-time/joda-time/2.10.1/joda-time-2.10.1.pom"/>
+				<caller organisation="com.amazonaws" name="aws-java-sdk-core" conf="compile, runtime" rev="2.8.1" rev-constraint-default="2.8.1" rev-constraint-dynamic="2.8.1" callerrev="1.11.549"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="2.10.1" rev-constraint-default="2.10.1" rev-constraint-dynamic="2.10.1" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="joda-time" type="jar" ext="jar" status="successful" details="" size="640724" time="500" location="/home/charlie/.ivy2/cache/joda-time/joda-time/jars/joda-time-2.10.1.jar">
+					<artifact name="joda-time" type="jar" ext="jar" status="no" details="" size="640724" time="0" location="/home/charlie/.ivy2/cache/joda-time/joda-time/jars/joda-time-2.10.1.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/joda-time/joda-time/2.10.1/joda-time-2.10.1.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
+			<revision name="2.8.1" evicted="latest-revision" evicted-reason="" downloaded="false" searched="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
+				<evicted-by rev="2.10.1"/>
+				<caller organisation="com.amazonaws" name="aws-java-sdk-core" conf="compile, runtime" rev="2.8.1" rev-constraint-default="2.8.1" rev-constraint-dynamic="2.8.1" callerrev="1.11.549"/>
+				<artifacts>
+				</artifacts>
+			</revision>
 		</module>
 		<module organisation="com.carrotsearch" name="hppc">
-			<revision name="0.7.1" status="release" pubdate="20150507033334" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="60">
+			<revision name="0.7.1" status="release" pubdate="20150507033334" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="60">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="18205" time="95" location="/home/charlie/.ivy2/cache/com.carrotsearch/hppc/ivy-0.7.1.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/com.carrotsearch/hppc/ivy-0.7.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/carrotsearch/hppc/0.7.1/hppc-0.7.1.pom"/>
+				<metadata-artifact status="no" details="" size="7109" time="0" location="/home/charlie/.ivy2/cache/com.carrotsearch/hppc/ivy-0.7.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/carrotsearch/hppc/0.7.1/hppc-0.7.1.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="0.7.1" rev-constraint-default="0.7.1" rev-constraint-dynamic="0.7.1" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="hppc" type="jar" ext="jar" status="successful" details="" size="1140290" time="283" location="/home/charlie/.ivy2/cache/com.carrotsearch/hppc/jars/hppc-0.7.1.jar">
+					<artifact name="hppc" type="jar" ext="jar" status="no" details="" size="1140290" time="0" location="/home/charlie/.ivy2/cache/com.carrotsearch/hppc/jars/hppc-0.7.1.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/carrotsearch/hppc/0.7.1/hppc-0.7.1.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.elasticsearch" name="elasticsearch-cli">
-			<revision name="7.0.1" status="release" pubdate="20190429103947" resolver="public" artresolver="public" homepage="https://github.com/elastic/elasticsearch" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="58">
+			<revision name="7.0.1" status="release" pubdate="20190429103947" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="58">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="1434" time="92" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-cli/ivy-7.0.1.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-cli/ivy-7.0.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-cli/7.0.1/elasticsearch-cli-7.0.1.pom"/>
+				<metadata-artifact status="no" details="" size="2894" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-cli/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-cli/7.0.1/elasticsearch-cli-7.0.1.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="elasticsearch-cli" type="jar" ext="jar" status="successful" details="" size="16058" time="281" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-cli/jars/elasticsearch-cli-7.0.1.jar">
+					<artifact name="elasticsearch-cli" type="jar" ext="jar" status="no" details="" size="16058" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-cli/jars/elasticsearch-cli-7.0.1.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-cli/7.0.1/elasticsearch-cli-7.0.1.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="net.sf.jopt-simple" name="jopt-simple">
-			<revision name="5.0.2" status="release" pubdate="20160608141008" resolver="public" artresolver="public" homepage="http://pholser.github.io/jopt-simple" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="59">
+			<revision name="5.0.2" status="release" pubdate="20160608141008" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://pholser.github.io/jopt-simple" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="59">
 				<license name="The MIT License" url="http://www.opensource.org/licenses/mit-license.php"/>
-				<metadata-artifact status="successful" details="" size="13944" time="88" location="/home/charlie/.ivy2/cache/net.sf.jopt-simple/jopt-simple/ivy-5.0.2.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/net.sf.jopt-simple/jopt-simple/ivy-5.0.2.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/sf/jopt-simple/jopt-simple/5.0.2/jopt-simple-5.0.2.pom"/>
+				<metadata-artifact status="no" details="" size="4258" time="0" location="/home/charlie/.ivy2/cache/net.sf.jopt-simple/jopt-simple/ivy-5.0.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/sf/jopt-simple/jopt-simple/5.0.2/jopt-simple-5.0.2.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch-cli" conf="compile, runtime" rev="5.0.2" rev-constraint-default="5.0.2" rev-constraint-dynamic="5.0.2" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="jopt-simple" type="jar" ext="jar" status="successful" details="" size="78074" time="257" location="/home/charlie/.ivy2/cache/net.sf.jopt-simple/jopt-simple/jars/jopt-simple-5.0.2.jar">
+					<artifact name="jopt-simple" type="jar" ext="jar" status="no" details="" size="78074" time="0" location="/home/charlie/.ivy2/cache/net.sf.jopt-simple/jopt-simple/jars/jopt-simple-5.0.2.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/net/sf/jopt-simple/jopt-simple/5.0.2/jopt-simple-5.0.2.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.apache.lucene" name="lucene-suggest">
-			<revision name="8.0.0" status="release" pubdate="20190313072043" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="57">
+			<revision name="8.0.0" status="release" pubdate="20190313072043" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="57">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="3057" time="97" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-suggest/ivy-8.0.0.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-suggest/ivy-8.0.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-suggest/8.0.0/lucene-suggest-8.0.0.pom"/>
+				<metadata-artifact status="no" details="" size="408687" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-suggest/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-suggest/8.0.0/lucene-suggest-8.0.0.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="lucene-suggest" type="jar" ext="jar" status="successful" details="" size="245621" time="283" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-suggest/jars/lucene-suggest-8.0.0.jar">
+					<artifact name="lucene-suggest" type="jar" ext="jar" status="no" details="" size="245621" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-suggest/jars/lucene-suggest-8.0.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-suggest/8.0.0/lucene-suggest-8.0.0.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.apache.lucene" name="lucene-spatial-extras">
-			<revision name="8.0.0" status="release" pubdate="20190313071841" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="55">
+			<revision name="8.0.0" status="release" pubdate="20190313071841" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="55">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="3631" time="91" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial-extras/ivy-8.0.0.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial-extras/ivy-8.0.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-spatial-extras/8.0.0/lucene-spatial-extras-8.0.0.pom"/>
+				<metadata-artifact status="no" details="" size="409696" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial-extras/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-spatial-extras/8.0.0/lucene-spatial-extras-8.0.0.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="lucene-spatial-extras" type="jar" ext="jar" status="successful" details="" size="238228" time="285" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial-extras/jars/lucene-spatial-extras-8.0.0.jar">
+					<artifact name="lucene-spatial-extras" type="jar" ext="jar" status="no" details="" size="238228" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial-extras/jars/lucene-spatial-extras-8.0.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-spatial-extras/8.0.0/lucene-spatial-extras-8.0.0.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.apache.lucene" name="lucene-spatial3d">
-			<revision name="8.0.0" status="release" pubdate="20190313071901" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="56">
+			<revision name="8.0.0" status="release" pubdate="20190313071901" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="56">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="2732" time="95" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial3d/ivy-8.0.0.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial3d/ivy-8.0.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-spatial3d/8.0.0/lucene-spatial3d-8.0.0.pom"/>
+				<metadata-artifact status="no" details="" size="408496" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial3d/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-spatial3d/8.0.0/lucene-spatial3d-8.0.0.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="lucene-spatial3d" type="jar" ext="jar" status="successful" details="" size="301798" time="305" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial3d/jars/lucene-spatial3d-8.0.0.jar">
+					<artifact name="lucene-spatial3d" type="jar" ext="jar" status="no" details="" size="301798" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial3d/jars/lucene-spatial3d-8.0.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-spatial3d/8.0.0/lucene-spatial3d-8.0.0.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.apache.lucene" name="lucene-spatial">
-			<revision name="8.0.0" status="release" pubdate="20190313072225" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="54">
+			<revision name="8.0.0" status="release" pubdate="20190313072225" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="54">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="2864" time="93" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial/ivy-8.0.0.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial/ivy-8.0.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-spatial/8.0.0/lucene-spatial-8.0.0.pom"/>
+				<metadata-artifact status="no" details="" size="408479" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-spatial/8.0.0/lucene-spatial-8.0.0.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="lucene-spatial" type="jar" ext="jar" status="successful" details="" size="14492" time="203" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial/jars/lucene-spatial-8.0.0.jar">
+					<artifact name="lucene-spatial" type="jar" ext="jar" status="no" details="" size="14492" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-spatial/jars/lucene-spatial-8.0.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-spatial/8.0.0/lucene-spatial-8.0.0.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.apache.lucene" name="lucene-misc">
-			<revision name="8.0.0" status="release" pubdate="20190313072052" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="50">
+			<revision name="8.0.0" status="release" pubdate="20190313072052" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="50">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="2805" time="94" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-misc/ivy-8.0.0.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-misc/ivy-8.0.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-misc/8.0.0/lucene-misc-8.0.0.pom"/>
+				<metadata-artifact status="no" details="" size="408405" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-misc/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-misc/8.0.0/lucene-misc-8.0.0.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="lucene-misc" type="jar" ext="jar" status="successful" details="" size="96715" time="207" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-misc/jars/lucene-misc-8.0.0.jar">
+					<artifact name="lucene-misc" type="jar" ext="jar" status="no" details="" size="96715" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-misc/jars/lucene-misc-8.0.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-misc/8.0.0/lucene-misc-8.0.0.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.apache.lucene" name="lucene-join">
-			<revision name="8.0.0" status="release" pubdate="20190313072232" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="48">
+			<revision name="8.0.0" status="release" pubdate="20190313072232" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="48">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="2784" time="95" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-join/ivy-8.0.0.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-join/ivy-8.0.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-join/8.0.0/lucene-join-8.0.0.pom"/>
+				<metadata-artifact status="no" details="" size="408392" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-join/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-join/8.0.0/lucene-join-8.0.0.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="lucene-join" type="jar" ext="jar" status="successful" details="" size="146721" time="316" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-join/jars/lucene-join-8.0.0.jar">
+					<artifact name="lucene-join" type="jar" ext="jar" status="no" details="" size="146721" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-join/jars/lucene-join-8.0.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-join/8.0.0/lucene-join-8.0.0.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.apache.lucene" name="lucene-highlighter">
-			<revision name="8.0.0" status="release" pubdate="20190313071954" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="47">
+			<revision name="8.0.0" status="release" pubdate="20190313071954" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="47">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="3247" time="91" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-highlighter/ivy-8.0.0.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-highlighter/ivy-8.0.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-highlighter/8.0.0/lucene-highlighter-8.0.0.pom"/>
+				<metadata-artifact status="no" details="" size="409248" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-highlighter/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-highlighter/8.0.0/lucene-highlighter-8.0.0.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="lucene-highlighter" type="jar" ext="jar" status="successful" details="" size="208228" time="559" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-highlighter/jars/lucene-highlighter-8.0.0.jar">
+					<artifact name="lucene-highlighter" type="jar" ext="jar" status="no" details="" size="208228" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-highlighter/jars/lucene-highlighter-8.0.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-highlighter/8.0.0/lucene-highlighter-8.0.0.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.apache.lucene" name="lucene-memory">
-			<revision name="8.0.0" status="release" pubdate="20190313072216" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="49">
+			<revision name="8.0.0" status="release" pubdate="20190313072216" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="49">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="2997" time="98" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-memory/ivy-8.0.0.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-memory/ivy-8.0.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-memory/8.0.0/lucene-memory-8.0.0.pom"/>
+				<metadata-artifact status="no" details="" size="408922" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-memory/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-memory/8.0.0/lucene-memory-8.0.0.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="lucene-memory" type="jar" ext="jar" status="successful" details="" size="51878" time="204" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-memory/jars/lucene-memory-8.0.0.jar">
+					<artifact name="lucene-memory" type="jar" ext="jar" status="no" details="" size="51878" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-memory/jars/lucene-memory-8.0.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-memory/8.0.0/lucene-memory-8.0.0.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.apache.lucene" name="lucene-queryparser">
-			<revision name="8.0.0" status="release" pubdate="20190313072146" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="52">
+			<revision name="8.0.0" status="release" pubdate="20190313072146" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="52">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="3517" time="92" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-queryparser/ivy-8.0.0.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-queryparser/ivy-8.0.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-queryparser/8.0.0/lucene-queryparser-8.0.0.pom"/>
+				<metadata-artifact status="no" details="" size="409018" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-queryparser/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-queryparser/8.0.0/lucene-queryparser-8.0.0.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="lucene-queryparser" type="jar" ext="jar" status="successful" details="" size="380823" time="224" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-queryparser/jars/lucene-queryparser-8.0.0.jar">
+					<artifact name="lucene-queryparser" type="jar" ext="jar" status="no" details="" size="380823" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-queryparser/jars/lucene-queryparser-8.0.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-queryparser/8.0.0/lucene-queryparser-8.0.0.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.apache.lucene" name="lucene-sandbox">
-			<revision name="8.0.0" status="release" pubdate="20190313072316" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="53">
+			<revision name="8.0.0" status="release" pubdate="20190313072316" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="53">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="2917" time="90" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-sandbox/ivy-8.0.0.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-sandbox/ivy-8.0.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-sandbox/8.0.0/lucene-sandbox-8.0.0.pom"/>
+				<metadata-artifact status="no" details="" size="408397" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-sandbox/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-sandbox/8.0.0/lucene-sandbox-8.0.0.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="lucene-sandbox" type="jar" ext="jar" status="successful" details="" size="325438" time="206" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-sandbox/jars/lucene-sandbox-8.0.0.jar">
+					<artifact name="lucene-sandbox" type="jar" ext="jar" status="no" details="" size="325438" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-sandbox/jars/lucene-sandbox-8.0.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-sandbox/8.0.0/lucene-sandbox-8.0.0.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.apache.lucene" name="lucene-grouping">
-			<revision name="8.0.0" status="release" pubdate="20190313072137" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="46">
+			<revision name="8.0.0" status="release" pubdate="20190313072137" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="46">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="2924" time="95" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-grouping/ivy-8.0.0.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-grouping/ivy-8.0.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-grouping/8.0.0/lucene-grouping-8.0.0.pom"/>
+				<metadata-artifact status="no" details="" size="408682" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-grouping/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-grouping/8.0.0/lucene-grouping-8.0.0.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="lucene-grouping" type="jar" ext="jar" status="successful" details="" size="90661" time="559" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-grouping/jars/lucene-grouping-8.0.0.jar">
+					<artifact name="lucene-grouping" type="jar" ext="jar" status="no" details="" size="90661" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-grouping/jars/lucene-grouping-8.0.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-grouping/8.0.0/lucene-grouping-8.0.0.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.apache.lucene" name="lucene-queries">
-			<revision name="8.0.0" status="release" pubdate="20190313071910" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="51">
+			<revision name="8.0.0" status="release" pubdate="20190313071910" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="51">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="3365" time="89" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-queries/ivy-8.0.0.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-queries/ivy-8.0.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-queries/8.0.0/lucene-queries-8.0.0.pom"/>
+				<metadata-artifact status="no" details="" size="409421" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-queries/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-queries/8.0.0/lucene-queries-8.0.0.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="lucene-queries" type="jar" ext="jar" status="successful" details="" size="249519" time="229" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-queries/jars/lucene-queries-8.0.0.jar">
+					<artifact name="lucene-queries" type="jar" ext="jar" status="no" details="" size="249519" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-queries/jars/lucene-queries-8.0.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-queries/8.0.0/lucene-queries-8.0.0.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.apache.lucene" name="lucene-backward-codecs">
-			<revision name="8.0.0" status="release" pubdate="20190313072003" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="45">
+			<revision name="8.0.0" status="release" pubdate="20190313072003" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="45">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="3289" time="152" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-backward-codecs/ivy-8.0.0.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-backward-codecs/ivy-8.0.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-backward-codecs/8.0.0/lucene-backward-codecs-8.0.0.pom"/>
+				<metadata-artifact status="no" details="" size="408492" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-backward-codecs/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-backward-codecs/8.0.0/lucene-backward-codecs-8.0.0.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="lucene-backward-codecs" type="jar" ext="jar" status="successful" details="" size="100900" time="539" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-backward-codecs/jars/lucene-backward-codecs-8.0.0.jar">
+					<artifact name="lucene-backward-codecs" type="jar" ext="jar" status="no" details="" size="100900" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-backward-codecs/jars/lucene-backward-codecs-8.0.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-backward-codecs/8.0.0/lucene-backward-codecs-8.0.0.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.apache.lucene" name="lucene-analyzers-common">
-			<revision name="8.0.0" status="release" pubdate="20190313072327" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="44">
+			<revision name="8.0.0" status="release" pubdate="20190313072327" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="44">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="3282" time="88" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-analyzers-common/ivy-8.0.0.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-analyzers-common/ivy-8.0.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-analyzers-common/8.0.0/lucene-analyzers-common-8.0.0.pom"/>
+				<metadata-artifact status="no" details="" size="408481" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-analyzers-common/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-analyzers-common/8.0.0/lucene-analyzers-common-8.0.0.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="lucene-analyzers-common" type="jar" ext="jar" status="successful" details="" size="1655223" time="579" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-analyzers-common/jars/lucene-analyzers-common-8.0.0.jar">
+					<artifact name="lucene-analyzers-common" type="jar" ext="jar" status="no" details="" size="1655223" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-analyzers-common/jars/lucene-analyzers-common-8.0.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-analyzers-common/8.0.0/lucene-analyzers-common-8.0.0.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.apache.lucene" name="lucene-core">
-			<revision name="8.0.0" status="release" pubdate="20190313072155" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="43">
+			<revision name="8.0.0" status="release" pubdate="20190313072155" resolver="sbt-chain" artresolver="sbt-chain" homepage="" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="43">
 				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="3038" time="88" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-core/ivy-8.0.0.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-core/ivy-8.0.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-core/8.0.0/lucene-core-8.0.0.pom"/>
+				<metadata-artifact status="no" details="" size="408022" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-core/ivy-8.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-core/8.0.0/lucene-core-8.0.0.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="8.0.0" rev-constraint-default="8.0.0" rev-constraint-dynamic="8.0.0" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="lucene-core" type="jar" ext="jar" status="successful" details="" size="3147767" time="652" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-core/jars/lucene-core-8.0.0.jar">
+					<artifact name="lucene-core" type="jar" ext="jar" status="no" details="" size="3147767" time="0" location="/home/charlie/.ivy2/cache/org.apache.lucene/lucene-core/jars/lucene-core-8.0.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/lucene/lucene-core/8.0.0/lucene-core-8.0.0.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.elasticsearch" name="elasticsearch-geo">
-			<revision name="7.0.1" status="release" pubdate="20190429103957" resolver="public" artresolver="public" homepage="https://github.com/elastic/elasticsearch" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="42">
+			<revision name="7.0.1" status="release" pubdate="20190429103957" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="42">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="1029" time="98" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-geo/ivy-7.0.1.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-geo/ivy-7.0.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-geo/7.0.1/elasticsearch-geo-7.0.1.pom"/>
+				<metadata-artifact status="no" details="" size="2559" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-geo/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-geo/7.0.1/elasticsearch-geo-7.0.1.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="elasticsearch-geo" type="jar" ext="jar" status="successful" details="" size="31303" time="455" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-geo/jars/elasticsearch-geo-7.0.1.jar">
+					<artifact name="elasticsearch-geo" type="jar" ext="jar" status="no" details="" size="31303" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-geo/jars/elasticsearch-geo-7.0.1.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-geo/7.0.1/elasticsearch-geo-7.0.1.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.elasticsearch" name="elasticsearch-x-content">
-			<revision name="7.0.1" status="release" pubdate="20190429103955" resolver="public" artresolver="public" homepage="https://github.com/elastic/elasticsearch" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="36">
+			<revision name="7.0.1" status="release" pubdate="20190429103955" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="36">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="2907" time="121" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-x-content/ivy-7.0.1.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-x-content/ivy-7.0.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-x-content/7.0.1/elasticsearch-x-content-7.0.1.pom"/>
+				<metadata-artifact status="no" details="" size="4069" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-x-content/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-x-content/7.0.1/elasticsearch-x-content-7.0.1.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="elasticsearch-x-content" type="jar" ext="jar" status="successful" details="" size="117634" time="455" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-x-content/jars/elasticsearch-x-content-7.0.1.jar">
+					<artifact name="elasticsearch-x-content" type="jar" ext="jar" status="no" details="" size="117634" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-x-content/jars/elasticsearch-x-content-7.0.1.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-x-content/7.0.1/elasticsearch-x-content-7.0.1.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="com.fasterxml.jackson.dataformat" name="jackson-dataformat-cbor">
-			<revision name="2.8.11" status="release" pubdate="20171223221807" resolver="public" artresolver="public" homepage="http://github.com/FasterXML/jackson-dataformats-binary" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="41">
+			<revision name="2.8.11" status="release" pubdate="20171223221807" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://github.com/FasterXML/jackson-dataformats-binary" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="41">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="2080" time="88" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor/ivy-2.8.11.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor/ivy-2.8.11.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.8.11/jackson-dataformat-cbor-2.8.11.pom"/>
+				<metadata-artifact status="no" details="" size="9673" time="0" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor/ivy-2.8.11.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.8.11/jackson-dataformat-cbor-2.8.11.pom"/>
+				<caller organisation="com.amazonaws" name="aws-java-sdk-core" conf="compile, runtime" rev="2.6.7" rev-constraint-default="2.6.7" rev-constraint-dynamic="2.6.7" callerrev="1.11.549"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch-x-content" conf="compile, runtime" rev="2.8.11" rev-constraint-default="2.8.11" rev-constraint-dynamic="2.8.11" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="jackson-dataformat-cbor" type="bundle" ext="jar" status="successful" details="" size="50729" time="265" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor/bundles/jackson-dataformat-cbor-2.8.11.jar">
+					<artifact name="jackson-dataformat-cbor" type="bundle" ext="jar" status="no" details="" size="50729" time="0" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-cbor/bundles/jackson-dataformat-cbor-2.8.11.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.8.11/jackson-dataformat-cbor-2.8.11.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
+			<revision name="2.6.7" evicted="latest-revision" evicted-reason="" downloaded="false" searched="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
+				<evicted-by rev="2.8.11"/>
+				<caller organisation="com.amazonaws" name="aws-java-sdk-core" conf="compile, runtime" rev="2.6.7" rev-constraint-default="2.6.7" rev-constraint-dynamic="2.6.7" callerrev="1.11.549"/>
+				<artifacts>
+				</artifacts>
+			</revision>
 		</module>
 		<module organisation="com.fasterxml.jackson.dataformat" name="jackson-dataformat-yaml">
-			<revision name="2.8.11" status="release" pubdate="20171223222338" resolver="public" artresolver="public" homepage="https://github.com/FasterXML/jackson" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="40">
+			<revision name="2.8.11" status="release" pubdate="20171223222338" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/FasterXML/jackson" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="40">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="6166" time="86" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/ivy-2.8.11.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/ivy-2.8.11.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.8.11/jackson-dataformat-yaml-2.8.11.pom"/>
+				<metadata-artifact status="no" details="" size="8860" time="0" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/ivy-2.8.11.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.8.11/jackson-dataformat-yaml-2.8.11.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch-x-content" conf="compile, runtime" rev="2.8.11" rev-constraint-default="2.8.11" rev-constraint-dynamic="2.8.11" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="jackson-dataformat-yaml" type="bundle" ext="jar" status="successful" details="" size="40879" time="262" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/bundles/jackson-dataformat-yaml-2.8.11.jar">
+					<artifact name="jackson-dataformat-yaml" type="bundle" ext="jar" status="no" details="" size="40879" time="0" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/bundles/jackson-dataformat-yaml-2.8.11.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.8.11/jackson-dataformat-yaml-2.8.11.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="com.fasterxml.jackson.dataformat" name="jackson-dataformat-smile">
-			<revision name="2.8.11" status="release" pubdate="20171223221825" resolver="public" artresolver="public" homepage="http://github.com/FasterXML/jackson-dataformats-binary" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="39">
+			<revision name="2.8.11" status="release" pubdate="20171223221825" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://github.com/FasterXML/jackson-dataformats-binary" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="39">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="1860" time="93" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-smile/ivy-2.8.11.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-smile/ivy-2.8.11.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-smile/2.8.11/jackson-dataformat-smile-2.8.11.pom"/>
+				<metadata-artifact status="no" details="" size="9623" time="0" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-smile/ivy-2.8.11.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-smile/2.8.11/jackson-dataformat-smile-2.8.11.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch-x-content" conf="compile, runtime" rev="2.8.11" rev-constraint-default="2.8.11" rev-constraint-dynamic="2.8.11" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="jackson-dataformat-smile" type="bundle" ext="jar" status="successful" details="" size="73890" time="254" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-smile/bundles/jackson-dataformat-smile-2.8.11.jar">
+					<artifact name="jackson-dataformat-smile" type="bundle" ext="jar" status="no" details="" size="73890" time="0" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.dataformat/jackson-dataformat-smile/bundles/jackson-dataformat-smile-2.8.11.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-smile/2.8.11/jackson-dataformat-smile-2.8.11.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="com.fasterxml.jackson.core" name="jackson-core">
-			<revision name="2.8.11" status="release" pubdate="20171223211303" resolver="public" artresolver="public" homepage="https://github.com/FasterXML/jackson-core" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="38">
+			<revision name="2.8.11" status="release" pubdate="20171223211303" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/FasterXML/jackson-core" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="38">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="5417" time="119" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.core/jackson-core/ivy-2.8.11.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.core/jackson-core/ivy-2.8.11.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.8.11/jackson-core-2.8.11.pom"/>
+				<metadata-artifact status="no" details="" size="7424" time="0" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.core/jackson-core/ivy-2.8.11.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.8.11/jackson-core-2.8.11.pom"/>
+				<caller organisation="com.fasterxml.jackson.core" name="jackson-databind" conf="compile, runtime" rev="2.6.7" rev-constraint-default="2.6.7" rev-constraint-dynamic="2.6.7" callerrev="2.6.7.2"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch-x-content" conf="compile, runtime" rev="2.8.11" rev-constraint-default="2.8.11" rev-constraint-dynamic="2.8.11" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="jackson-core" type="bundle" ext="jar" status="successful" details="" size="282633" time="402" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.core/jackson-core/bundles/jackson-core-2.8.11.jar">
+					<artifact name="jackson-core" type="bundle" ext="jar" status="no" details="" size="282633" time="0" location="/home/charlie/.ivy2/cache/com.fasterxml.jackson.core/jackson-core/bundles/jackson-core-2.8.11.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.8.11/jackson-core-2.8.11.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
+			<revision name="2.6.7" evicted="latest-revision" evicted-reason="" downloaded="false" searched="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
+				<evicted-by rev="2.8.11"/>
+				<caller organisation="com.fasterxml.jackson.core" name="jackson-databind" conf="compile, runtime" rev="2.6.7" rev-constraint-default="2.6.7" rev-constraint-dynamic="2.6.7" callerrev="2.6.7.2"/>
+				<artifacts>
+				</artifacts>
+			</revision>
 		</module>
 		<module organisation="org.yaml" name="snakeyaml">
-			<revision name="1.17" status="release" pubdate="20160219081344" resolver="public" artresolver="public" homepage="http://www.snakeyaml.org" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="37">
+			<revision name="1.17" status="release" pubdate="20160219081344" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.snakeyaml.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="37">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="28005" time="143" location="/home/charlie/.ivy2/cache/org.yaml/snakeyaml/ivy-1.17.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.yaml/snakeyaml/ivy-1.17.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/yaml/snakeyaml/1.17/snakeyaml-1.17.pom"/>
+				<metadata-artifact status="no" details="" size="3956" time="0" location="/home/charlie/.ivy2/cache/org.yaml/snakeyaml/ivy-1.17.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/yaml/snakeyaml/1.17/snakeyaml-1.17.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch-x-content" conf="compile, runtime" rev="1.17" rev-constraint-default="1.17" rev-constraint-dynamic="1.17" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="snakeyaml" type="bundle" ext="jar" status="successful" details="" size="273599" time="370" location="/home/charlie/.ivy2/cache/org.yaml/snakeyaml/bundles/snakeyaml-1.17.jar">
+					<artifact name="snakeyaml" type="bundle" ext="jar" status="no" details="" size="273599" time="0" location="/home/charlie/.ivy2/cache/org.yaml/snakeyaml/bundles/snakeyaml-1.17.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/yaml/snakeyaml/1.17/snakeyaml-1.17.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.elasticsearch" name="elasticsearch-secure-sm">
-			<revision name="7.0.1" status="release" pubdate="20190429103953" resolver="public" artresolver="public" homepage="https://github.com/elastic/elasticsearch" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="35">
+			<revision name="7.0.1" status="release" pubdate="20190429103953" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="35">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="1019" time="110" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-secure-sm/ivy-7.0.1.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-secure-sm/ivy-7.0.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-secure-sm/7.0.1/elasticsearch-secure-sm-7.0.1.pom"/>
+				<metadata-artifact status="no" details="" size="2563" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-secure-sm/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-secure-sm/7.0.1/elasticsearch-secure-sm-7.0.1.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="elasticsearch-secure-sm" type="jar" ext="jar" status="successful" details="" size="10876" time="570" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-secure-sm/jars/elasticsearch-secure-sm-7.0.1.jar">
+					<artifact name="elasticsearch-secure-sm" type="jar" ext="jar" status="no" details="" size="10876" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-secure-sm/jars/elasticsearch-secure-sm-7.0.1.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-secure-sm/7.0.1/elasticsearch-secure-sm-7.0.1.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.elasticsearch" name="elasticsearch-core">
-			<revision name="7.0.1" status="release" pubdate="20190429103949" resolver="public" artresolver="public" homepage="https://github.com/elastic/elasticsearch" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="34">
+			<revision name="7.0.1" status="release" pubdate="20190429103949" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="34">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
-				<metadata-artifact status="successful" details="" size="1004" time="111" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-core/ivy-7.0.1.xml" searched="true" original-local-location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-core/ivy-7.0.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-core/7.0.1/elasticsearch-core-7.0.1.pom"/>
+				<metadata-artifact status="no" details="" size="2548" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-core/ivy-7.0.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-core/7.0.1/elasticsearch-core-7.0.1.pom"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch" conf="compile, runtime" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="7.0.1"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch-x-content" conf="compile, runtime" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="7.0.1"/>
 				<caller organisation="org.elasticsearch" name="elasticsearch-cli" conf="compile, runtime" rev="7.0.1" rev-constraint-default="7.0.1" rev-constraint-dynamic="7.0.1" callerrev="7.0.1"/>
 				<artifacts>
-					<artifact name="elasticsearch-core" type="jar" ext="jar" status="successful" details="" size="38776" time="641" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-core/jars/elasticsearch-core-7.0.1.jar">
+					<artifact name="elasticsearch-core" type="jar" ext="jar" status="no" details="" size="38776" time="0" location="/home/charlie/.ivy2/cache/org.elasticsearch/elasticsearch-core/jars/elasticsearch-core-7.0.1.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/elasticsearch/elasticsearch-core/7.0.1/elasticsearch-core-7.0.1.jar"/>
 					</artifact>
 				</artifacts>
@@ -822,6 +937,7 @@
 			<revision name="1.2" status="release" pubdate="20140705141228" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://commons.apache.org/proper/commons-logging/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="14">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="11623" time="0" location="/home/charlie/.ivy2/cache/commons-logging/commons-logging/ivy-1.2.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.pom"/>
+				<caller organisation="com.amazonaws" name="aws-java-sdk-core" conf="compile, runtime" rev="1.1.3" rev-constraint-default="1.1.3" rev-constraint-dynamic="1.1.3" callerrev="1.11.549"/>
 				<caller organisation="org.apache.pdfbox" name="pdfbox" conf="compile, runtime" rev="1.2" rev-constraint-default="1.2" rev-constraint-dynamic="1.2" callerrev="2.0.9"/>
 				<caller organisation="org.elasticsearch.client" name="elasticsearch-rest-client" conf="compile, runtime" rev="1.1.3" rev-constraint-default="1.1.3" rev-constraint-dynamic="1.1.3" callerrev="7.0.1"/>
 				<caller organisation="org.apache.xmlgraphics" name="xmlgraphics-commons" conf="compile, runtime" rev="1.0.4" rev-constraint-default="1.0.4" rev-constraint-dynamic="1.0.4" callerrev="1.4"/>
@@ -844,6 +960,7 @@
 			</revision>
 			<revision name="1.1.3" evicted="latest-revision" evicted-reason="" downloaded="false" searched="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
 				<evicted-by rev="1.2"/>
+				<caller organisation="com.amazonaws" name="aws-java-sdk-core" conf="compile, runtime" rev="1.1.3" rev-constraint-default="1.1.3" rev-constraint-dynamic="1.1.3" callerrev="1.11.549"/>
 				<caller organisation="org.elasticsearch.client" name="elasticsearch-rest-client" conf="compile, runtime" rev="1.1.3" rev-constraint-default="1.1.3" rev-constraint-dynamic="1.1.3" callerrev="7.0.1"/>
 				<artifacts>
 				</artifacts>

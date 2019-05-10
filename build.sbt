@@ -17,3 +17,6 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % "test"
 
 // https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-high-level-client
 libraryDependencies += "org.elasticsearch.client" % "elasticsearch-rest-high-level-client" % "7.0.1"
+
+// https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3
+libraryDependencies += "com.amazonaws" % "aws-java-sdk-s3" % "1.11.549"
