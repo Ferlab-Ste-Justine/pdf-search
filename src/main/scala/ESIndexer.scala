@@ -6,17 +6,24 @@ import org.elasticsearch.common.Strings
 import org.elasticsearch.common.xcontent.XContentFactory._
 import org.elasticsearch.common.xcontent.XContentType
 
-sealed abstract class IndexInfoRequest(info: Any) { //represents an IndexRequest into index of name getClass
+sealed trait IndexInfoRequest { //represents an IndexRequest into index of name getClass
     override def toString: String = this.getClass.getName
-    def getIndex: String = this.getClass.getName.toLowerCase
+    def index: String
 }
 
+//TODO refactor trait into abstract class to use inIndex as super?
 //title-text
-case class AdminFile(title: String, text: String) extends IndexInfoRequest
+case class AdminFile(inIndex: String = "adminfile")(title: String, text: String) extends IndexInfoRequest {
+    override val index = inIndex
+}
 //title-word-tag
-case class AdminWord(title: String, wordTags: Array[(String, String)]) extends IndexInfoRequest
+case class AdminWord(title: String, wordTags: Array[(String, String)]) extends IndexInfoRequest {
+    override val index: String = "adminword"
+}
 //title-text-words[word-tag]
-case class AdminFileWord(title: String, text: String, wordTag: Array[(String, String)]) extends IndexInfoRequest
+case class AdminFileWord(title: String, text: String, wordTag: Array[(String, String)]) extends IndexInfoRequest {
+    override val index: String = "adminfileword"
+}
 
 class ESIndexer(url: String = "http://localhost:9200") {
     //https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/java-docs-index.html
@@ -48,7 +55,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
         val request = new BulkRequest()                             //creates a bulkRequest
         requests.foreach{ req =>                                    //for every IndexInfoRequest
             makeJson(req).foreach{ json =>                          //for every json from said request
-                request.add(makeIndexRequest(req.getIndex, json))   //add the the IndexRequest to the bulk request
+                request.add(makeIndexRequest(req.index, json))   //add the the IndexRequest to the bulk request
             }
         }
 
@@ -86,7 +93,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
         case req: AdminWord =>
             req.wordTags.map{ wordTag =>
                 val json = jsonBuilder
-                
+
                 json.startObject()
                 json.field("title", req.title)
                 json.field("word", wordTag._1)

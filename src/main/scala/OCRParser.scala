@@ -3,6 +3,7 @@ import java.io.{File, FileInputStream, InputStream}
 import java.nio.file.{Path, Paths}
 import java.util.Locale
 
+import Main.{esIndexer, getFileName, nlpParser, ocrParser}
 import net.sourceforge.tess4j.Tesseract
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.rendering.{ImageType, PDFRenderer}
@@ -28,6 +29,45 @@ class OCRParser(languages: String = "eng") {
     CLibrary.INSTANCE.setlocale(CLibrary.LC_NUMERIC, "C")
     CLibrary.INSTANCE.setlocale(CLibrary.LC_CTYPE, "C")
 
+    /*
+    def dParsePDF(pdf: File): String = dParsePDF(new FileInputStream(pdf))
+
+    def dParsePDF(pdf: InputStream): String = {
+        val document = PDDocument.load(pdf)
+
+        val renderer = new PDFRenderer(document)
+
+        val temp = Pool.distributeIt(List.range(0, document.getNumberOfPages), (tuples: Iterable[(PDDocument, PDFRenderer, Int)]) => {
+            val tesseract = getTesseract
+
+            val future = Future[String] {     //start a future to do: OCR -> NLP -> ES
+                tuples.foldLeft("")( (acc,tuple) => acc + threadSafeParsePage(tuple))
+            }
+
+            future.onComplete {             //when said future completes
+                case Success(s: String) =>        //print success message
+                    println("Pages " + tuples.head._3 + " to " + tuples.last._3 + " have been indexed")
+                case Failure(e: Exception) =>   //otherwise exit if a problem occured
+                    println("OCRParser has encountered a critical error.")
+                    e.printStackTrace()
+                    System.exit(1)
+            }
+
+            future
+
+        }, 10)
+
+        temp.toString()
+    }*/
+
+    def makeDistributable(document: PDDocument, renderer: PDFRenderer): ListBuffer[(PDDocument, PDFRenderer, Int)] = {
+        val buffer = new ListBuffer[(PDDocument, PDFRenderer, Int)]
+
+        for(i <- 0 until document.getNumberOfPages) buffer.append((document, renderer, i))
+
+        buffer
+    }
+
     private def getTesseract: Tesseract = {
         val tesseract: Tesseract = new Tesseract()  //the Tesseract used to do the OCR.
         tesseract.setDatapath("./tessdata")         //we're using the local tessdata folder (fails when using global...)
@@ -35,6 +75,9 @@ class OCRParser(languages: String = "eng") {
 
         tesseract
     }
+
+    private def threadSafeParsePage(tuple: (PDDocument, PDFRenderer, Int)): String =
+        parsePage(getTesseract, tuple._1, tuple._2, tuple._3)
 
     /**
       * Syntactic sugar for parsePDF(pdf: Stream)
@@ -112,14 +155,7 @@ class OCRParser(languages: String = "eng") {
 
     /* Possibly useful if we want to make OCR futures in the #future
 
-    def makeDistributable(document: PDDocument, renderer: PDFRenderer): ListBuffer[(PDDocument, PDFRenderer, Int)] = {
-        val buffer = new ListBuffer[(PDDocument, PDFRenderer, Int)]
 
-        for(i <- 0 until document.getNumberOfPages) buffer.append((document, renderer, i))
 
-        buffer
-    }
-
-    private def threadSafeParsePage(tuple: (PDDocument, PDFRenderer, Int)): String =
-        parsePage(getTesseract, tuple._1, tuple._2, tuple._3)*/
+    */
 }
