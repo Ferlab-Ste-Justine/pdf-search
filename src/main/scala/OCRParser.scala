@@ -8,6 +8,13 @@ import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.rendering.{ImageType, PDFRenderer}
 
 import scala.annotation.tailrec
+import scala.collection.mutable.ListBuffer
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
+import scala.concurrent.Future
+import scala.concurrent._
+import ExecutionContext.Implicits.global
+import scala.annotation.tailrec
 
 class OCRParser(languages: String = "eng") {
     /*
@@ -20,8 +27,16 @@ class OCRParser(languages: String = "eng") {
     CLibrary.INSTANCE.setlocale(CLibrary.LC_NUMERIC, "C")
     CLibrary.INSTANCE.setlocale(CLibrary.LC_CTYPE, "C")
 
+    private def getTesseract: Tesseract = {
+        val tesseract: Tesseract = new Tesseract()  //the Tesseract used to do the OCR.
+        tesseract.setDatapath("./tessdata")         //we're using the local tessdata folder
+        tesseract.setLanguage(languages)            //by default we're reading English (TODO add more tessdata)
+
+        tesseract
+    }
+
     /**
-      * Syntactic suger for parsePDF(pdf: Stream)
+      * Syntactic sugar for parsePDF(pdf: Stream)
       *
       * @param pdf the java.io.File to input to parsePDF
       * @return the text of the pdf
@@ -29,22 +44,18 @@ class OCRParser(languages: String = "eng") {
     def parsePDF(pdf: File): String = parsePDF(new FileInputStream(pdf))
 
     /**
-      * Parses the requested pdf into a string
+      * Parses the requested pdf stream into a string
       *
       * @param pdf The pdf (as a stream)
       * @return The string (text) of the pdf
       */
     def parsePDF(pdf: InputStream): String = {
-        //println("Reading document " + pdf.getName)
-
         /*
         https://sourceforge.net/p/tess4j/discussion/1202293/thread/4562eccb/
 
         Each thread needs its tesseract
          */
-        val tesseract: Tesseract = new Tesseract()  //the Tesseract used to do the OCR.
-        tesseract.setDatapath("./tessdata")         //we're using the local tessdata folder
-        tesseract.setLanguage(languages)            //by default we're reading English (TODO add more tessdata)
+        val tesseract = getTesseract
 
         val document = PDDocument.load(pdf)
 
@@ -62,11 +73,12 @@ class OCRParser(languages: String = "eng") {
         data structures...
          */
 
-        /*
+        /* Fonctionnal style is O(2n)
         val asText = List.range(0, document.getNumberOfPages).foldLeft("") {
             (acc, page) => acc + parsePage(document, renderer, page)
         }*/
 
+        //imperative style is O(n)
         var asText = ""
         for(i <- 0 until document.getNumberOfPages) asText += parsePage(tesseract, document, renderer, i)
 
@@ -92,8 +104,21 @@ class OCRParser(languages: String = "eng") {
       * @param index The requested page's index
       * @return The OCR of the page
       */
-    def parsePage(tesseract: Tesseract, document: PDDocument, renderer: PDFRenderer, index: Int): String = {
+    private def parsePage(tesseract: Tesseract, document: PDDocument, renderer: PDFRenderer, index: Int): String = {
         println("\tReading page "+index)
         tesseract.doOCR(renderer.renderImageWithDPI(index, 750, ImageType.GRAY))
     }
+
+    /* Possibly useful if we want to make OCR futures in the #future
+
+    def makeDistributable(document: PDDocument, renderer: PDFRenderer): ListBuffer[(PDDocument, PDFRenderer, Int)] = {
+        val buffer = new ListBuffer[(PDDocument, PDFRenderer, Int)]
+
+        for(i <- 0 until document.getNumberOfPages) buffer.append((document, renderer, i))
+
+        buffer
+    }
+
+    private def threadSafeParsePage(tuple: (PDDocument, PDFRenderer, Int)): String =
+        parsePage(getTesseract, tuple._1, tuple._2, tuple._3)*/
 }

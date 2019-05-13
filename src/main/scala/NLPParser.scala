@@ -17,25 +17,40 @@ class NLPParser(language: String = "en") {
       * @return An Array of its NLP keywords
       */
     def getNouns(text: String): Array[String] = {
+
         /*
         We now have two Arrays: one has the text's tokens, the other the token's tags.
 
         We then filter the tokens by their tag, keeping only the key (most important) words
-         */
 
-        //https://stackoverflow.com/questions/18814522/scala-filter-on-a-list-by-index
-        //https://stackoverflow.com/questions/4328500/how-can-i-strip-all-punctuation-from-a-string-in-javascript-using-regex
+        OpenNLP has weird behaviour with some punctiation, so we're just removing it all from the results
+
+        https://stackoverflow.com/questions/18814522/scala-filter-on-a-list-by-index
+        https://stackoverflow.com/questions/4328500/how-can-i-strip-all-punctuation-from-a-string-in-javascript-using-regex
+         */
         getTokenTags(text).collect {
             case (token, tag) if isKeytag(tag) =>
                 token.replaceAll("[,\\/#!$%\\^&\\*;|:{}=\\-_`~()\\[\\]<>\"”(\\.$)]", "")
         }
     }
 
+    /**
+      * Returns every (NLP token, NLP tag) tuple from the provided text
+      *
+      * @param text the text to parse for tokentags
+      * @return the zip of the tokens and tags from the text
+      */
     def getTokenTags(text: String): Array[(String, String)] = {
         val tokens = tokenize(text)
         tokens.zip(posTagger.tag(tokens))
     }
 
+    /**
+      * Gets the token from the provided text
+      *
+      * @param text the text to tokenize
+      * @return the text's tokens
+      */
     private def tokenize(text: String): Array[String] =
         //the tagger doesn't like ellipses, so we replace them with simple dots before the filter below
         tokenizer.tokenize(text).map(x => x.replaceAll("\\.\\.", ""))
