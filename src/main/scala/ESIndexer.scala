@@ -11,10 +11,10 @@ sealed trait IndexInfoRequest { //represents an IndexRequest into index of name 
     def index: String
 }
 
-//TODO refactor trait into abstract class to use inIndex as super?
+//TODO refactor trait into abstract class to use inIndex as super? (two sets of ())
 //title-text
-case class AdminFile(inIndex: String = "adminfile")(title: String, text: String) extends IndexInfoRequest {
-    override val index = inIndex
+case class AdminFile(title: String, text: String) extends IndexInfoRequest {
+    override val index = "adminfile"
 }
 //title-word-tag
 case class AdminWord(title: String, wordTags: Array[(String, String)]) extends IndexInfoRequest {
