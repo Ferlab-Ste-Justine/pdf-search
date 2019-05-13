@@ -15,6 +15,7 @@ object Main {
     var esIndexer: ESIndexer = _
 
     def main(args: Array[String]) {
+        //TODO the instantiations will use command line args once we have more details on the project
         ocrParser = new OCRParser
         nlpParser = new NLPParser
         esIndexer = new ESIndexer

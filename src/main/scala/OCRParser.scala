@@ -17,6 +17,7 @@ import ExecutionContext.Implicits.global
 import scala.annotation.tailrec
 
 class OCRParser(languages: String = "eng") {
+
     /*
         Bug on tesseract 4.0.0: crash when calling procedure is not tesseract itself. To fix, we're changing the locale
         to C using java's Native library (see CLibrary.java)
@@ -29,7 +30,7 @@ class OCRParser(languages: String = "eng") {
 
     private def getTesseract: Tesseract = {
         val tesseract: Tesseract = new Tesseract()  //the Tesseract used to do the OCR.
-        tesseract.setDatapath("./tessdata")         //we're using the local tessdata folder
+        tesseract.setDatapath("./tessdata")         //we're using the local tessdata folder (fails when using global...)
         tesseract.setLanguage(languages)            //by default we're reading English (TODO add more tessdata)
 
         tesseract

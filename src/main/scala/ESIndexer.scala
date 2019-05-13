@@ -86,6 +86,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
         case req: AdminWord =>
             req.wordTags.map{ wordTag =>
                 val json = jsonBuilder
+                
                 json.startObject()
                 json.field("title", req.title)
                 json.field("word", wordTag._1)
