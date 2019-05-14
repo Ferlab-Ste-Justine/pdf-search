@@ -1,4 +1,4 @@
-import java.io.File
+import java.io.{BufferedWriter, File, FileWriter}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, _}
@@ -20,6 +20,7 @@ object Main {
         nlpParser = new NLPParser
         esIndexer = new ESIndexer
 
+        //adminIndexFilesLocal("./input/")
         adminIndexFilesLocal("./input/")
     }
 
@@ -30,6 +31,8 @@ object Main {
     //TODO comme ca, adminIndexFilesLocal et adminIndexFiles appelleraient juste adminFuture(nom, stream/file) betement
     //TODO puisque le code est le meme dans le fond...
 
+    //TODO 3
+
     /**
       * Indexes files from a local directory into ES
       *
@@ -39,17 +42,58 @@ object Main {
         Pool.distribute(getFiles(path), (file: File) => {                   //for every file
             val name = getFileName(file)
 
-            val future = Future[Unit] {     //start a future to do: OCR -> NLP -> ES
+            Future[Unit] {     //start a future to do: OCR -> NLP -> ES
                 val text = ocrParser.parsePDF(file)
                 val wordTags = nlpParser.getTokenTags(text)
+                val keywords = nlpParser.keywordise(wordTags)
 
-                esIndexer.bulkIndex(List(AdminFile(name, text), AdminWord(name, wordTags), AdminFileWord(name, text, wordTags)))
+                val list = List(
+                    AdminFile(name, text),
+                    AdminWord(name, wordTags),
+                    AdminFileWordKeyword(name, text, wordTags, keywords),
+                    AdminKeyword(name, keywords))
+
+                esIndexer.bulkIndex(list)
             }
-
-            future
         })
 
         println("Files indexed.\nAdmin indexing done. Exiting now...")
+        System.exit(0)
+    }
+
+    def adminGetKeywords(path: String): Unit = {
+        val lemmaSets: Seq[Set[String]] = Pool.distribute(getFiles(path), (file: File) => { //for every file
+            Future[Set[String]] {     //start a future to do: OCR -> NLP -> ES
+                val text = ocrParser.parsePDF(file)
+                nlpParser.getLemmas(text).toSet
+            }
+        })
+
+        val nbOfStudies: Float = lemmaSets.length
+
+        val writer = new BufferedWriter(new FileWriter("./words/blacklist.tsv", false))
+
+        val lemmaMap = lemmaSets.flatten.foldLeft(Map[String, Int]()){ (acc, noun: String) =>
+            if(!acc.isDefinedAt(noun)) acc + (noun -> 1)
+            else acc + (noun -> (acc(noun)+1))
+
+        }.toList
+
+        val lemmaList: Seq[String] = Pool.distributeIt(lemmaMap, (subMap: Iterable[(String, Int)]) => {
+            Future[String] { //start a future to do: OCR -> NLP -> ES
+                subMap.foldLeft("") { (acc, tuple: (String, Int)) =>
+                    if (tuple._2 / nbOfStudies >= 0.25) acc + tuple._1 + "\n"
+                    else acc + ""
+                }
+            }
+
+        }, lemmaMap.length / Runtime.getRuntime.availableProcessors())
+
+        lemmaList.foreach( writer.append )
+
+        writer.close()
+
+        println("File keylemmas extracted.\nAdmin keyword extraction done. Exiting now...")
         System.exit(0)
     }
 

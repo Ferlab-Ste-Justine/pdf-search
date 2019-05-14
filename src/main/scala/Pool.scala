@@ -39,7 +39,7 @@ object Pool {
         Await.result(Future.sequence(listBuffer.toList), Duration.Inf)
     }
 
-    /*
+
     //TODO FOR NLP...
     def distributeIt[A, B](collection: Iterable[A], f: Iterable[A] => Future[B], batch: Int = 1): List[B] = {
 
@@ -52,10 +52,9 @@ object Pool {
          */
         val listBuffer = new ListBuffer[Future[B]]
 
-        if(batch == 1) listBuffer.append(f(collection))
-        else collection.grouped(batch).toList.foreach( x => listBuffer.append(f(x)) )
+        collection.grouped(batch).toList.foreach( x => listBuffer.append(f(x)) )
 
         Await.result(Future.sequence(listBuffer.toList), Duration.Inf)
-    }*/
+    }
 
 }

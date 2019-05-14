@@ -1,4 +1,4 @@
-name := "clin-pdf-indexer"
+name := "clin-pdf-search"
 
 version := "0.1"
 

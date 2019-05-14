@@ -21,9 +21,14 @@ case class AdminWord(title: String, wordTags: Array[(String, String)]) extends I
     override val index: String = "adminword"
 }
 //title-text-words[word-tag]
-case class AdminFileWord(title: String, text: String, wordTag: Array[(String, String)]) extends IndexInfoRequest {
-    override val index: String = "adminfileword"
+case class AdminFileWordKeyword(title: String, text: String, wordTag: Array[(String, String)], keywords: Array[String]) extends IndexInfoRequest {
+    override val index: String = "adminfilewordkeyword"
 }
+
+case class AdminKeyword(title: String, keywords: Array[String]) extends IndexInfoRequest {
+    override val index: String = "adminkeyword"
+}
+
 
 class ESIndexer(url: String = "http://localhost:9200") {
     //https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/java-docs-index.html
@@ -103,7 +108,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
                 Strings.toString(json)
             }
 
-        case req: AdminFileWord =>
+        case req: AdminFileWordKeyword =>
             val json = jsonBuilder
 
             json.startObject()
@@ -118,9 +123,29 @@ class ESIndexer(url: String = "http://localhost:9200") {
 
                 json.endArray()
 
+                json.startArray("keywords")
+
+                req.keywords.foreach{ word =>
+                    json.startObject().field("keyword", word).endObject()
+                }
+
+                json.endArray()
+
             json.endObject()
 
             Array(Strings.toString(json))
+
+        case req: AdminKeyword =>
+            req.keywords.map{ word =>
+                val json = jsonBuilder
+
+                json.startObject()
+                json.field("title", req.title)
+                json.field("keyword", word)
+                json.endObject()
+
+                Strings.toString(json)
+            }
     }
 
     /* Maybe useful if we use bulkAsync in the future
