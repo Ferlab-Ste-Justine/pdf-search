@@ -61,6 +61,7 @@ object Main {
         System.exit(0)
     }
 
+    //TODO peut etre prendre ce qui est dans 80% des etudes voulues au lieu de 25% des etudes random? idk
     def adminGetKeywords(path: String): Unit = {
         val lemmaSets: Seq[Set[String]] = Pool.distribute(getFiles(path), (file: File) => { //for every file
             Future[Set[String]] {     //start a future to do: OCR -> NLP -> ES
