@@ -7,7 +7,7 @@
 		revision="0.1"
 		conf="compile-internal"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool"
-		date="20190513090653"/>
+		date="20190514090808"/>
 	<dependencies>
 		<module organisation="org.elasticsearch.client" name="elasticsearch-rest-high-level-client">
 			<revision name="7.0.1" status="release" pubdate="20190429104008" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://github.com/elastic/elasticsearch" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="70">

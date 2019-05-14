@@ -4,7 +4,7 @@
 		module="clin-pdf-indexer$sources"
 		revision="0.1"
 		status="integration"
-		publication="20190513090653"
+		publication="20190514090808"
 	/>
 	<configurations>
 		<conf name="compile" visibility="public" description=""/>

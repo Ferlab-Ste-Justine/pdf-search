@@ -7,7 +7,16 @@ class NLPParser(language: String = "en") {
 
     //https://www.tutorialspoint.com/opennlp/opennlp_finding_parts_of_speech.htm
     //TODO how can we use mutiple languages in the same model??
-    val posTagger =  new POSTaggerME(new POSModel(new FileInputStream("./nlp/"+language+"-pos-maxent.bin")))
+
+    /*
+    Notes on thread-safety: openNLP is NOT thread-safe! The only thing we can share is the tokenizer and the POSModel.
+
+    https://stackoverflow.com/questions/4989381/nullpointer-exception-with-opennlp-in-namefinderme-class
+    https://stackoverflow.com/questions/22785942/nullpointerexception-while-using-postaggerme-of-opennlp-in-android
+
+    The rest has to be instanciated on a thread-by thread basis
+     */
+    val posModel = new POSModel(new FileInputStream("./nlp/"+language+"-pos-maxent.bin"))
     val tokenizer: WhitespaceTokenizer = WhitespaceTokenizer.INSTANCE
 
     /**
@@ -23,7 +32,7 @@ class NLPParser(language: String = "en") {
 
         We then filter the tokens by their tag, keeping only the key (most important) words
 
-        OpenNLP has weird behaviour with some punctiation, so we're just removing it all from the results
+        OpenNLP has weird behaviour with some punctuation, so we're just removing it all from the results
 
         https://stackoverflow.com/questions/18814522/scala-filter-on-a-list-by-index
         https://stackoverflow.com/questions/4328500/how-can-i-strip-all-punctuation-from-a-string-in-javascript-using-regex
@@ -42,7 +51,7 @@ class NLPParser(language: String = "en") {
       */
     def getTokenTags(text: String): Array[(String, String)] = {
         val tokens = tokenize(text)
-        tokens.zip(posTagger.tag(tokens))
+        tokens.zip(new POSTaggerME(posModel).tag(tokens))   //POSTaggerME is not thread safe...
     }
 
     /**
@@ -53,7 +62,7 @@ class NLPParser(language: String = "en") {
       */
     private def tokenize(text: String): Array[String] =
         //the tagger doesn't like ellipses, so we replace them with simple dots before the filter below
-        tokenizer.tokenize(text).map(x => x.replaceAll("\\.\\.", ""))
+        tokenizer.tokenize(text).map(x => x.replaceAll("(\\.\\.)", ""))
 
     /**
       * Is the tag an important tag?

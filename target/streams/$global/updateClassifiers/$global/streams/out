@@ -10802,11 +10802,11 @@
 [debug] == resolving dependencies clin-pdf-indexer#clin-pdf-indexer$sources;0.1->jline#jline;2.14.6 [scala-tool->master]
 [debug] 	resolved ivy file produced in cache
 [debug] :: downloading artifacts ::
-[debug] 	[NOT REQUIRED] org.apache.lucene#lucene-spatial-extras;8.0.0!lucene-spatial-extras.jar(src)
 [debug] 	[NOT REQUIRED] org.apache.lucene#lucene-grouping;8.0.0!lucene-grouping.jar(src)
-[debug] 	[NOT REQUIRED] com.amazonaws#aws-java-sdk-kms;1.11.549!aws-java-sdk-kms.jar(src)
 [debug] 	[NOT REQUIRED] com.fasterxml.jackson.core#jackson-core;2.8.11!jackson-core.jar(src)
 [debug] 	[NOT REQUIRED] org.elasticsearch#elasticsearch-geo;7.0.1!elasticsearch-geo.jar(src)
+[debug] 	[NOT REQUIRED] org.apache.lucene#lucene-spatial-extras;8.0.0!lucene-spatial-extras.jar(src)
+[debug] 	[NOT REQUIRED] com.amazonaws#aws-java-sdk-kms;1.11.549!aws-java-sdk-kms.jar(src)
 [debug] 	[NOT REQUIRED] org.apache.httpcomponents#httpclient;4.5.7!httpclient.jar(src)
 [debug] no default ivy user dir defined: set to /home/charlie/.ivy2
 [debug] no default ivy user dir defined: set to /home/charlie/.ivy2
@@ -10848,36 +10848,27 @@
 [debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
 [debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
 [debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
+[debug] settings loaded (23ms)
+[debug] settings loaded (23ms)
 [debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
+[debug] 	default cache: /home/charlie/.ivy2/cache
+[debug] 	default cache: /home/charlie/.ivy2/cache
+[debug] 	default resolver: default
 [debug] including url: jar:file:/home/charlie/.sbt/boot/scala-2.12.7/org.scala-sbt/sbt/1.2.8/ivy-2.3.0-sbt-cb9cc189e9f3af519f9f102e6c5d446488ff6832.jar!/org/apache/ivy/core/settings/ivysettings-default-chain.xml
-[debug] settings loaded (21ms)
-[debug] settings loaded (21ms)
-[debug] 	default cache: /home/charlie/.ivy2/cache
-[debug] 	default cache: /home/charlie/.ivy2/cache
-[debug] 	default resolver: default
 [debug] 	default resolver: default
 [debug] 	-- 5 resolvers:
 [debug] 	-- 5 resolvers:
 [debug] 	shared [file]
 [debug] 	shared [file]
-[debug] settings loaded (21ms)
-[debug] 	default cache: /home/charlie/.ivy2/cache
-[debug] 	default resolver: default
-[debug] 	-- 5 resolvers:
-[debug] 	shared [file]
-[debug] 	default [chain] [local, main]
 [debug] 	default [chain] [local, main]
 [debug] 	default [chain] [local, main]
 [debug] 	public [ibiblio]
 [debug] 	public [ibiblio]
-[debug] 	public [ibiblio]
-[debug] 	main [chain] [shared, public]
 [debug] 	main [chain] [shared, public]
 [debug] 	main [chain] [shared, public]
 [debug] 	local [file]
 [debug] 	local [file]
-[debug] 	local [file]
-[debug] settings loaded (22ms)
+[debug] settings loaded (24ms)
 [debug] 	default cache: /home/charlie/.ivy2/cache
 [debug] 	default resolver: default
 [debug] 	-- 5 resolvers:
@@ -10886,19 +10877,28 @@
 [debug] 	public [ibiblio]
 [debug] 	main [chain] [shared, public]
 [debug] 	local [file]
-[debug] settings loaded (22ms)
+[debug] settings loaded (25ms)
+[debug] settings loaded (25ms)
+[debug] 	default cache: /home/charlie/.ivy2/cache
 [debug] 	default cache: /home/charlie/.ivy2/cache
 [debug] 	default resolver: default
+[debug] 	default resolver: default
+[debug] 	-- 5 resolvers:
 [debug] 	-- 5 resolvers:
 [debug] 	shared [file]
+[debug] 	shared [file]
 [debug] 	default [chain] [local, main]
-[debug] settings loaded (22ms)
+[debug] 	default [chain] [local, main]
 [debug] 	public [ibiblio]
+[debug] 	public [ibiblio]
+[debug] 	main [chain] [shared, public]
+[debug] 	main [chain] [shared, public]
+[debug] 	local [file]
+[debug] 	local [file]
+[debug] settings loaded (24ms)
 [debug] 	default cache: /home/charlie/.ivy2/cache
 [debug] 	default resolver: default
-[debug] 	main [chain] [shared, public]
 [debug] 	-- 5 resolvers:
-[debug] 	local [file]
 [debug] 	shared [file]
 [debug] 	default [chain] [local, main]
 [debug] 	public [ibiblio]
@@ -10906,88 +10906,88 @@
 [debug] 	local [file]
 [debug] 	[NOT REQUIRED] org.apache.lucene#lucene-core;8.0.0!lucene-core.jar(src)
 [debug] 	[NOT REQUIRED] org.apache.lucene#lucene-sandbox;8.0.0!lucene-sandbox.jar(src)
+[debug] 	[NOT REQUIRED] org.slf4j#jul-to-slf4j;1.7.25!jul-to-slf4j.jar(src)
 [debug] 	[NOT REQUIRED] org.apache.lucene#lucene-highlighter;8.0.0!lucene-highlighter.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-library;2.12.8!scala-library.jar(src)
-[debug] 	[NOT REQUIRED] org.slf4j#jul-to-slf4j;1.7.25!jul-to-slf4j.jar(src)
 [debug] 	[NOT REQUIRED] com.fasterxml.jackson.dataformat#jackson-dataformat-yaml;2.8.11!jackson-dataformat-yaml.jar(src)
+[debug] 	[NOT REQUIRED] org.apache.lucene#lucene-spatial;8.0.0!lucene-spatial.jar(src)
 [debug] 	[NOT REQUIRED] org.apache.lucene#lucene-memory;8.0.0!lucene-memory.jar(src)
 [debug] 	[NOT REQUIRED] org.slf4j#log4j-over-slf4j;1.7.25!log4j-over-slf4j.jar(src)
-[debug] 	[NOT REQUIRED] org.apache.lucene#lucene-spatial;8.0.0!lucene-spatial.jar(src)
 [debug] 	[NOT REQUIRED] org.elasticsearch#jna;4.5.1!jna.jar(src)
-[debug] 	[NOT REQUIRED] com.amazonaws#aws-java-sdk-s3;1.11.549!aws-java-sdk-s3.jar(src)
 [debug] 	[NOT REQUIRED] org.elasticsearch#elasticsearch-core;7.0.1!elasticsearch-core.jar(src)
+[debug] 	[NOT REQUIRED] com.amazonaws#aws-java-sdk-s3;1.11.549!aws-java-sdk-s3.jar(src)
 [debug] 	[NOT REQUIRED] org.apache.lucene#lucene-backward-codecs;8.0.0!lucene-backward-codecs.jar(src)
-[debug] 	[NOT REQUIRED] org.elasticsearch.plugin#aggs-matrix-stats-client;7.0.1!aggs-matrix-stats-client.jar(src)
-[debug] 	[NOT REQUIRED] com.github.jai-imageio#jai-imageio-core;1.4.0!jai-imageio-core.jar(src)
 [debug] 	[NOT REQUIRED] org.apache.lucene#lucene-analyzers-common;8.0.0!lucene-analyzers-common.jar(src)
+[debug] 	[NOT REQUIRED] org.elasticsearch.plugin#aggs-matrix-stats-client;7.0.1!aggs-matrix-stats-client.jar(src)
 [debug] 	[NOT REQUIRED] org.elasticsearch#elasticsearch-secure-sm;7.0.1!elasticsearch-secure-sm.jar(src)
 [debug] 	[NOT REQUIRED] commons-logging#commons-logging;1.2!commons-logging.jar(src)
+[debug] 	[NOT REQUIRED] com.github.jai-imageio#jai-imageio-core;1.4.0!jai-imageio-core.jar(src)
 [debug] 	[NOT REQUIRED] com.lowagie#itext;2.1.7!itext.jar(src)
 [debug] 	[NOT REQUIRED] org.elasticsearch.plugin#lang-mustache-client;7.0.1!lang-mustache-client.jar(src)
 [debug] 	[NOT REQUIRED] com.amazonaws#jmespath-java;1.11.549!jmespath-java.jar(src)
-[debug] 	[NOT REQUIRED] log4j#log4j;1.2.17!log4j.jar(src)
 [debug] 	[NOT REQUIRED] org.apache.lucene#lucene-misc;8.0.0!lucene-misc.jar(src)
+[debug] 	[NOT REQUIRED] log4j#log4j;1.2.17!log4j.jar(src)
 [debug] 	[NOT REQUIRED] ch.qos.logback#logback-classic;1.2.3!logback-classic.jar(src)
 [debug] 	[NOT REQUIRED] org.apache.pdfbox#pdfbox;2.0.9!pdfbox.jar(src)
-[debug] 	[NOT REQUIRED] org.apache.httpcomponents#httpasyncclient;4.1.4!httpasyncclient.jar(src)
 [debug] 	[NOT REQUIRED] org.apache.httpcomponents#httpcore-nio;4.4.11!httpcore-nio.jar(src)
-[debug] 	[NOT REQUIRED] org.jboss#jboss-vfs;3.2.12.Final!jboss-vfs.jar(src)
+[debug] 	[NOT REQUIRED] org.apache.httpcomponents#httpasyncclient;4.1.4!httpasyncclient.jar(src)
 [debug] 	[NOT REQUIRED] org.slf4j#slf4j-api;1.7.25!slf4j-api.jar(src)
-[debug] 	[NOT REQUIRED] org.apache.xmlgraphics#xmlgraphics-commons;1.4!xmlgraphics-commons.jar(src)
 [debug] 	[NOT REQUIRED] org.elasticsearch.plugin#rank-eval-client;7.0.1!rank-eval-client.jar(src)
-[debug] 	[NOT REQUIRED] commons-codec#commons-codec;1.11!commons-codec.jar(src)
+[debug] 	[NOT REQUIRED] org.apache.xmlgraphics#xmlgraphics-commons;1.4!xmlgraphics-commons.jar(src)
 [debug] 	[NOT REQUIRED] net.sf.jopt-simple#jopt-simple;5.0.2!jopt-simple.jar(src)
+[debug] 	[NOT REQUIRED] org.jboss#jboss-vfs;3.2.12.Final!jboss-vfs.jar(src)
+[debug] 	[NOT REQUIRED] commons-codec#commons-codec;1.11!commons-codec.jar(src)
 [debug] 	[NOT REQUIRED] net.sourceforge.tess4j#tess4j;4.0.0!tess4j.jar(src)
 [debug] 	[NOT REQUIRED] org.apache.logging.log4j#log4j-api;2.11.1!log4j-api.jar(src)
 [debug] 	[NOT REQUIRED] org.elasticsearch#elasticsearch-x-content;7.0.1!elasticsearch-x-content.jar(src)
-[debug] 	[NOT REQUIRED] org.apache.pdfbox#fontbox;2.0.9!fontbox.jar(src)
 [debug] 	[NOT REQUIRED] org.ghost4j#ghost4j;1.0.1!ghost4j.jar(src)
-[debug] 	[NOT REQUIRED] com.fasterxml.jackson.core#jackson-annotations;2.6.0!jackson-annotations.jar(src)
+[debug] 	[NOT REQUIRED] org.apache.pdfbox#fontbox;2.0.9!fontbox.jar(src)
 [debug] 	[NOT REQUIRED] org.apache.httpcomponents#httpcore;4.4.11!httpcore.jar(src)
+[debug] 	[NOT REQUIRED] com.fasterxml.jackson.core#jackson-annotations;2.6.0!jackson-annotations.jar(src)
 [debug] 	[NOT REQUIRED] net.java.dev.jna#jna;4.1.0!jna.jar(src)
+[debug] 	[NOT REQUIRED] org.apache.opennlp#opennlp-tools;1.9.1!opennlp-tools.jar(src)
 [debug] 	[NOT REQUIRED] com.fasterxml.jackson.core#jackson-databind;2.6.7.2!jackson-databind.jar(src)
 [debug] 	[NOT REQUIRED] org.slf4j#jcl-over-slf4j;1.7.25!jcl-over-slf4j.jar(src)
-[debug] 	[NOT REQUIRED] org.apache.lucene#lucene-suggest;8.0.0!lucene-suggest.jar(src)
-[debug] 	[NOT REQUIRED] org.apache.opennlp#opennlp-tools;1.9.1!opennlp-tools.jar(src)
 [debug] 	[NOT REQUIRED] com.amazonaws#aws-java-sdk-core;1.11.549!aws-java-sdk-core.jar(src)
 [debug] 	[NOT REQUIRED] com.carrotsearch#hppc;0.7.1!hppc.jar(src)
-[debug] 	[NOT REQUIRED] org.apache.pdfbox#pdfbox-debugger;2.0.9!pdfbox-debugger.jar(src)
+[debug] 	[NOT REQUIRED] org.apache.lucene#lucene-suggest;8.0.0!lucene-suggest.jar(src)
 [debug] 	[NOT REQUIRED] joda-time#joda-time;2.10.1!joda-time.jar(src)
 [debug] 	[NOT REQUIRED] io.searchbox#jest-common;0.1.1!jest-common.jar(src)
-[debug] 	[NOT REQUIRED] commons-io#commons-io;2.6!commons-io.jar(src)
+[debug] 	[NOT REQUIRED] org.apache.pdfbox#pdfbox-debugger;2.0.9!pdfbox-debugger.jar(src)
 [debug] 	[NOT REQUIRED] com.google.code.gson#gson;2.2.4!gson.jar(src)
+[debug] 	[NOT REQUIRED] commons-io#commons-io;2.6!commons-io.jar(src)
 [debug] 	[NOT REQUIRED] org.jboss.logging#jboss-logging;3.1.4.GA!jboss-logging.jar(src)
 [debug] 	[NOT REQUIRED] org.elasticsearch#elasticsearch-cli;7.0.1!elasticsearch-cli.jar(src)
 [debug] 	[NOT REQUIRED] org.apache.lucene#lucene-queryparser;8.0.0!lucene-queryparser.jar(src)
-[debug] 	[NOT REQUIRED] com.tdunning#t-digest;3.2!t-digest.jar(src)
 [debug] 	[NOT REQUIRED] org.apache.commons#commons-lang3;3.3.1!commons-lang3.jar(src)
-[debug] 	[NOT REQUIRED] org.apache.lucene#lucene-queries;8.0.0!lucene-queries.jar(src)
+[debug] 	[NOT REQUIRED] com.tdunning#t-digest;3.2!t-digest.jar(src)
 [debug] 	[NOT REQUIRED] org.apache.pdfbox#pdfbox-tools;2.0.9!pdfbox-tools.jar(src)
-[debug] 	[NOT REQUIRED] commons-collections#commons-collections;3.2.1!commons-collections.jar(src)
+[debug] 	[NOT REQUIRED] org.apache.lucene#lucene-queries;8.0.0!lucene-queries.jar(src)
 [debug] 	[NOT REQUIRED] com.github.spullara.mustache.java#compiler;0.9.3!compiler.jar(src)
+[debug] 	[NOT REQUIRED] org.elasticsearch.client#elasticsearch-rest-client;7.0.1!elasticsearch-rest-client.jar(src)
+[debug] 	[NOT REQUIRED] commons-collections#commons-collections;3.2.1!commons-collections.jar(src)
 [debug] 	[NOT REQUIRED] org.yaml#snakeyaml;1.17!snakeyaml.jar(src)
 [debug] 	[NOT REQUIRED] org.elasticsearch#elasticsearch;7.0.1!elasticsearch.jar(src)
-[debug] 	[NOT REQUIRED] org.elasticsearch.client#elasticsearch-rest-client;7.0.1!elasticsearch-rest-client.jar(src)
 [debug] 	[NOT REQUIRED] org.elasticsearch.client#elasticsearch-rest-high-level-client;7.0.1!elasticsearch-rest-high-level-client.jar(src)
 [debug] 	[NOT REQUIRED] com.fasterxml.jackson.dataformat#jackson-dataformat-cbor;2.8.11!jackson-dataformat-cbor.jar(src)
-[debug] 	[NOT REQUIRED] ch.qos.logback#logback-core;1.2.3!logback-core.jar(src)
-[debug] 	[NOT REQUIRED] org.apache.lucene#lucene-join;8.0.0!lucene-join.jar(src)
-[debug] 	[NOT REQUIRED] software.amazon.ion#ion-java;1.0.2!ion-java.jar(src)
 [debug] 	[NOT REQUIRED] com.fasterxml.jackson.dataformat#jackson-dataformat-smile;2.8.11!jackson-dataformat-smile.jar(src)
-[debug] 	[NOT REQUIRED] org.apache.pdfbox#jbig2-imageio;3.0.0!jbig2-imageio.jar(src)
+[debug] 	[NOT REQUIRED] ch.qos.logback#logback-core;1.2.3!logback-core.jar(src)
+[debug] 	[NOT REQUIRED] software.amazon.ion#ion-java;1.0.2!ion-java.jar(src)
+[debug] 	[NOT REQUIRED] org.apache.lucene#lucene-join;8.0.0!lucene-join.jar(src)
 [debug] 	[NOT REQUIRED] net.sourceforge.lept4j#lept4j;1.9.3!lept4j.jar(src)
+[debug] 	[NOT REQUIRED] org.apache.pdfbox#jbig2-imageio;3.0.0!jbig2-imageio.jar(src)
 [debug] 	[NOT REQUIRED] org.apache.lucene#lucene-spatial3d;8.0.0!lucene-spatial3d.jar(src)
 [debug] 	[NOT REQUIRED] com.google.guava#guava;16.0.1!guava.jar(src)
-[debug] 	[NOT REQUIRED] org.scalatest#scalatest_2.12;3.0.5!scalatest_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.elasticsearch.plugin#parent-join-client;7.0.1!parent-join-client.jar(src)
-[debug] 	[NOT REQUIRED] org.hdrhistogram#HdrHistogram;2.1.9!HdrHistogram.jar(src)
+[debug] 	[NOT REQUIRED] org.scalatest#scalatest_2.12;3.0.5!scalatest_2.12.jar(src)
 [debug] 	[NOT REQUIRED] commons-beanutils#commons-beanutils;1.9.2!commons-beanutils.jar(src)
-[debug] 	[NOT REQUIRED] org.scalactic#scalactic_2.12;3.0.5!scalactic_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.12;1.0.6!scala-xml_2.12.jar(src)
+[debug] 	[NOT REQUIRED] org.hdrhistogram#HdrHistogram;2.1.9!HdrHistogram.jar(src)
+[debug] 	[NOT REQUIRED] org.scalactic#scalactic_2.12;3.0.5!scalactic_2.12.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-reflect;2.12.8!scala-reflect.jar(src)
 [debug] 	[NOT REQUIRED] org.scala-lang#scala-compiler;2.12.8!scala-compiler.jar(src)
 [debug] 	[NOT REQUIRED] jline#jline;2.14.6!jline.jar(src)
-[debug] :: resolution report :: resolve 2274ms :: artifacts dl 55ms
+[debug] :: resolution report :: resolve 2559ms :: artifacts dl 52ms
 [debug] 	report for clin-pdf-indexer#clin-pdf-indexer$sources;0.1 compile produced in /home/charlie/IdeaProjects/clin-pdf-search/target/scala-2.12/resolution-cache/reports/clin-pdf-indexer-clin-pdf-indexer$sources-compile.xml
 [debug] 	report for clin-pdf-indexer#clin-pdf-indexer$sources;0.1 runtime produced in /home/charlie/IdeaProjects/clin-pdf-search/target/scala-2.12/resolution-cache/reports/clin-pdf-indexer-clin-pdf-indexer$sources-runtime.xml
 [debug] 	report for clin-pdf-indexer#clin-pdf-indexer$sources;0.1 test produced in /home/charlie/IdeaProjects/clin-pdf-search/target/scala-2.12/resolution-cache/reports/clin-pdf-indexer-clin-pdf-indexer$sources-test.xml
@@ -10999,4 +10999,4 @@
 [debug] 	report for clin-pdf-indexer#clin-pdf-indexer$sources;0.1 plugin produced in /home/charlie/IdeaProjects/clin-pdf-search/target/scala-2.12/resolution-cache/reports/clin-pdf-indexer-clin-pdf-indexer$sources-plugin.xml
 [debug] 	report for clin-pdf-indexer#clin-pdf-indexer$sources;0.1 pom produced in /home/charlie/IdeaProjects/clin-pdf-search/target/scala-2.12/resolution-cache/reports/clin-pdf-indexer-clin-pdf-indexer$sources-pom.xml
 [debug] 	report for clin-pdf-indexer#clin-pdf-indexer$sources;0.1 scala-tool produced in /home/charlie/IdeaProjects/clin-pdf-search/target/scala-2.12/resolution-cache/reports/clin-pdf-indexer-clin-pdf-indexer$sources-scala-tool.xml
-[debug] 	resolve done (2274ms resolve - 55ms download)
+[debug] 	resolve done (2559ms resolve - 52ms download)
