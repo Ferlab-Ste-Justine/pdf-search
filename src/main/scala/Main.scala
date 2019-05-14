@@ -46,15 +46,6 @@ object Main {
                 esIndexer.bulkIndex(List(AdminFile(name, text), AdminWord(name, wordTags), AdminFileWord(name, text, wordTags)))
             }
 
-            future.onComplete {             //when said future completes
-                case Success(u: Unit) =>        //print success message
-                    println("" + name + " has been indexed")
-                case Failure(e: Exception) =>   //otherwise exit if a problem occured
-                    println("A problem occured. Please make sure your ES url is valid and try again.")
-                    e.printStackTrace()
-                    System.exit(1)
-            }
-
             future
         })
 

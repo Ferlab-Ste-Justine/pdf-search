@@ -3,17 +3,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, _}
 import scala.concurrent.duration.Duration
 
-
-
-
 /**
   * Logical separation: all generic pooling functions go here
   */
 object Pool {
-    type ¬[A] = A => Nothing
-    type ∨[T, U] = ¬[¬[T] with ¬[U]]
-    type ¬¬[A] = ¬[¬[A]]
-    type |∨|[T, U] = { type λ[X] = ¬¬[X] <:< (T ∨ U) }
 
     /**
       * Applies f on every element of input "collection", then transforms the list of Futures obtained from f into one
@@ -28,9 +21,9 @@ object Pool {
       * @param f the function to apply (must return a Future)
       * @tparam A type of input
       * @tparam B type of output
-      * @return the output ListBuffer
+      * @return the output List
       */
-    def distribute[A, B](collection: Traversable[A], f: A => Future[B]): ListBuffer[B] = {
+    def distribute[A, B](collection: Traversable[A], f: A => Future[B]): List[B] = {
 
         /*
         Future.sequence requires a List.
@@ -41,12 +34,14 @@ object Pool {
          */
         val listBuffer = new ListBuffer[Future[B]]
 
-        collection.foreach(x => listBuffer.append(f(x)) )
+        collection.foreach( x => listBuffer.append(f(x)) )
 
-        Await.result(Future.sequence(listBuffer), Duration.Inf)
+        Await.result(Future.sequence(listBuffer.toList), Duration.Inf)
     }
 
-    def distributeIt[A, B](collection: Iterable[A], f: Iterable[A] => Future[B], batch: Int = 1): ListBuffer[B] = {
+    /*
+    //TODO FOR NLP...
+    def distributeIt[A, B](collection: Iterable[A], f: Iterable[A] => Future[B], batch: Int = 1): List[B] = {
 
         /*
         Future.sequence requires a List.
@@ -60,7 +55,7 @@ object Pool {
         if(batch == 1) listBuffer.append(f(collection))
         else collection.grouped(batch).toList.foreach( x => listBuffer.append(f(x)) )
 
-        Await.result(Future.sequence(listBuffer), Duration.Inf)
-    }
+        Await.result(Future.sequence(listBuffer.toList), Duration.Inf)
+    }*/
 
 }
