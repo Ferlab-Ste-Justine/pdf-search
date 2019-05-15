@@ -151,6 +151,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
             }
     }
 
+    /*
     //TODO probablement recevoir le future et indiquer son success selon rep ou fail
     private def getListener: ActionListener[BulkResponse] = {
         val listener = new ActionListener[BulkResponse] {
@@ -166,5 +167,5 @@ class ESIndexer(url: String = "http://localhost:9200") {
         }
 
         listener
-    }
+    }*/
 }

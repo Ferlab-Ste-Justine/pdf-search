@@ -107,7 +107,8 @@ object Main {
                 println("Files indexed.\nAdmin indexing done. Exiting now...")
                 System.exit(0)
             case Failure(e: Exception) =>
-                println("Something went wront. Exiting now...")
+                e.printStackTrace()
+                println("Something went wrong. Exiting now...")
                 System.exit(1)
         }
     }
