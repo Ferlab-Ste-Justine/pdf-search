@@ -42,6 +42,7 @@ class NLPParser(language: String = "en") {
         set.toSet
     }
 
+
     def keywordise(text: String): Array[String] = {
         keywordise(getTokenTags(text))
     }
@@ -52,6 +53,45 @@ class NLPParser(language: String = "en") {
                 token.replaceAll("[,\\/#!$%\\^&\\*;|:{}=\\-_`~()\\[\\]<>\"”(\\.$)]", "")
         }
     }
+
+    def keywordLearn(lemmas: Seq[Seq[String]]): Map[String, Double] = {
+        val dfMap = scala.collection.mutable.Map[String, Int]()
+        lemmas.foreach{ lemmaList =>
+            lemmaList.foreach{ lemma =>
+                if(!dfMap.isDefinedAt(lemma)) dfMap += (lemma -> 1)
+                else dfMap += (lemma -> (dfMap(lemma)+1))
+            }
+        }
+
+        dfMap.foldLeft(Map[String, Double]()){ (acc, lemmaDF: (String, Int)) =>
+            acc + (lemmaDF._1 -> Math.log( (lemmas.length + 1).asInstanceOf[Double] / (dfMap(lemmaDF._1).asInstanceOf[Double] + 1) ))
+        }
+    }
+
+    def keywordTake(tfMap: Map[String, Int], idfMap: Map[String, Double], batch: Int = 10): List[String] = {
+        tfMap.map{ lemmaTF =>
+            (lemmaTF._1, lemmaTF._2 * idfMap(lemmaTF._1))
+
+        }.toList.sortWith(_._2 > _._2).take(batch).map( tuple => tuple._1 )
+    }
+
+    def keywordLearnAndTake(texts: List[String]): Seq[List[String]] = {
+        val tfMapList: Seq[Map[String, Int]] = texts.map{ text =>
+            getLemmas(text).foldLeft(Map[String, Int]()){ (acc, lemma: String) =>
+                if(!acc.isDefinedAt(lemma)) acc + (lemma -> 1)
+                else acc + (lemma -> (acc(lemma)+1))
+            }
+        }
+
+        val idfMap = keywordLearn( tfMapList.map(tfMap => tfMap.keys.toList) )
+
+        tfMapList.map( tfMap => keywordTake( tfMap, idfMap) )
+    }
+
+    /*
+    def keywordise(texts: Traversable[String], lemmaTF: Map[String, Int]): List[String] = {
+
+    }*/
 
     /**
       * Extracts the words having interesting NLP tags from the given text
@@ -73,7 +113,7 @@ class NLPParser(language: String = "en") {
          */
         getTokenTags(text).collect {
             case (token, tag) if isKeytag(tag) =>
-                (token.replaceAll("[,\\/#!$%\\^&\\*;|:{}=\\-_`~()\\[\\]<>\"”(\\.$)]", ""), tag)
+                (token.replaceAll("[,\\/#!$%\\^&\\*;|:{}=\\-_`~()\\[\\]<>\"”(\\.$)]", "").toLowerCase, tag)
 
         }.unzip
     }
@@ -122,7 +162,7 @@ class NLPParser(language: String = "en") {
       * @param tag the tag
       * @return whether or not the tag is important
       */
-    private def isKeytag(tag: String): Boolean = tag match {
+    def isKeytag(tag: String): Boolean = tag match {
         //https://medium.com/@gianpaul.r/tokenization-and-parts-of-speech-pos-tagging-in-pythons-nltk-library-2d30f70af13b
         case "NNP" => true  //proper nouns
         case "NNPS" => true

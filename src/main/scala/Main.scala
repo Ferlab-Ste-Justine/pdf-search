@@ -1,5 +1,7 @@
 import java.io.{BufferedWriter, File, FileWriter}
 
+import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, _}
 import scala.util.{Failure, Success}
@@ -21,7 +23,7 @@ object Main {
         esIndexer = new ESIndexer
 
         //adminIndexFilesLocal("./input/")
-        adminIndexFilesLocal("./input/")
+        adminIndexFilesLocalWithKeywords("./input/")
     }
 
     //TODO def adminIndexFiles qui est comme adminIndexFilesLocal mais qui utilise le S3Downloader pour prendre les
@@ -56,6 +58,64 @@ object Main {
                 esIndexer.bulkIndex(list)
             }
         })
+
+        println("Files indexed.\nAdmin indexing done. Exiting now...")
+        System.exit(0)
+    }
+
+    def adminIndexFilesLocalWithKeywords(path: String): Unit = {
+
+        val textTokenTagsLemmas: Seq[(String, Array[(String, String)], Map[String, Int], String)] = Pool.distribute(getFiles(path), (file: File) => {                   //for every file
+            Future[(String, Array[(String, String)], Map[String, Int], String)] {     //start a future to do: OCR -> NLP -> ES
+                val text = ocrParser.parsePDF(file)
+                val wordTags = nlpParser.getTokenTags(text)
+                val lemmaMap = nlpParser.getLemmas(text).foldLeft(Map[String, Int]()){ (acc, lemma: String) =>
+                    if(!acc.isDefinedAt(lemma)) acc + (lemma -> 1)
+                    else acc + (lemma -> (acc(lemma)+1))
+                }
+
+                (text, wordTags, lemmaMap, getFileName(file))
+            }
+        })
+
+        val tfMapList: Seq[Map[String, Int]] = textTokenTagsLemmas.map(temp => temp._3 )
+
+        val dfMap = scala.collection.mutable.Map[String, Int]()
+        tfMapList.foreach{ tfMap: Map[String, Int] =>
+            tfMap.keys.foreach{ lemma =>
+                if(!dfMap.isDefinedAt(lemma)) dfMap += (lemma -> 1)
+                else dfMap += (lemma -> (dfMap(lemma)+1))
+            }
+        }
+
+        val idfMap: mutable.Map[String, Double] = dfMap.map( (lemmaDF: (String, Int)) =>
+            (lemmaDF._1, Math.log( (tfMapList.length + 1).asInstanceOf[Double] / (dfMap(lemmaDF._1).asInstanceOf[Double] + 1) )) )
+
+        val tfidfMapList = tfMapList.map{ tfMap =>
+            tfMap.map{ lemmaTF =>
+                (lemmaTF._1, lemmaTF._2 * idfMap(lemmaTF._1))
+            }
+        }
+
+        val lemmaList = tfidfMapList.map( tfidfMap =>
+            tfidfMap.toList.sortWith(_._2 > _._2).take(10).map( tuple => tuple._1 )  //ten best lemmas for every doc
+        )
+
+        for(i <- textTokenTagsLemmas.indices) {
+            val name = textTokenTagsLemmas(i)._4
+            val text = textTokenTagsLemmas(i)._1
+            val wordTags = textTokenTagsLemmas(i)._2
+            val lemmas = lemmaList(i).toArray
+
+            val list = List(
+                AdminFile(name, text),
+                AdminWord(name, wordTags),
+                AdminFileWordKeyword(name, text, wordTags, lemmas),
+                AdminKeyword(name, lemmas)
+            )
+
+            esIndexer.bulkIndex(list)
+        }
 
         println("Files indexed.\nAdmin indexing done. Exiting now...")
         System.exit(0)
