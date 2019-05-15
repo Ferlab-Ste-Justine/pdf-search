@@ -2,11 +2,26 @@ import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, _}
 import scala.concurrent.duration.Duration
+import scala.util.{Failure, Success}
 
 /**
   * Logical separation: all generic pooling functions go here
   */
 object Pool {
+
+
+    private def completeFuture[A, B](item: A, f: A => Future[B]): Future[B] = {
+        val future: Future[B] = f(item)
+
+        future.onComplete{
+            case Success(_)  =>        //print success message
+            case Failure(_) =>   //otherwise exit if a problem occured
+                println("A problem occured. Please make sure your ES url is valid and try again.")
+                System.exit(1)
+        }
+
+        future
+    }
 
     /**
       * Applies f on every element of input "collection", then transforms the list of Futures obtained from f into one
@@ -34,7 +49,7 @@ object Pool {
          */
         val listBuffer = new ListBuffer[Future[B]]
 
-        collection.foreach( x => listBuffer.append(f(x)) )
+        collection.foreach( x => listBuffer.append( completeFuture(x, f) ) )
 
         Await.result(Future.sequence(listBuffer.toList), Duration.Inf)
     }

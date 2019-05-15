@@ -1,5 +1,6 @@
 import org.apache.http.HttpHost
-import org.elasticsearch.action.bulk.BulkRequest
+import org.elasticsearch.action.ActionListener
+import org.elasticsearch.action.bulk.{BulkRequest, BulkResponse}
 import org.elasticsearch.action.index.IndexRequest
 import org.elasticsearch.client.{RequestOptions, RestClient, RestHighLevelClient}
 import org.elasticsearch.common.Strings
@@ -17,15 +18,15 @@ case class AdminFile(title: String, text: String) extends IndexInfoRequest {
     override val index = "adminfile"
 }
 //title-word-tag
-case class AdminWord(title: String, wordTags: Array[(String, String)]) extends IndexInfoRequest {
+case class AdminWord(title: String, wordTags: Seq[(String, String)]) extends IndexInfoRequest {
     override val index: String = "adminword"
 }
 //title-text-words[word-tag]
-case class AdminFileWordKeyword(title: String, text: String, wordTag: Array[(String, String)], keywords: Array[String]) extends IndexInfoRequest {
+case class AdminFileWordKeyword(title: String, text: String, wordTag: Seq[(String, String)], keywords: Seq[String]) extends IndexInfoRequest {
     override val index: String = "adminfilewordkeyword"
 }
 
-case class AdminKeyword(title: String, keywords: Array[String]) extends IndexInfoRequest {
+case class AdminKeyword(title: String, keywords: Seq[String]) extends IndexInfoRequest {
     override val index: String = "adminkeyword"
 }
 
@@ -72,6 +73,8 @@ class ESIndexer(url: String = "http://localhost:9200") {
          */
         esClient.bulk(request, RequestOptions.DEFAULT)
 
+        throw new Exception("test")
+
         //esClient.bulkAsync(request, RequestOptions.DEFAULT, getListener)
     }
 
@@ -84,7 +87,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
       * @param req the IndexInfoRequest
       * @return the Array of JSONs that matches the request
       */
-    private def makeJson(req: IndexInfoRequest): Array[String] = req match {
+    private def makeJson(req: IndexInfoRequest): Seq[String] = req match {
         case req: AdminFile =>
             val json = jsonBuilder
 
@@ -148,12 +151,12 @@ class ESIndexer(url: String = "http://localhost:9200") {
             }
     }
 
-    /* Maybe useful if we use bulkAsync in the future
     //TODO probablement recevoir le future et indiquer son success selon rep ou fail
     private def getListener: ActionListener[BulkResponse] = {
         val listener = new ActionListener[BulkResponse] {
             override def onResponse(response: BulkResponse): Unit = {
                 println("AGAAAAAAAAAAAAAAAAAAAAAAAAA")
+                throw new Exception
             }
 
             override def onFailure(e: Exception): Unit = {
@@ -163,5 +166,5 @@ class ESIndexer(url: String = "http://localhost:9200") {
         }
 
         listener
-    }*/
+    }
 }
