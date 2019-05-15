@@ -1,5 +1,7 @@
 import java.io.{BufferedWriter, File, FileWriter}
 
+import org.elasticsearch.monitor.jvm.JvmStats.GarbageCollector
+
 import scala.collection.mutable
 import scala.collection.mutable.{ArrayOps, ListBuffer}
 import scala.concurrent

@@ -73,7 +73,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
          */
         esClient.bulk(request, RequestOptions.DEFAULT)
 
-        throw new Exception("test")
+        //throw new Exception("test")
 
         //esClient.bulkAsync(request, RequestOptions.DEFAULT, getListener)
     }
