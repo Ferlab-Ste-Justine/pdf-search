@@ -22,7 +22,7 @@ case class AdminWord(title: String, wordTags: Seq[(String, String)]) extends Ind
     override val index: String = "adminword"
 }
 //title-text-words[word-tag]
-case class AdminFileWordKeyword(title: String, text: String, wordTag: Seq[(String, String)], keywords: Seq[String]) extends IndexInfoRequest {
+case class AdminFileWord(title: String, text: String, wordTag: Seq[(String, String)]) extends IndexInfoRequest {
     override val index: String = "adminfilewordkeyword"
 }
 
@@ -87,7 +87,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
       * @param req the IndexInfoRequest
       * @return the Array of JSONs that matches the request
       */
-    private def makeJson(req: IndexInfoRequest): Seq[String] = req match {
+    def makeJson(req: IndexInfoRequest): Seq[String] = req match {
         case req: AdminFile =>
             val json = jsonBuilder
 
@@ -111,7 +111,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
                 Strings.toString(json)
             }
 
-        case req: AdminFileWordKeyword =>
+        case req: AdminFileWord =>
             val json = jsonBuilder
 
             json.startObject()
@@ -122,14 +122,6 @@ class ESIndexer(url: String = "http://localhost:9200") {
 
                 req.wordTag.foreach{ wordTag =>
                     json.startObject().field("word", wordTag._1).field("tag", wordTag._2).endObject()
-                }
-
-                json.endArray()
-
-                json.startArray("keywords")
-
-                req.keywords.foreach{ word =>
-                    json.startObject().field("keyword", word).endObject()
                 }
 
                 json.endArray()

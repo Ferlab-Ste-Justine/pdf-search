@@ -20,3 +20,6 @@ libraryDependencies += "org.elasticsearch.client" % "elasticsearch-rest-high-lev
 
 // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3
 libraryDependencies += "com.amazonaws" % "aws-java-sdk-s3" % "1.11.549"
+
+//https://www.playframework.com/documentation/2.7.x/ScalaJson
+libraryDependencies += "com.typesafe.play" %% "play-json" % "2.7.0"

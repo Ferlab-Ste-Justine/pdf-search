@@ -1,4 +1,4 @@
-import java.io.{BufferedWriter, File, FileWriter}
+import java.io.{BufferedWriter, File, FileWriter, InputStream}
 
 import org.elasticsearch.monitor.jvm.JvmStats.GarbageCollector
 
@@ -20,15 +20,19 @@ object Main {
     var ocrParser: OCRParser = _
     var nlpParser: NLPParser = _
     var esIndexer: ESIndexer = _
+    var s3Downloader: S3Downloader = _
 
     def main(args: Array[String]) {
         //TODO the instantiations will use command line args once we have more details on the project
         ocrParser = new OCRParser
         nlpParser = new NLPParser
         esIndexer = new ESIndexer
+        s3Downloader = new S3Downloader("TEMP")
+
+        URLIterator.applyOnAllFrom("https://kf-api-dataservice.kidsfirstdrc.org", "/genomic-files", "file_format=pdf&limit=100")(println)
 
         //adminIndexFilesLocal("./input/")
-        adminIndexFilesLocalWithKeywordsTemp("./input/")
+        //adminIndexFilesLocalWithKeywordsTemp("./input/")
     }
 
     //TODO def adminIndexFiles qui est comme adminIndexFilesLocal mais qui utilise le S3Downloader pour prendre les
@@ -39,6 +43,30 @@ object Main {
     //TODO puisque le code est le meme dans le fond...
 
     //TODO 3
+
+    def adminIndexFilesRemote(start: String, mid: String, end: String): Unit = {
+        val futures: List[Future[Unit]] = URLIterator.applyOnAllFrom(start, mid, end)( (url: String) => {
+            Future[Unit] {     //start a future to do: S3 -> OCR -> NLP -> ES
+                val name = url
+                val pdfStream: InputStream = s3Downloader.download(url)
+                val text = ocrParser.parsePDF(pdfStream)
+                val wordTags = nlpParser.getTokenTags(text)
+
+                val list = List(
+                    AdminFile(name, text),
+                    AdminWord(name, wordTags),
+                    AdminFileWord(name, text, wordTags),
+                )
+
+                esIndexer.bulkIndex(list)
+            }
+        })
+
+        Await.result(Future.sequence(futures), Duration.Inf)
+
+        println("Files indexed.\nAdmin indexing done. Exiting now...")
+        System.exit(0)
+    }
 
     /**
       * Indexes files from a local directory into ES
@@ -57,7 +85,7 @@ object Main {
                 val list = List(
                     AdminFile(name, text),
                     AdminWord(name, wordTags),
-                    AdminFileWordKeyword(name, text, wordTags, keywords),
+                    //AdminFileWordKeyword(name, text, wordTags, keywords),
                     AdminKeyword(name, keywords))
 
                 esIndexer.bulkIndex(list)
@@ -96,7 +124,7 @@ object Main {
                     val list = List(
                         AdminFile(name, text),
                         AdminWord(name, wordTags),
-                        AdminFileWordKeyword(name, text, wordTags, lemmas),
+                        //AdminFileWordKeyword(name, text, wordTags, lemmas),
                         AdminKeyword(name, lemmas)
                     )
 
@@ -148,7 +176,7 @@ object Main {
                 val list = List(
                     AdminFile(name, text),
                     AdminWord(name, wordTags),
-                    AdminFileWordKeyword(name, text, wordTags, lemmas),
+                    //AdminFileWordKeyword(name, text, wordTags, lemmas),
                     AdminKeyword(name, lemmas)
                 )
 

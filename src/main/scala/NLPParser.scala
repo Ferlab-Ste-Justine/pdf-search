@@ -118,6 +118,25 @@ class NLPParser(language: String = "en") {
         }.unzip
     }
 
+    def getNouns(text: String): Array[String] = {
+
+        /*
+        We now have two Arrays: one has the text's tokens, the other the token's tags.
+
+        We then filter the tokens by their tag, keeping only the key (most important) words
+
+        OpenNLP has weird behaviour with some punctuation, so we're just removing it all from the results
+
+        https://stackoverflow.com/questions/18814522/scala-filter-on-a-list-by-index
+        https://stackoverflow.com/questions/4328500/how-can-i-strip-all-punctuation-from-a-string-in-javascript-using-regex
+         */
+        getTokenTags(text).collect {
+            case (token, tag) if isKeytag(tag) =>
+                token.replaceAll("[,\\/#!$%\\^&\\*;|:{}=\\-_`~()\\[\\]<>\"”(\\.$)]", "")
+
+        }
+    }
+
     /**
       * Gets the lemmas of the text (useful for keywordisation).
       *
