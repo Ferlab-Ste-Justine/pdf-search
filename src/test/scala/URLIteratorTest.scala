@@ -101,7 +101,7 @@ class URLIteratorTest extends FlatSpec with Matchers {
             """.stripMargin))) { start =>
 
             //println(start)
-            val result: List[String] = URLIterator.applyOnAllFrom(start, "/studies", "", field = "name")(identity)
+            val result: List[String] = URLIterator.applyOnAllFrom(start, "/studies", field = "name")(identity)
             result shouldBe List("Study 1", "Study 2")
         }
     }
@@ -154,7 +154,7 @@ class URLIteratorTest extends FlatSpec with Matchers {
             "/studies2" -> handlerPage2
         )) { start =>
 
-            val result: List[String] = URLIterator.applyOnAllFrom(start, "/studies", "", field = "name")(identity)
+            val result: List[String] = URLIterator.applyOnAllFrom(start, "/studies", field = "name")(identity)
             result shouldBe List("Study 1", "Study 2")
         }
     }

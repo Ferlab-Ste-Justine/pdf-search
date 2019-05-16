@@ -1,20 +1,16 @@
 import java.io.{BufferedWriter, File, FileWriter, InputStream}
 
-import org.elasticsearch.monitor.jvm.JvmStats.GarbageCollector
-
-import scala.collection.mutable
-import scala.collection.mutable.{ArrayOps, ListBuffer}
-import scala.concurrent
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
-import scala.concurrent.{CanAwait, Future, _}
-import scala.concurrent.duration._
+import scala.concurrent.{Future, _}
 import scala.util.{Failure, Success}
 
 
 //https://github.com/overview/pdfocr
 
 //https://stackoverflow.com/questions/4827924/is-tesseractan-ocr-engine-reentrant thread safe: FUTURES!
+
+//TODO conf https://github.com/lightbend/config
 
 object Main {
     var ocrParser: OCRParser = _
@@ -29,7 +25,7 @@ object Main {
         esIndexer = new ESIndexer
         s3Downloader = new S3Downloader("TEMP")
 
-        URLIterator.applyOnAllFrom("https://kf-api-dataservice.kidsfirstdrc.org", "/genomic-files", "file_format=pdf&limit=100")(println)
+        //URLIterator.applyOnAllFrom("https://kf-api-dataservice.kidsfirstdrc.org", "/genomic-files", "file_format=pdf&limit=100")(println)
 
         //adminIndexFilesLocal("./input/")
         //adminIndexFilesLocalWithKeywordsTemp("./input/")
@@ -45,7 +41,7 @@ object Main {
     //TODO 3
 
     def adminIndexFilesRemote(start: String, mid: String, end: String): Unit = {
-        val futures: List[Future[Unit]] = URLIterator.applyOnAllFrom(start, mid, end)( (url: String) => {
+        val futures: List[Future[Unit]] = URLIterator.applyOnAllFrom(start, mid, end){ url: String =>
             Future[Unit] {     //start a future to do: S3 -> OCR -> NLP -> ES
                 val name = url
                 val pdfStream: InputStream = s3Downloader.download(url)
@@ -60,7 +56,7 @@ object Main {
 
                 esIndexer.bulkIndex(list)
             }
-        })
+        }
 
         Await.result(Future.sequence(futures), Duration.Inf)
 
