@@ -1,10 +1,8 @@
-import java.io.{BufferedReader, File, FileInputStream, FileReader, InputStream}
+import java.io.{File, FileInputStream}
 
 import opennlp.tools.lemmatizer.DictionaryLemmatizer
-import opennlp.tools.postag.{POSModel, POSSample, POSTaggerME}
-import opennlp.tools.tokenize.{TokenizerME, TokenizerModel, WhitespaceTokenizer}
-
-import scala.collection.mutable
+import opennlp.tools.postag.{POSModel, POSTaggerME}
+import opennlp.tools.tokenize.{TokenizerME, TokenizerModel}
 
 class NLPParser(language: String = "en") {
 

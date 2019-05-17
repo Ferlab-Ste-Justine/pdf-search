@@ -1,11 +1,9 @@
-import java.io.{BufferedWriter, File, FileWriter, InputStream}
-import java.net.URL
+import java.io.{File, InputStream}
 
 import scala.annotation.tailrec
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Future, _}
-import scala.util.{Failure, Success}
 
 
 //https://github.com/overview/pdfocr
@@ -111,7 +109,7 @@ object Main {
       * @param path the path to the folder containing the files
       */
     def adminIndexFilesLocal(path: String): Unit = {
-        Pool.distribute(getFiles(path), (file: File) => {                   //for every file
+        val futures = Future.traverse(getFiles(path).toList) { file: File =>
             val name = getFileName(file)
 
             Future[Unit] {     //start a future to do: OCR -> NLP -> ES
@@ -128,7 +126,9 @@ object Main {
 
                 esIndexer.bulkIndex(list)
             }
-        })
+        }
+
+        Await.result(futures, Duration.Inf)
 
         println("Files indexed.\nAdmin indexing done. Exiting now...")
         System.exit(0)

@@ -1,6 +1,5 @@
 import org.apache.http.HttpHost
-import org.elasticsearch.action.ActionListener
-import org.elasticsearch.action.bulk.{BulkRequest, BulkResponse}
+import org.elasticsearch.action.bulk.BulkRequest
 import org.elasticsearch.action.index.IndexRequest
 import org.elasticsearch.client.{RequestOptions, RestClient, RestHighLevelClient}
 import org.elasticsearch.common.Strings
