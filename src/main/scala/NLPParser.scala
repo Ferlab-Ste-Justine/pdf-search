@@ -19,12 +19,12 @@ class NLPParser(language: String = "en") {
 
     The rest has to be instanciated on a thread-by thread basis
      */
-    val posModel = new POSModel(new FileInputStream("./nlp/"+language+"-pos-maxent.bin"))
-    val tokenModel = new TokenizerModel(new FileInputStream("./nlp/"+language+"-token.bin"))
+    val posModel = new POSModel(new FileInputStream("./nlp/" +language+"-pos-maxent.bin"))
+    val tokenModel = new TokenizerModel(new FileInputStream("./nlp/" +language+"-token.bin"))
     //https://raw.githubusercontent.com/richardwilly98/elasticsearch-opennlp-auto-tagging/master/src/main/resources/models/en-lemmatizer.dict
-    val dictFile: File = new File("./nlp/"+language+"-lemmatizer.dict")
+    val dictFile: File = new File("nlp/" +language+"-lemmatizer.dict")
 
-    val blacklist: Set[String] = readBlackList
+    /*val blacklist: Set[String] = readBlackList
 
     def readBlackList: Set[String] = {
 
@@ -86,11 +86,6 @@ class NLPParser(language: String = "en") {
         val idfMap = keywordLearn( tfMapList.map(tfMap => tfMap.keys.toList) )
 
         tfMapList.map( tfMap => keywordTake( tfMap, idfMap) )
-    }
-
-    /*
-    def keywordise(texts: Traversable[String], lemmaTF: Map[String, Int]): List[String] = {
-
     }*/
 
     /**

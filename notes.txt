@@ -1,0 +1,2 @@
+sudo docker build .
+sudo docker run -it --entrypoint sh <image-name>

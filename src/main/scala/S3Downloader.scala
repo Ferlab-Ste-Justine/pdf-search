@@ -1,22 +1,27 @@
 import java.io.InputStream
 
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
+import com.amazonaws.services.s3.model.{GetObjectRequest, S3Object, S3ObjectInputStream}
 import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
 
 
-class S3Downloader(bucketName: String) {
+class S3Downloader(bucketName: String, region: String = "us-east-1") {
     //https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/services/s3/transfer/TransferManager.html#downloadDirectory-java.lang.String-java.lang.String-java.io.File-
     //https://stackoverflow.com/questions/49116960/download-all-the-files-from-a-s3-bucket-using-scala
     //https://docs.aws.amazon.com/AmazonS3/latest/dev/RetrievingObjectUsingJava.html
 
-
-    /*
     val s3Client: AmazonS3 = AmazonS3ClientBuilder.standard()
-        //.withRegion(Region.getRegion())
+        .withRegion(region)
         .withCredentials(new ProfileCredentialsProvider())
-        .build()*/
+        .build()
 
-    def download(url: String): InputStream = ???
+    def download(key: String): InputStream = {
+        val obj: S3Object = s3Client.getObject(new GetObjectRequest(bucketName, key))
+
+        println("S3Object content type: " + obj.getObjectMetadata.getContentType)
+
+        obj.getObjectContent
+    }
 
     /*
     def getAllFiles: Array[PDFCases] = {
