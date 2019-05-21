@@ -1,4 +1,5 @@
-import java.io.{File, FileInputStream, InputStream}
+import java.awt.image.BufferedImage
+import java.io.{ByteArrayInputStream, File, FileInputStream, InputStream}
 
 import net.sourceforge.tess4j.Tesseract
 import org.apache.pdfbox.pdmodel.PDDocument
@@ -33,8 +34,25 @@ class OCRParser(languages: String = "eng+fra+spa") {
       * @param pdf The pdf (as a stream)
       * @return The string (text) of the pdf
       */
+    @throws[java.io.IOException]
     def parsePDF(pdf: InputStream): String = {
-        val document = PDDocument.load(pdf)
+
+        val document =
+            try {
+                PDDocument.load(pdf)
+
+            } catch {
+                case _: Exception =>
+                    //https://stackoverflow.com/questions/34805134/pdfbox-1-8-10-error-in-generating-pddocument-from-load-method
+
+                    /*
+                    We're going to /maybe/ fix the file by prepending as PDF marker to it. If it doesn't work, the file
+                    is beyond repair
+                     */
+                    val fixed: Array[Byte] = Array[Byte](25, 50, 44, 46) ++ pdf.readAllBytes()
+
+                    PDDocument.load(new ByteArrayInputStream(fixed))
+            }
 
         /*
         Try-catch-finally in scala returns whichever value of try catch works
@@ -42,28 +60,10 @@ class OCRParser(languages: String = "eng+fra+spa") {
         https://stackoverflow.com/questions/18685573/try-catch-finally-return-value/18685727
          */
 
-        try {
-            directExtract(document)
-        } catch {
-            case _: Exception => ocrExtract(document)
-        } finally {
-            document.close()    //need to close the document before exiting this function
-        }
-    }
+        val directText = new PDFTextStripper().getText(document)
+        val text = if(directText.length < 300) ocrExtract(document) else directText
 
-    /**
-      * Tries to extract text from a PDDocument using the "overline"/"ctrl+c" method. If we get less than 300 chars, we
-      * consider the call to have failed and throw an Exception
-      *
-      * @param document the document to extract from
-      * @throws Exception to indicate failure
-      * @return the text of the document should we succeed
-      */
-    @throws[Exception]
-    def directExtract(document: PDDocument): String = {
-        val text = new PDFTextStripper().getText(document)
-
-        if(text.length < 300) throw new Exception("OCR needed")
+        document.close()    //need to close the document before exiting this function
 
         text
     }
@@ -105,12 +105,6 @@ class OCRParser(languages: String = "eng+fra+spa") {
         data structures...
          */
 
-        /* Fonctionnal style is O(2n)
-        val asText = List.range(0, document.getNumberOfPages).foldLeft("") {
-            (acc, page) => acc + parsePage(document, renderer, page)
-        }*/
-
-        //imperative style is O(n)
         var asText = ""
         for(i <- 0 until document.getNumberOfPages) asText += parsePage(tesseract, document, renderer, i)
 
@@ -129,6 +123,17 @@ class OCRParser(languages: String = "eng+fra+spa") {
       */
     private def parsePage(tesseract: Tesseract, document: PDDocument, renderer: PDFRenderer, index: Int): String = {
         println("\tReading page "+index)
-        tesseract.doOCR(renderer.renderImageWithDPI(index, 750, ImageType.GRAY))
+
+        /*
+        TesseractOCR throws errors/warnings when lines are smaller than magic number 3. So, we're scaling every document
+        to 3 times its size. (This is my solution; there might be a better one but I haven't found one)
+
+        https://stackoverflow.com/questions/52423848/tesseract-in-r-does-not-recognize-smaller-fonts-in-the-same-document
+        https://groups.google.com/forum/#!msg/tesseract-ocr/VEaEftAfD3Y/thx2F51cCQAJ
+
+        Also, we only need a grayscale image to do OCR, so we're saving on memory with ImageType.GRAY
+         */
+
+        tesseract.doOCR(renderer.renderImage(index, 3, ImageType.GRAY))
     }
 }

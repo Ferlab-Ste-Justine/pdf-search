@@ -1,25 +1,32 @@
 import org.apache.http.HttpHost
 import org.elasticsearch.action.bulk.BulkRequest
 import org.elasticsearch.action.index.IndexRequest
+import org.elasticsearch.client.indices.CreateIndexRequest
 import org.elasticsearch.client.{RequestOptions, RestClient, RestHighLevelClient}
 import org.elasticsearch.common.Strings
+import org.elasticsearch.common.settings.Settings
 import org.elasticsearch.common.xcontent.XContentFactory._
 import org.elasticsearch.common.xcontent.XContentType
 
-sealed trait IndexInfoRequest { //represents an IndexRequest into index of name getClass
+sealed trait IndexingRequest { //represents an IndexRequest into index of name getClass
     override def toString: String = this.getClass.getName
     def index: String
+    def title: String
+}
+
+sealed abstract class AdminIndexRequest extends IndexingRequest { //represents an IndexRequest into index of name getClass
+
 }
 
 //TODO refactor trait into abstract class to use inIndex as super? (two sets of ())
 //title-text
-case class AdminFile(title: String, text: String, index: String = "adminfile") extends IndexInfoRequest
+case class AdminFile(title: String, text: String, index: String = "adminfile") extends AdminIndexRequest
 //title-word-tag
-case class AdminWord(title: String, wordTags: Seq[(String, String)], index: String = "adminword") extends IndexInfoRequest
+case class AdminWord(title: String, wordTags: Seq[(String, String)], index: String = "adminword") extends AdminIndexRequest
 //title-text-words[word-tag]
-case class AdminFileWordLemmas(title: String, text: String, wordTag: Seq[(String, String)], lemmas: Seq[String], index: String = "adminfilewordlemma") extends IndexInfoRequest
+case class AdminFileWordLemmas(title: String, text: String, wordTag: Seq[(String, String)], lemmas: Seq[String], index: String = "adminfilewordlemma") extends AdminIndexRequest
 
-case class AdminLemmas(title: String, lemmas: Seq[String], index: String = "adminlemma") extends IndexInfoRequest
+case class AdminLemmas(title: String, lemmas: Seq[String], index: String = "adminlemma") extends AdminIndexRequest
 
 class ESIndexer(url: String = "http://localhost:9200") {
     //https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/java-docs-index.html
@@ -29,6 +36,37 @@ class ESIndexer(url: String = "http://localhost:9200") {
 
     val esClient = new RestHighLevelClient(RestClient.builder(HttpHost.create(url)))
 
+    //initIndexes
+
+    //https://www.elastic.co/guide/en/elasticsearch/client/java-rest/master/java-rest-high-create-index.html
+    //https://discuss.elastic.co/t/elasticsearch-total-term-frequency-and-doc-count-from-given-set-of-documents/115223
+    //https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-termvectors.html
+    def initIndexes: Unit = {
+        val temp = new CreateIndexRequest("adminfile")
+
+        val json = jsonBuilder
+
+        json.startObject()
+        json.startObject("properties")
+            json.startObject("text")
+                json.field("type", "text")
+                json.field("analyzer", "english")
+            json.endObject()
+        json.endObject()
+        json.endObject()
+
+        temp.mapping(Strings.toString(json), XContentType.JSON)
+
+        /*
+        Try to create the index. If it already exists, don't do anything
+         */
+        try {
+            esClient.indices().create(temp, RequestOptions.DEFAULT)
+        } catch {
+            case _: Exception =>
+        }
+    }
+
     /**
       * Makes an ES IndexRequest that puts json into index
       *
@@ -36,8 +74,9 @@ class ESIndexer(url: String = "http://localhost:9200") {
       * @param json the input for index
       * @return the IndexRequest
       */
-    private def makeIndexRequest(index: String, json: String): IndexRequest = {
-        val request = new IndexRequest(index)
+    private def makeIndexRequest(req: IndexingRequest, json: String): IndexRequest = {
+        val request = new IndexRequest(req.index)
+        request.id(req.title.replaceAll(" ", ""))
         request.source(json, XContentType.JSON)
     }
 
@@ -46,12 +85,12 @@ class ESIndexer(url: String = "http://localhost:9200") {
       *
       * @param requests the IndexInfoRequests
       */
-    def bulkIndex(requests: List[IndexInfoRequest]): Unit = {
+    def bulkIndex(requests: List[AdminIndexRequest]): Unit = {
 
         val request = new BulkRequest()                             //creates a bulkRequest
         requests.foreach{ req =>                                    //for every IndexInfoRequest
             makeJson(req).foreach{ json =>                          //for every json from said request
-                request.add(makeIndexRequest(req.index, json))   //add the the IndexRequest to the bulk request
+                request.add(makeIndexRequest(req, json))   //add the the IndexRequest to the bulk request
             }
         }
 
@@ -73,7 +112,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
       * @param req the IndexInfoRequest
       * @return the Array of JSONs that matches the request
       */
-    def makeJson(req: IndexInfoRequest): Seq[String] = req match {
+    def makeJson(req: AdminIndexRequest): Seq[String] = req match {
         case req: AdminFile =>
             val json = jsonBuilder
 
