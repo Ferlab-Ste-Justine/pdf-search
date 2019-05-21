@@ -14,9 +14,7 @@ sealed trait IndexingRequest { //represents an IndexRequest into index of name g
     def title: String
 }
 
-sealed abstract class AdminIndexRequest extends IndexingRequest { //represents an IndexRequest into index of name getClass
-
-}
+sealed abstract class AdminIndexRequest extends IndexingRequest
 
 //TODO refactor trait into abstract class to use inIndex as super? (two sets of ())
 //title-text
@@ -24,9 +22,7 @@ case class AdminFile(title: String, text: String, index: String = "adminfile") e
 //title-word-tag
 case class AdminWord(title: String, wordTags: Seq[(String, String)], index: String = "adminword") extends AdminIndexRequest
 //title-text-words[word-tag]
-case class AdminFileWordLemmas(title: String, text: String, wordTag: Seq[(String, String)], lemmas: Seq[String], index: String = "adminfilewordlemma") extends AdminIndexRequest
-
-case class AdminLemmas(title: String, lemmas: Seq[String], index: String = "adminlemma") extends AdminIndexRequest
+case class AdminFileWord(title: String, text: String, wordTag: Seq[(String, String)], index: String = "adminfileword") extends AdminIndexRequest
 
 class ESIndexer(url: String = "http://localhost:9200") {
     //https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/java-docs-index.html
@@ -41,9 +37,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
     //https://www.elastic.co/guide/en/elasticsearch/client/java-rest/master/java-rest-high-create-index.html
     //https://discuss.elastic.co/t/elasticsearch-total-term-frequency-and-doc-count-from-given-set-of-documents/115223
     //https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-termvectors.html
-    def initIndexes: Unit = {
-        val temp = new CreateIndexRequest("adminfile")
-
+    def initAdminIndexes: Unit = {
         val json = jsonBuilder
 
         json.startObject()
@@ -55,13 +49,18 @@ class ESIndexer(url: String = "http://localhost:9200") {
         json.endObject()
         json.endObject()
 
+        val temp = new CreateIndexRequest("adminfile")
         temp.mapping(Strings.toString(json), XContentType.JSON)
+
+        val temp2 = new CreateIndexRequest("adminfileword")
+        temp2.mapping(Strings.toString(json), XContentType.JSON)
 
         /*
         Try to create the index. If it already exists, don't do anything
          */
         try {
             esClient.indices().create(temp, RequestOptions.DEFAULT)
+            esClient.indices().create(temp2, RequestOptions.DEFAULT)
         } catch {
             case _: Exception =>
         }
@@ -136,7 +135,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
                 Strings.toString(json)
             }
 
-        case req: AdminFileWordLemmas =>
+        case req: AdminFileWord =>
             val json = jsonBuilder
 
             json.startObject()
@@ -151,28 +150,8 @@ class ESIndexer(url: String = "http://localhost:9200") {
 
                 json.endArray()
 
-                json.startArray("lemmas")
-
-                req.lemmas.foreach{ lemma =>
-                    json.startObject().field("lemma", lemma).endObject()
-                }
-
-                json.endArray()
-
             json.endObject()
 
             Array(Strings.toString(json))
-
-        case req: AdminLemmas =>
-            req.lemmas.map{ lemma =>
-                val json = jsonBuilder
-
-                json.startObject()
-                json.field("title", req.title)
-                json.field("lemma", lemma)
-                json.endObject()
-
-                Strings.toString(json)
-            }
     }
 }

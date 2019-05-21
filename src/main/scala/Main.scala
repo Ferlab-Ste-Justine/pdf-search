@@ -90,8 +90,7 @@ object Main {
             val list = List(
                 AdminFile(name, text),
                 AdminWord(name, wordTags),
-                AdminFileWordLemmas(name, text, wordTags, lemmas),
-                AdminLemmas(name, lemmas)
+                AdminFileWord(name, text, wordTags)
             )
 
             esIndexer.bulkIndex(list)
@@ -104,7 +103,7 @@ object Main {
 
     def printReport(list: List[String]): Unit = {
         def printtab(str: String): Unit = println("\t"+str)
-        
+
         @tailrec
         def printIter(main: List[String], failures: List[String]): Unit = main match {
             case x :: tail =>
@@ -123,6 +122,8 @@ object Main {
     }
 
     def adminIndexFilesRemote(start: String, mid: String, end: String): Unit = {
+        esIndexer.initAdminIndexes
+
         val futures: List[Future[String]] = URLIterator.applyOnAllFrom(start, mid, end){ url: String =>
             Future[String] {     //start a future to do: S3 -> OCR -> NLP -> ES
                 adminIndex(s3Downloader.download(url), url)
@@ -141,6 +142,8 @@ object Main {
       * @param path the path to the folder containing the files
       */
     def adminIndexFilesLocal(path: String): Unit = {
+        esIndexer.initAdminIndexes
+
         val futures: Future[List[String]] = Future.traverse(getFiles(path).toList) { file: File =>
             Future[String] {     //start a future to do: OCR -> NLP -> ES
                 println(getFileName(file))
