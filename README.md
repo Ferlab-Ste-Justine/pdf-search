@@ -10,35 +10,73 @@ HOW-TO:
 
 Kibana commands backup
 
-GET _search
-{
-  "query": {
-    "match_all": {}
-  }
-}
-
 GET /_cat/indices?v
 
-GET /adminword/_search?q=*
+GET /adminword/_search/?size=1000&pretty=1
 
 GET /adminfile/_search?q=*
 
-GET /adminfileword/_search?q=*
+GET /adminfile/_mapping
 
-GET /admin_pdf/_search
+GET /adminfileword/_mapping
+
+GET /adminfile/_search/?size=1000&pretty=1
 {
-    "_source": false,
-    "query" : {
-        "nested" : {
-          "path": "words",
-          "query": {
-            "term" : { "tag" : "NN" }}
-        }
+  "query": {
+    "match": {
+      "text": "motARechercher"
+    }
+  }
+}
+
+POST /adminfile/_mtermvectors
+{
+    "ids" : ["NomDeLetude"],
+    "parameters": {
+        "fields": [
+                "text"
+        ],
+        "term_statistics": true,
+        "filter" : {
+      "max_num_terms" : 10,
+      "min_term_freq" : 1,
+      "min_doc_freq" : 1
+    }
     }
 }
 
-GET /admin_pdf/_mapping
+GET /adminfileword/_search/?size=1000&pretty=1
+{
+  "query": {
+    "match": {
+      "text": "motARechercher"
+    }
+  }
+}
 
-DELETE /admin_pdf
+POST /adminfileword/_mtermvectors
+{
+    "ids" : ["NomDeLetude"],
+    "parameters": {
+        "fields": [
+                "text"
+        ],
+        "term_statistics": true,
+        "filter" : {
+      "max_num_terms" : 10,
+      "min_term_freq" : 1,
+      "min_doc_freq" : 1
+    }
+    }
+}
+
+
+DELETE /adminword
+
+DELETE /adminfile
+
+DELETE /adminlemma
+
+DELETE /adminfileword
 
 GET /adminword/_search?q=*
