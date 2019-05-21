@@ -1,4 +1,4 @@
-import java.io.{File, InputStream}
+import java.io.{File, FileInputStream, InputStream}
 
 import scala.annotation.tailrec
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -64,7 +64,6 @@ object Main {
 
         argMap = mapFromArgs
 
-        //TODO the instantiations will use command line args once we have more details on the project
         ocrParser = new OCRParser
         nlpParser = new NLPParser
         esIndexer = new ESIndexer(argMap("esurl"))
@@ -76,24 +75,27 @@ object Main {
         } else if(argMap("do").equals("adminlocal")) {
             adminIndexFilesLocal(argMap("localinput"))
         }
-        //URLIterator.applyOnAllFrom("https://kf-api-dataservice.kidsfirstdrc.org", "/genomic-files", "file_format=pdf&limit=100")(println)
+    }
+
+    def adminIndex(pdf: InputStream, name: String): Unit = {    //do: OCR -> NLP -> ES
+        val text = ocrParser.parsePDF(pdf)
+        val wordTags = nlpParser.getTokenTags(text)
+        val lemmas = nlpParser.getLemmas(text)
+
+        val list = List(
+            AdminFile(name, text),
+            AdminWord(name, wordTags),
+            AdminFileWordLemmas(name, text, wordTags, lemmas),
+            AdminLemmas(name, lemmas)
+        )
+
+        esIndexer.bulkIndex(list)
     }
 
     def adminIndexFilesRemote(start: String, mid: String, end: String): Unit = {
         val futures: List[Future[Unit]] = URLIterator.applyOnAllFrom(start, mid, end){ url: String =>
             Future[Unit] {     //start a future to do: S3 -> OCR -> NLP -> ES
-                val name = url
-                val pdfStream: InputStream = s3Downloader.download(url)
-                val text = ocrParser.parsePDF(pdfStream)
-                val wordTags = nlpParser.getTokenTags(text)
-
-                val list = List(
-                    AdminFile(name, text),
-                    AdminWord(name, wordTags),
-                    AdminFileWord(name, text, wordTags),
-                )
-
-                esIndexer.bulkIndex(list)
+                adminIndex(s3Downloader.download(url), url)
             }
         }
 
@@ -110,21 +112,8 @@ object Main {
       */
     def adminIndexFilesLocal(path: String): Unit = {
         val futures = Future.traverse(getFiles(path).toList) { file: File =>
-            val name = getFileName(file)
-
             Future[Unit] {     //start a future to do: OCR -> NLP -> ES
-                val text = ocrParser.parsePDF(file)
-                val wordTags = nlpParser.getTokenTags(text)
-                //val keywords = nlpParser.keywordise(wordTags)
-
-                val list = List(
-                    AdminFile(name, text),
-                    AdminWord(name, wordTags),
-                    AdminFileWord(name, text, wordTags),
-                    //AdminKeyword(name, keywords))
-                )
-
-                esIndexer.bulkIndex(list)
+                adminIndex(new FileInputStream(file), getFileName(file))
             }
         }
 
@@ -136,10 +125,5 @@ object Main {
 
     def getFileName(file: File): String = file.getName.replaceAll("(.pdf)$", "")
 
-    /**
-      * TODO TEMP change this to get all files from ES
-      * @param path
-      * @return
-      */
     def getFiles(path: String): Array[File] = new File(path).listFiles()
 }

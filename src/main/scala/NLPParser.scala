@@ -4,6 +4,8 @@ import opennlp.tools.lemmatizer.DictionaryLemmatizer
 import opennlp.tools.postag.{POSModel, POSTaggerME}
 import opennlp.tools.tokenize.{TokenizerME, TokenizerModel}
 
+import scala.collection.mutable.ArrayBuffer
+
 class NLPParser(language: String = "en") {
 
     //https://www.tutorialspoint.com/opennlp/opennlp_finding_parts_of_speech.htm
@@ -84,31 +86,6 @@ class NLPParser(language: String = "en") {
         val idfMap = keywordLearn( tfMapList.map(tfMap => tfMap.keys.toList) )
 
         tfMapList.map( tfMap => keywordTake( tfMap, idfMap) )
-    }*/
-
-    /**
-      * Extracts the words having interesting NLP tags from the given text
-      *
-      * @param text The text to parse
-      * @return An Array of its NLP keywords
-      */
-    def getNounTags(text: String): (Array[String], Array[String]) = {
-
-        /*
-        We now have two Arrays: one has the text's tokens, the other the token's tags.
-
-        We then filter the tokens by their tag, keeping only the key (most important) words
-
-        OpenNLP has weird behaviour with some punctuation, so we're just removing it all from the results
-
-        https://stackoverflow.com/questions/18814522/scala-filter-on-a-list-by-index
-        https://stackoverflow.com/questions/4328500/how-can-i-strip-all-punctuation-from-a-string-in-javascript-using-regex
-         */
-        getTokenTags(text).collect {
-            case (token, tag) if isKeytag(tag) =>
-                (token.replaceAll("[,\\/#!$%\\^&\\*;|:{}=\\-_`~()\\[\\]<>\"”(\\.$)]", "").toLowerCase, tag)
-
-        }.unzip
     }
 
     def getNouns(text: String): Array[String] = {
@@ -128,7 +105,7 @@ class NLPParser(language: String = "en") {
                 token.replaceAll("[,\\/#!$%\\^&\\*;|:{}=\\-_`~()\\[\\]<>\"”(\\.$)]", "")
 
         }
-    }
+    }*/
 
     /**
       * Gets the lemmas of the text (useful for keywordisation).
@@ -141,11 +118,27 @@ class NLPParser(language: String = "en") {
       * @return the lemmas of it's NN/NNS
       */
     def getLemmas(text: String): Array[String] = {
-        val nounTag = getNounTags(text)
+        val nounTag: (Array[String], Array[String]) = getTokenTags(text, nounsOnly = true).unzip
+        //val nounTag = (Array("alcoholized", "agabaaegj"), Array("VBN", "NN"))
 
-        new DictionaryLemmatizer(dictFile).lemmatize(nounTag._1, nounTag._2)
+        val tempLemmas = new DictionaryLemmatizer(dictFile).lemmatize(nounTag._1, nounTag._2)
+
+        /*
+        When the lemmatizer can't find a word, it outputs "O". We want to replace the O's with their original words
+        (found in nounTag).
+
+        We could technically zip tempLemmas with nountag and then use foldLeft with a case match; but that would be
+        pretty inefficient. Instead, we're going imperative-style and using the index of the O's to grab the word.
+         */
+
+        tempLemmas.indices.foldLeft(Array[String]()) { (acc: Array[String], i: Int) =>
+            val lemma: String = tempLemmas(i)
+
+            if(lemma.equals("")) acc    //lemmatizer bug? random empty strings
+            else if(lemma.equals("O")) acc :+ nounTag._1(i)
+            else acc :+ lemma
+        }
     }
-
 
     /**
       * Returns every (NLP token, NLP tag) tuple from the provided text
@@ -153,9 +146,33 @@ class NLPParser(language: String = "en") {
       * @param text the text to parse for tokentags
       * @return the zip of the tokens and tags from the text
       */
-    def getTokenTags(text: String): Array[(String, String)] = {
+    def getTokenTags(text: String, nounsOnly: Boolean = false): Array[(String, String)] = {
         val tokens = tokenize(text)
-        tokens.zip(new POSTaggerME(posModel).tag(tokens))   //POSTaggerME is not thread safe...
+        val tokenTags = tokens.zip(new POSTaggerME(posModel).tag(tokens))   //POSTaggerME is not thread safe...
+
+        if(!nounsOnly) tokenTags
+        else {
+            /**
+              * Is the tag an important tag?
+              *
+              * @param tag the tag
+              * @return whether or not the tag is important
+              */
+            def isKeytag(tag: String): Boolean = tag match {
+                //https://medium.com/@gianpaul.r/tokenization-and-parts-of-speech-pos-tagging-in-pythons-nltk-library-2d30f70af13b
+                case "NNP" => true  //proper nouns
+                case "NNPS" => true
+                case "NN" => true   //nouns
+                case "NNS" => true
+                case "FW" => true   //foreign words
+                case _ => false     //anything else is not a keyword
+            }
+
+            tokenTags.collect {
+                case (token, tag) if isKeytag(tag) =>
+                    (token.replaceAll("[,\\/#!$%\\^&\\*;|:{}=\\-_`~()\\[\\]<>\"”(\\.$)]", "").toLowerCase, tag)
+            }
+        }
     }
 
     /**
@@ -167,20 +184,4 @@ class NLPParser(language: String = "en") {
     private def tokenize(text: String): Array[String] =
         //the tokenizer doesn't like ellipses, so we replace them with simple dots before the filter below
         new TokenizerME(tokenModel).tokenize(text).map(x => x.replaceAll("(\\.\\.)", ""))
-
-    /**
-      * Is the tag an important tag?
-      *
-      * @param tag the tag
-      * @return whether or not the tag is important
-      */
-    def isKeytag(tag: String): Boolean = tag match {
-        //https://medium.com/@gianpaul.r/tokenization-and-parts-of-speech-pos-tagging-in-pythons-nltk-library-2d30f70af13b
-        case "NNP" => true  //proper nouns
-        case "NNPS" => true
-        case "NN" => true   //nouns
-        case "NNS" => true
-        case "FW" => true   //foreign words
-        case _ => false     //anything else is not a keyword
-    }
 }

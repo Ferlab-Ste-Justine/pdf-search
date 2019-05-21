@@ -117,13 +117,6 @@ class OCRParser(languages: String = "eng+fra+spa") {
         asText
     }
 
-    /*
-    @tailrec
-    private def parseRec(accumulator: String, index: Int, stop: Int, renderer: PDFRenderer): String = {
-        if(index >= stop) accumulator
-        else parseRec(accumulator + tesseract.doOCR(renderer.renderImageWithDPI(index, 750, ImageType.GRAY)), index+1, stop, renderer)
-    }*/
-
     /**
       * Takes the given page as as grayscale bufferedImage and returns its OCR
       *
@@ -138,43 +131,4 @@ class OCRParser(languages: String = "eng+fra+spa") {
         println("\tReading page "+index)
         tesseract.doOCR(renderer.renderImageWithDPI(index, 750, ImageType.GRAY))
     }
-
-        /*
-    def dParsePDF(pdf: File): String = dParsePDF(new FileInputStream(pdf))
-
-    def dParsePDF(pdf: InputStream): String = {
-        val document = PDDocument.load(pdf)
-
-        val renderer = new PDFRenderer(document)
-
-        val temp = Pool.distributeIt(List.range(0, document.getNumberOfPages), (tuples: Iterable[(PDDocument, PDFRenderer, Int)]) => {
-            val tesseract = getTesseract
-
-            val future = Future[String] {     //start a future to do: OCR -> NLP -> ES
-                tuples.foldLeft("")( (acc,tuple) => acc + threadSafeParsePage(tuple))
-            }
-
-            future.onComplete {             //when said future completes
-                case Success(s: String) =>        //print success message
-                    println("Pages " + tuples.head._3 + " to " + tuples.last._3 + " have been indexed")
-                case Failure(e: Exception) =>   //otherwise exit if a problem occured
-                    println("OCRParser has encountered a critical error.")
-                    e.printStackTrace()
-                    System.exit(1)
-            }
-
-            future
-
-        }, 10)
-
-        temp.toString()
-    }
-
-    def makeDistributable(document: PDDocument, renderer: PDFRenderer): ListBuffer[(PDDocument, PDFRenderer, Int)] = {
-        val buffer = new ListBuffer[(PDDocument, PDFRenderer, Int)]
-
-        for(i <- 0 until document.getNumberOfPages) buffer.append((document, renderer, i))
-
-        buffer
-    }*/
 }

@@ -9,13 +9,13 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
     //val publicMakeJson: PrivateMethod[Array[String]] = PrivateMethod[Array[String]]('makeJson)
 
     "ocr -> nlp" should "return [Brain cancer sucks man] with input ./testInput/brainCancer.pdf" in {
-        val result = nlpParser.getNouns(ocrParser.parsePDF(new File("./testInput/brainCancer.pdf")))
-        result shouldBe Array("Brain", "cancer", "fun", "man", "")
+        val result = nlpParser.getTokenTags(ocrParser.parsePDF(new File("./testInput/brainCancer.pdf")))
+        result shouldBe Array(("\"","``"), ("Brain","NN"), ("cancer","NN"), ("is","VBZ"), ("bad","JJ"), (".","."), ("This","DT"), ("sucks","VBZ"), (":",":"), ("it","PRP"), ("is","VBZ"), ("not","RB"), ("fun","NN"), (",",","), ("man","NN"), ("","FW"), (".","."), ("\"","''"))
     }
 
     it should "return [Yoda he's lightsaber] with input ./testInput/yoda.pdf" in {
-        val result = nlpParser.getNouns(ocrParser.parsePDF(new File("./testInput/yoda.pdf")))
-        result shouldBe Array("Yoda", "lightsabers")  //note: he's should probably not be here, but it's ML...
+        val result = nlpParser.getTokenTags(ocrParser.parsePDF(new File("./testInput/yoda.pdf")))
+        result shouldBe Array(("Yoda","NNP"), ("is","VBZ"), ("amazing","JJ"), (",",","), ("he","PRP"), ("'s","VBZ"), ("just","RB"), ("so","RB"), ("great","JJ"), ("with","IN"), ("lightsabers","NNS"), ("!","."))
     }
 
     "urliter -> nlp -> es.makeJson" should "return build correct json" in {
@@ -103,7 +103,7 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
 
             val tokenTags = nlpParser.getTokenTags(result)
 
-            val temp = AdminFileWord("yoda", result, tokenTags)
+            val temp = AdminFileWordLemmas("yoda", result, tokenTags, nlpParser.getLemmas(result))
 
             val json = esIndexer.makeJson(temp)
 
@@ -123,33 +123,10 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
                    |{"word":"great","tag":"JJ"},
                    |{"word":"with","tag":"IN"},
                    |{"word":"lightsabers","tag":"NNS"},
-                   |{"word":"!","tag":"."}]}""".stripMargin.replaceAll("\n", ""))   //realllllly doesn't like newlines...
+                   |{"word":"!","tag":"."}],
+                   |"lemmas":
+                   |[{"lemma":"yoda"},
+                   |{"lemma":"lightsabers"}]}""".stripMargin.replaceAll("\n", ""))   //realllllly doesn't like newlines...
         }
     }
-
-    /* TODO temp refactoring AdminFileWordKeyword
-    "ocr -> nlp -> es.makeJson" should "return [Yoda he's lightsaber] with input ./testInput/yoda.pdf" in {
-        val text = ocrParser.parsePDF(new File("./testInput/yoda.pdf")).replace('\n', ' ')
-        //the shouldBe has trouble with \n, so we replace it with ' '
-
-        val tokenTags = nlpParser.getTokenTags(text)
-
-        val result = esIndexer invokePrivate publicMakeJson(AdminFileWord("yoda", text, tokenTags))
-
-        result shouldBe Array(
-            s"""
-              |{"title":"yoda",
-              |"text":"$text",
-              |"words":
-                  |[{"word":"Yoda","tag":"NNP"},
-                  |{"word":"is","tag":"VBZ"},
-                  |{"word":"amazing,","tag":"JJ"},
-                  |{"word":"he's","tag":"NN"},
-                  |{"word":"just","tag":"RB"},
-                  |{"word":"so","tag":"RB"},
-                  |{"word":"great","tag":"JJ"},
-                  |{"word":"with","tag":"IN"},
-                  |{"word":"lightsabers!","tag":"NN"}]
-              |}""".stripMargin.replaceAll("\n", ""))   //realllllly doesn't like newlines...
-    }*/
 }

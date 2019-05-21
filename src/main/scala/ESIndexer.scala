@@ -13,22 +13,13 @@ sealed trait IndexInfoRequest { //represents an IndexRequest into index of name 
 
 //TODO refactor trait into abstract class to use inIndex as super? (two sets of ())
 //title-text
-case class AdminFile(title: String, text: String) extends IndexInfoRequest {
-    override val index = "adminfile"
-}
+case class AdminFile(title: String, text: String, index: String = "adminfile") extends IndexInfoRequest
 //title-word-tag
-case class AdminWord(title: String, wordTags: Seq[(String, String)]) extends IndexInfoRequest {
-    override val index: String = "adminword"
-}
+case class AdminWord(title: String, wordTags: Seq[(String, String)], index: String = "adminword") extends IndexInfoRequest
 //title-text-words[word-tag]
-case class AdminFileWord(title: String, text: String, wordTag: Seq[(String, String)]) extends IndexInfoRequest {
-    override val index: String = "adminfilewordkeyword"
-}
+case class AdminFileWordLemmas(title: String, text: String, wordTag: Seq[(String, String)], lemmas: Seq[String], index: String = "adminfilewordlemma") extends IndexInfoRequest
 
-case class AdminKeyword(title: String, keywords: Seq[String]) extends IndexInfoRequest {
-    override val index: String = "adminkeyword"
-}
-
+case class AdminLemmas(title: String, lemmas: Seq[String], index: String = "adminlemma") extends IndexInfoRequest
 
 class ESIndexer(url: String = "http://localhost:9200") {
     //https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/java-docs-index.html
@@ -71,10 +62,6 @@ class ESIndexer(url: String = "http://localhost:9200") {
         Bulk will block the ones that get here first; and then they'll just continue later once it unblocks
          */
         esClient.bulk(request, RequestOptions.DEFAULT)
-
-        //throw new Exception("test")
-
-        //esClient.bulkAsync(request, RequestOptions.DEFAULT, getListener)
     }
 
     /**
@@ -110,7 +97,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
                 Strings.toString(json)
             }
 
-        case req: AdminFileWord =>
+        case req: AdminFileWordLemmas =>
             val json = jsonBuilder
 
             json.startObject()
@@ -125,38 +112,28 @@ class ESIndexer(url: String = "http://localhost:9200") {
 
                 json.endArray()
 
+                json.startArray("lemmas")
+
+                req.lemmas.foreach{ lemma =>
+                    json.startObject().field("lemma", lemma).endObject()
+                }
+
+                json.endArray()
+
             json.endObject()
 
             Array(Strings.toString(json))
 
-        case req: AdminKeyword =>
-            req.keywords.map{ word =>
+        case req: AdminLemmas =>
+            req.lemmas.map{ lemma =>
                 val json = jsonBuilder
 
                 json.startObject()
                 json.field("title", req.title)
-                json.field("keyword", word)
+                json.field("lemma", lemma)
                 json.endObject()
 
                 Strings.toString(json)
             }
     }
-
-    /*
-    //TODO probablement recevoir le future et indiquer son success selon rep ou fail
-    private def getListener: ActionListener[BulkResponse] = {
-        val listener = new ActionListener[BulkResponse] {
-            override def onResponse(response: BulkResponse): Unit = {
-                println("AGAAAAAAAAAAAAAAAAAAAAAAAAA")
-                throw new Exception
-            }
-
-            override def onFailure(e: Exception): Unit = {
-                println("BIG FAIL")
-                e.printStackTrace()
-            }
-        }
-
-        listener
-    }*/
 }
