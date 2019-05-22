@@ -1,3 +1,7 @@
 sudo docker build .
 sudo docker run -it --entrypoint sh <image-name>
+
 Op-Report-7316-620-Redacted est brisé
+
+Lorsqu'on index en admin, ne pas donner d'analyseur à ES (quand il y en a un il Stem les mots, et on veut voir c'est
+quoi le contenu; on veut pas optimiser pour la recherche!)

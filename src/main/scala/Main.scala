@@ -71,7 +71,6 @@ object Main {
         esIndexer = new ESIndexer(argMap("esurl"))
         s3Downloader = new S3Downloader(argMap("bucket"))
 
-
         if(argMap("do").equals("adminremote")) {
             adminIndexFilesRemote(argMap("starturl"), argMap("midurl"), argMap("endurl"))
         } else if(argMap("do").equals("adminlocal")) {
@@ -122,7 +121,7 @@ object Main {
     }
 
     def adminIndexFilesRemote(start: String, mid: String, end: String): Unit = {
-        esIndexer.initAdminIndexes
+        esIndexer.initAdminIndexesEnglish
 
         val futures: List[Future[String]] = URLIterator.applyOnAllFrom(start, mid, end){ url: String =>
             Future[String] {     //start a future to do: S3 -> OCR -> NLP -> ES
@@ -142,7 +141,8 @@ object Main {
       * @param path the path to the folder containing the files
       */
     def adminIndexFilesLocal(path: String): Unit = {
-        esIndexer.initAdminIndexes
+        //esIndexer.initAdminIndexes
+        esIndexer.initAdminIndexesHunspell
 
         val futures: Future[List[String]] = Future.traverse(getFiles(path).toList) { file: File =>
             Future[String] {     //start a future to do: OCR -> NLP -> ES

@@ -37,7 +37,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
     //https://www.elastic.co/guide/en/elasticsearch/client/java-rest/master/java-rest-high-create-index.html
     //https://discuss.elastic.co/t/elasticsearch-total-term-frequency-and-doc-count-from-given-set-of-documents/115223
     //https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-termvectors.html
-    def initAdminIndexes: Unit = {
+    def initAdminIndexesEnglish: Unit = {
         val json = jsonBuilder
 
         json.startObject()
@@ -52,15 +52,72 @@ class ESIndexer(url: String = "http://localhost:9200") {
         val temp = new CreateIndexRequest("adminfile")
         temp.mapping(Strings.toString(json), XContentType.JSON)
 
-        val temp2 = new CreateIndexRequest("adminfileword")
-        temp2.mapping(Strings.toString(json), XContentType.JSON)
+        /*
+        Try to create the index. If it already exists, don't do anything
+         */
+        try {
+            esClient.indices().create(temp, RequestOptions.DEFAULT)
+        } catch {
+            case _: Exception =>
+        }
+    }
+
+    def initAdminIndexesHunspell: Unit = {
+        val json = jsonBuilder
+
+        json.startObject()
+            json.startObject("properties")
+                json.startObject("text")
+                json.field("type", "text")
+                json.field("analyzer", "hunspell_english")  //use the custom analyser we're creating in jsonSettings
+                json.field("fielddata", true)
+                json.endObject()
+            json.endObject()
+        json.endObject()
+
+        val jsonSettings =  //https://qbox.io/blog/elasticsearch-dictionary-stemming-hunspell
+            """
+              |{
+              |    "analysis": {
+              |      "filter": {
+              |        "english_stop": {
+              |          "type": "stop",
+              |          "stopwords": "_english_"
+              |        },
+              |        "en_US": {
+              |          "type": "hunspell",
+              |          "language": "en_US"
+              |        },
+              |        "english_possessive_stemmer": {
+              |          "type": "stemmer",
+              |          "language": "possessive_english"
+              |        }
+              |      },
+              |      "analyzer": {
+              |        "hunspell_english": {
+              |          "tokenizer": "standard",
+              |          "filter": [
+              |            "english_possessive_stemmer",
+              |            "lowercase",
+              |            "english_stop",
+              |            "en_US"
+              |          ]
+              |        }
+              |      }
+              |    }
+              |
+              |}
+            """.stripMargin.replaceAll(" ", "")
+
+        val temp = new CreateIndexRequest("adminfile")
+        temp.mapping(Strings.toString(json), XContentType.JSON)
+        temp.settings(jsonSettings, XContentType.JSON)
 
         /*
         Try to create the index. If it already exists, don't do anything
          */
         try {
             esClient.indices().create(temp, RequestOptions.DEFAULT)
-            esClient.indices().create(temp2, RequestOptions.DEFAULT)
         } catch {
             case _: Exception =>
         }
