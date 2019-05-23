@@ -103,7 +103,7 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
 
             val tokenTags = nlpParser.getTokenTags(result)
 
-            val temp = AdminFileWord("yoda", result, tokenTags)
+            /*val temp = AdminFileWord("yoda", result, tokenTags)
 
             val json = esIndexer.makeJson(temp)
 
@@ -124,7 +124,7 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
                    |{"word":"with","tag":"IN"},
                    |{"word":"lightsabers","tag":"NNS"},
                    |{"word":"!","tag":"."}],
-                   |}""".stripMargin.replaceAll("\n", ""))   //realllllly doesn't like newlines...
+                   |}""".stripMargin.replaceAll("\n", ""))   //realllllly doesn't like newlines...*/
         }
     }
 }

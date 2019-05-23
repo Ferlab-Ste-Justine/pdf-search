@@ -83,13 +83,13 @@ object Main {
 
         try {
             val text = ocrParser.parsePDF(pdf)
-            val wordTags = nlpParser.getTokenTags(text)
+            val wordTags = nlpParser.getTokenTags(text).map(_._1)
             val lemmas = nlpParser.getLemmas(text)
 
             val list = List(
                 AdminFile(name, text),
-                AdminWord(name, wordTags),
-                AdminFileWord(name, text, wordTags)
+                AdminFileWord(name, text, wordTags),
+                AdminFileLemma(name, text, nlpParser.getLemmas(text))
             )
 
             esIndexer.bulkIndex(list)

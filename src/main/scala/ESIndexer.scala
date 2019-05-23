@@ -22,7 +22,9 @@ case class AdminFile(title: String, text: String, index: String = "adminfile") e
 //title-word-tag
 case class AdminWord(title: String, wordTags: Seq[(String, String)], index: String = "adminword") extends AdminIndexRequest
 //title-text-words[word-tag]
-case class AdminFileWord(title: String, text: String, wordTag: Seq[(String, String)], index: String = "adminfileword") extends AdminIndexRequest
+case class AdminFileWord(title: String, text: String, words: Seq[String], index: String = "adminfileword") extends AdminIndexRequest
+
+case class AdminFileLemma(title: String, text: String, words: Seq[String], index: String = "adminfilelemma") extends AdminIndexRequest
 
 class ESIndexer(url: String = "http://localhost:9200") {
     //https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/java-docs-index.html
@@ -79,28 +81,48 @@ class ESIndexer(url: String = "http://localhost:9200") {
         jsonAdminFile.endObject()
 
 
+        val jsonAdminFileLemma = jsonBuilder
+
+        jsonAdminFileLemma.startObject()
+            jsonAdminFileLemma.startObject("properties")
+                jsonAdminFileLemma.startObject("title")
+                jsonAdminFileLemma.field("type", "text")
+                jsonAdminFileLemma.field("analyzer", "hunspell_english")  //use the custom analyser we're creating in jsonSettings
+                jsonAdminFileLemma.endObject()
+
+                jsonAdminFileLemma.startObject("text")
+                jsonAdminFileLemma.field("type", "text")
+                jsonAdminFileLemma.field("analyzer", "hunspell_english")  //use the custom analyser we're creating in jsonSettings
+                jsonAdminFileLemma.endObject()
+
+                jsonAdminFileLemma.startObject("words")
+                jsonAdminFileLemma.field("type", "keyword")
+                jsonAdminFileLemma.endObject()
+            jsonAdminFileLemma.endObject()
+        jsonAdminFileLemma.endObject()
+
         val jsonAdminFileWord = jsonBuilder
 
         jsonAdminFileWord.startObject()
-            jsonAdminFileWord.startObject("properties")
-                jsonAdminFileWord.startObject("title")
-                jsonAdminFileWord.field("type", "text")
-                jsonAdminFileWord.field("analyzer", "hunspell_english")  //use the custom analyser we're creating in jsonSettings
-                jsonAdminFileWord.endObject()
+        jsonAdminFileWord.startObject("properties")
+        jsonAdminFileWord.startObject("title")
+        jsonAdminFileWord.field("type", "text")
+        jsonAdminFileWord.field("analyzer", "hunspell_english")  //use the custom analyser we're creating in jsonSettings
+        jsonAdminFileWord.endObject()
 
-                jsonAdminFileWord.startObject("text")
-                jsonAdminFileWord.field("type", "text")
-                jsonAdminFileWord.field("analyzer", "hunspell_english")  //use the custom analyser we're creating in jsonSettings
-                jsonAdminFileWord.endObject()
+        jsonAdminFileWord.startObject("text")
+        jsonAdminFileWord.field("type", "text")
+        jsonAdminFileWord.field("analyzer", "hunspell_english")  //use the custom analyser we're creating in jsonSettings
+        jsonAdminFileWord.endObject()
 
-                jsonAdminFileWord.startObject("words")
-                    jsonAdminFileWord.startObject("properties")
-                        jsonAdminFileWord.startObject("word")
-                        jsonAdminFileWord.field("type", "keyword")
-                        jsonAdminFileWord.endObject()
-                    jsonAdminFileWord.endObject()
-                jsonAdminFileWord.endObject()
-            jsonAdminFileWord.endObject()
+        jsonAdminFileWord.startObject("words")
+        jsonAdminFileWord.startObject("properties")
+        jsonAdminFileWord.startObject("word")
+        jsonAdminFileWord.field("type", "keyword")
+        jsonAdminFileWord.endObject()
+        jsonAdminFileWord.endObject()
+        jsonAdminFileWord.endObject()
+        jsonAdminFileWord.endObject()
         jsonAdminFileWord.endObject()
 
         //https://discuss.elastic.co/t/completion-suggester-ignores-length-token-filter/51971
@@ -122,7 +144,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
               |        },
               |        "length_min": {
               |               "type": "length",
-              |               "min": 3
+              |               "min": 2
               |        },
               |        "en_US": {
               |          "type": "hunspell",
@@ -157,12 +179,17 @@ class ESIndexer(url: String = "http://localhost:9200") {
         temp2.mapping(jsonAdminFileWord)
         temp2.settings(jsonSettings, XContentType.JSON)
 
+        val temp3 = new CreateIndexRequest("adminfilelemma")
+        temp3.mapping(jsonAdminFileLemma)
+        temp3.settings(jsonSettings, XContentType.JSON)
+
         /*
         Try to create the index. If it already exists, don't do anything
          */
         try {
             esClient.indices().create(temp, RequestOptions.DEFAULT)
             esClient.indices().create(temp2, RequestOptions.DEFAULT)
+            esClient.indices().create(temp3, RequestOptions.DEFAULT)
         } catch {
             case e: Exception => e.printStackTrace()
         }
@@ -246,13 +273,33 @@ class ESIndexer(url: String = "http://localhost:9200") {
 
                 json.startArray("words")
 
-                req.wordTag.foreach{ wordTag =>
-                    json.startObject().field("word", wordTag._1).endObject()
+                req.words.foreach{ word =>
+                    json.startObject().field("word", word).endObject()
                 }
 
                 json.endArray()
 
             json.endObject()
+
+            Array(Strings.toString(json))
+        case req: AdminFileLemma =>
+            val json = jsonBuilder
+
+            json.startObject()
+            json.field("title", req.title)
+            json.field("text", req.text)
+
+            json.startArray("words")
+
+            req.words.foreach{ word =>
+                json.value(word)
+            }
+
+            json.endArray()
+
+            json.endObject()
+
+            println(Strings.toString(json))
 
             Array(Strings.toString(json))
     }

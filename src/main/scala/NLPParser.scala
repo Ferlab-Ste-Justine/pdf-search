@@ -1,4 +1,5 @@
 import java.io.{File, FileInputStream}
+import java.util.regex.Pattern
 
 import opennlp.tools.lemmatizer.DictionaryLemmatizer
 import opennlp.tools.postag.{POSModel, POSTaggerME}
@@ -131,13 +132,13 @@ class NLPParser(language: String = "en") {
         pretty inefficient. Instead, we're going imperative-style and using the index of the O's to grab the word.
          */
 
-        tempLemmas.indices.foldLeft(Array[String]()) { (acc: Array[String], i: Int) =>
+        tempLemmas.indices.foldLeft(Set[String]()) { (acc: Set[String], i: Int) =>
             val lemma: String = tempLemmas(i)
 
             if(lemma.equals("")) acc    //lemmatizer bug? random empty strings
-            else if(lemma.equals("O")) acc :+ nounTag._1(i)
-            else acc :+ lemma
-        }
+            else if(lemma.equals("O")) acc + nounTag._1(i)
+            else acc + lemma
+        }.toArray
     }
 
     /**
@@ -168,9 +169,34 @@ class NLPParser(language: String = "en") {
                 case _ => false     //anything else is not a keyword
             }
 
-            tokenTags.collect {
-                case (token, tag) if isKeytag(tag) =>
-                    (token.replaceAll("[,\\/#!$%\\^&\\*;|:{}=\\-_`~()\\[\\]<>\"”(\\.$)]", "").toLowerCase, tag)
+            /**
+              * Can this string be considered a number? / Is this a numeric string?
+              * @param str the string
+              * @return wether or not it's a number
+              */
+            def isNumeric(str: String): Boolean = {
+                try {
+                    Integer.valueOf(str)
+                    true
+                } catch {
+                    case _: Exception => false
+                }
+            }
+
+            /**
+              * In our dataset the only interesting words of length two and lower are bone identifiers.
+              *
+              * @param str the word
+              * @return wether or not it's a bone ID
+              */
+            def isBoneID(str: String): Boolean = Pattern.matches("[a-z][0-9]+", str)
+
+            tokenTags.foldLeft(Array[(String, String)]()) { (acc, tokentag) =>
+                val token = tokentag._1.replaceAll("[,\\/#!$%\\^&\\*;|:{}=\\-_`~()\\[\\]<>\"”(\\.$)]", "").toLowerCase
+                val tag = tokentag._2
+
+                if(isKeytag(tag) && (token.length>=3 || isBoneID(token)) && !isNumeric(token)) acc :+ (token, tag)
+                else acc
             }
         }
     }
