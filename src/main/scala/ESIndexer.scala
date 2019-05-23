@@ -63,19 +63,55 @@ class ESIndexer(url: String = "http://localhost:9200") {
     }
 
     def initAdminIndexesHunspell: Unit = {
-        val json = jsonBuilder
+        val jsonAdminFile = jsonBuilder
 
-        json.startObject()
-            json.startObject("properties")
-                json.startObject("text")
-                json.field("type", "text")
-                json.field("analyzer", "hunspell_english")  //use the custom analyser we're creating in jsonSettings
-                json.field("fielddata", true)
-                json.endObject()
-            json.endObject()
-        json.endObject()
+        jsonAdminFile.startObject()
+            jsonAdminFile.startObject("properties")
+                jsonAdminFile.startObject("text")
+                jsonAdminFile.field("type", "text")
+                jsonAdminFile.field("analyzer", "hunspell_english")  //use the custom analyser we're creating in jsonSettings
+                jsonAdminFile.field("fielddata", true)
+                   /* json.startObject("fielddata_frequency_filter")
+                    json.field("min", 0.90)  //only load terms that are in 50% to 100% of docs to ease RAM
+                    json.endObject() */
+                jsonAdminFile.endObject()
+            jsonAdminFile.endObject()
+        jsonAdminFile.endObject()
 
-        val jsonSettings =  //https://qbox.io/blog/elasticsearch-dictionary-stemming-hunspell
+
+        val jsonAdminFileWord = jsonBuilder
+
+        jsonAdminFileWord.startObject()
+            jsonAdminFileWord.startObject("properties")
+                jsonAdminFileWord.startObject("title")
+                jsonAdminFileWord.field("type", "text")
+                jsonAdminFileWord.field("analyzer", "hunspell_english")  //use the custom analyser we're creating in jsonSettings
+                jsonAdminFileWord.endObject()
+
+                jsonAdminFileWord.startObject("text")
+                jsonAdminFileWord.field("type", "text")
+                jsonAdminFileWord.field("analyzer", "hunspell_english")  //use the custom analyser we're creating in jsonSettings
+                jsonAdminFileWord.endObject()
+
+                jsonAdminFileWord.startObject("words")
+                    jsonAdminFileWord.startObject("properties")
+                        jsonAdminFileWord.startObject("word")
+                        jsonAdminFileWord.field("type", "keyword")
+                        jsonAdminFileWord.endObject()
+                    jsonAdminFileWord.endObject()
+                jsonAdminFileWord.endObject()
+            jsonAdminFileWord.endObject()
+        jsonAdminFileWord.endObject()
+
+        //https://discuss.elastic.co/t/completion-suggester-ignores-length-token-filter/51971
+        //https://qbox.io/blog/elasticsearch-dictionary-stemming-hunspell
+
+        /*
+        We're using a custom NLP analyser. Based on Hunspell dictionary, we're also telling it to ignore english
+        stopwords, remove the "'s"s from every word, and ignore words of length lower than 3.
+         */
+
+        val jsonSettings =
             """
               |{
               |    "analysis": {
@@ -83,6 +119,10 @@ class ESIndexer(url: String = "http://localhost:9200") {
               |        "english_stop": {
               |          "type": "stop",
               |          "stopwords": "_english_"
+              |        },
+              |        "length_min": {
+              |               "type": "length",
+              |               "min": 3
               |        },
               |        "en_US": {
               |          "type": "hunspell",
@@ -99,27 +139,32 @@ class ESIndexer(url: String = "http://localhost:9200") {
               |          "filter": [
               |            "english_possessive_stemmer",
               |            "lowercase",
+              |            "length_min",
               |            "english_stop",
               |            "en_US"
               |          ]
               |        }
               |      }
               |    }
-              |
               |}
             """.stripMargin.replaceAll(" ", "")
 
         val temp = new CreateIndexRequest("adminfile")
-        temp.mapping(Strings.toString(json), XContentType.JSON)
+        temp.mapping(Strings.toString(jsonAdminFile), XContentType.JSON)
         temp.settings(jsonSettings, XContentType.JSON)
+
+        val temp2 = new CreateIndexRequest("adminfileword")
+        temp2.mapping(jsonAdminFileWord)
+        temp2.settings(jsonSettings, XContentType.JSON)
 
         /*
         Try to create the index. If it already exists, don't do anything
          */
         try {
             esClient.indices().create(temp, RequestOptions.DEFAULT)
+            esClient.indices().create(temp2, RequestOptions.DEFAULT)
         } catch {
-            case _: Exception =>
+            case e: Exception => e.printStackTrace()
         }
     }
 
@@ -132,7 +177,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
       */
     private def makeIndexRequest(req: IndexingRequest, json: String): IndexRequest = {
         val request = new IndexRequest(req.index)
-        request.id(req.title.replaceAll(" ", ""))
+        //request.id(req.title.replaceAll(" ", ""))
         request.source(json, XContentType.JSON)
     }
 
@@ -202,7 +247,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
                 json.startArray("words")
 
                 req.wordTag.foreach{ wordTag =>
-                    json.startObject().field("word", wordTag._1).field("tag", wordTag._2).endObject()
+                    json.startObject().field("word", wordTag._1).endObject()
                 }
 
                 json.endArray()
