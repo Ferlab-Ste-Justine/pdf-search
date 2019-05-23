@@ -81,6 +81,8 @@ class ESIndexer(url: String = "http://localhost:9200") {
         jsonAdminFile.endObject()
 
 
+        //TODO utiliser le truc standard anglais puisqu'on va utiliser words pour l'aggregation anyway
+
         val jsonAdminFileLemma = jsonBuilder
 
         jsonAdminFileLemma.startObject()
