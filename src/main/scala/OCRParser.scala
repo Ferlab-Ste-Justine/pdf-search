@@ -68,28 +68,26 @@ class OCRParser(languages: String = "eng") {
         text
     }
 
-    private def getTesseract: Tesseract = {
-        val tesseract: Tesseract = new Tesseract()  //the Tesseract used to do the OCR.
-        tesseract.setDatapath("./tessdata")         //we're using the local tessdata folder (fails when using global...)
-        tesseract.setLanguage(languages)            //by default we're reading English (TODO add more tessdata)
-
-        tesseract
-    }
-
     /**
       * Extracts text from the document using OCR. This method always succeeds but is more imprecise than directExtract
       *
       * @param document the docuement to do the OCR on
       * @return the text of the document
       */
-    def ocrExtract(document: PDDocument): String = {
+    private def ocrExtract(document: PDDocument): String = {
         /*
         https://sourceforge.net/p/tess4j/discussion/1202293/thread/4562eccb/
 
         Each thread needs its tesseract
          */
 
-        val tesseract = getTesseract
+        val tesseract = {
+            val tesseract: Tesseract = new Tesseract()  //the Tesseract used to do the OCR.
+            tesseract.setDatapath("./tessdata")         //we're using the local tessdata folder (fails when using global...)
+            tesseract.setLanguage(languages)            //by default we're reading English (TODO add more tessdata)
+
+            tesseract
+        }
 
         val renderer = new PDFRenderer(document)
 
@@ -103,28 +101,7 @@ class OCRParser(languages: String = "eng") {
 
         The real best way would simply be an Imperative-style for loop, though, avoiding having to create intermediary
         data structures...
-         */
 
-        var asText = ""
-        for(i <- 0 until document.getNumberOfPages) asText += parsePage(tesseract, document, renderer, i)
-
-        asText
-    }
-
-    /**
-      * Takes the given page as as grayscale bufferedImage and returns its OCR
-      *
-      * https://github.com/nguyenq/tess4j/issues/106
-      *
-      * @param document The document we're reading from
-      * @param renderer The document's PDFRenderer
-      * @param index The requested page's index
-      * @return The OCR of the page
-      */
-    private def parsePage(tesseract: Tesseract, document: PDDocument, renderer: PDFRenderer, index: Int): String = {
-        println("\tReading page "+index)
-
-        /*
         TesseractOCR throws errors/warnings when lines are smaller than magic number 3. So, we're scaling every document
         to 3 times its size. (This is my solution; there might be a better one but I haven't found one)
 
@@ -134,6 +111,11 @@ class OCRParser(languages: String = "eng") {
         Also, we only need a grayscale image to do OCR, so we're saving on memory with ImageType.GRAY
          */
 
-        tesseract.doOCR(renderer.renderImage(index, 3, ImageType.GRAY))
+        var asText = ""
+        for(i <- 0 until document.getNumberOfPages) asText += tesseract.doOCR(renderer.renderImage(i, 3, ImageType.GRAY))
+
+        asText
     }
+
+
 }

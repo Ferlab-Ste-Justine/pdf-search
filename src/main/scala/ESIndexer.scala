@@ -14,7 +14,7 @@ sealed trait IndexingRequest { //represents an IndexRequest into index of name g
     def title: String
 }
 
-case class FileLemmas(title: String, text: String, words: Seq[String], index: String = "filelemmas") extends IndexingRequest
+case class FileLemmas(title: String, text: String, words: Iterable[String], index: String = "filelemmas") extends IndexingRequest
 
 class ESIndexer(url: String = "http://localhost:9200") {
     //https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/java-docs-index.html

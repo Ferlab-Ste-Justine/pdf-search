@@ -39,14 +39,14 @@ class NLPParser {
       * @param text the input text
       * @return the lemmas of it's NN/NNS
       */
-    def getLemmas(text: String): Array[String] = {
+    def getLemmas(text: String): Iterable[String] = {
 
-        val tokens = new TokenizerME(enTokenModel).tokenize(text).map(x => x.replaceAll("(\\.\\.)", ""))
+        val tokens = new TokenizerME(enTokenModel).tokenize(text)
         val tags = new POSTaggerME(enPosModel).tag(tokens)
 
-        val tokenTags = getFilteredTT(tokens, tags)
+        val filteredTokenTags = getFilteredTT(tokens, tags)
 
-        val tempLemmas = new DictionaryLemmatizer(dictFile).lemmatize(tokenTags._1, tokenTags._2)
+        val tempLemmas = new DictionaryLemmatizer(dictFile).lemmatize(filteredTokenTags._1, filteredTokenTags._2)
 
         /*
         When the lemmatizer can't find a word, it outputs "O". We want to replace the O's with their original words
@@ -59,10 +59,10 @@ class NLPParser {
         tempLemmas.indices.foldLeft(Set[String]()) { (acc: Set[String], i: Int) =>
             val lemma: String = tempLemmas(i)
 
-            if(lemma.equals("")) acc    //lemmatizer bug? random empty strings
-            else if(lemma.equals("O")) acc + tokenTags._1(i)
+            if(lemma.equals("")) acc
+            else if(lemma.equals("O")) acc + filteredTokenTags._1(i)
             else acc + lemma
-        }.toArray
+        }
     }
 
     private def getFilteredTT(tokens: Array[String], tags: Array[String]) = {
@@ -100,7 +100,8 @@ class NLPParser {
         def isBoneID(str: String): Boolean = Pattern.matches("[a-z][0-9]+", str)
 
         tokens.indices.foldLeft((Array[String](), Array[String]())){ (acc: (Array[String], Array[String]), i: Int) =>
-            val token: String = tokens(i).replaceAll("[,\\/#!$%\\^&\\*;|:{}=\\-_`~()\\[\\]<>\"”(\\.$)]", "").toLowerCase
+            //lazy val: if isKeytag fails we don't need to calculate token
+            lazy val token: String = tokens(i).replaceAll("[,\\/#!$%\\^&\\*;|:{}=\\-_`~()\\[\\]<>\"”(\\.$)]", "").toLowerCase
             val tag = tags(i)
 
             if(isKeytag(tag) && (token.length>=3 || isBoneID(token)) && !isNumeric(token)) (acc._1 :+ token, acc._2 :+ tag)
