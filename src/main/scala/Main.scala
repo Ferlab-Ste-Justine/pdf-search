@@ -83,21 +83,15 @@ object Main {
 
         try {
             val text = ocrParser.parsePDF(pdf)
-            val wordTags = nlpParser.getTokenTags(text).map(_._1)
             val lemmas = nlpParser.getLemmas(text)
 
-            val list = List(
-                AdminFile(name, text),
-                AdminFileWord(name, text, wordTags),
-                AdminFileLemma(name, text, nlpParser.getLemmas(text))
-            )
-
-            esIndexer.bulkIndex(list)
+            esIndexer.index(FileLemmas(name, text, nlpParser.getLemmas(text)))
 
             s"Indexed $name."
         } catch {
             case _: Exception => s"Failed indexing $name: file is corrupt, ES URL is wrong, etc"
         }
+
     }
 
     def printReport(list: List[String]): Unit = {
@@ -121,7 +115,7 @@ object Main {
     }
 
     def adminIndexFilesRemote(start: String, mid: String, end: String): Unit = {
-        esIndexer.initAdminIndexesEnglish
+        esIndexer.initIndexes
 
         val futures: List[Future[String]] = URLIterator.applyOnAllFrom(start, mid, end){ url: String =>
             Future[String] {     //start a future to do: S3 -> OCR -> NLP -> ES
@@ -142,7 +136,7 @@ object Main {
       */
     def adminIndexFilesLocal(path: String): Unit = {
         //esIndexer.initAdminIndexes
-        esIndexer.initAdminIndexesHunspell
+        esIndexer.initIndexes
 
         val futures: Future[List[String]] = Future.traverse(getFiles(path).toList) { file: File =>
             Future[String] {     //start a future to do: OCR -> NLP -> ES

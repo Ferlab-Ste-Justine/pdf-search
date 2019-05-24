@@ -1,6 +1,7 @@
 import java.io.{File, FileInputStream}
 import java.util.regex.Pattern
 
+import opennlp.tools.langdetect.{Language, LanguageDetectorME, LanguageDetectorModel}
 import opennlp.tools.lemmatizer.DictionaryLemmatizer
 import opennlp.tools.postag.{POSModel, POSTaggerME}
 import opennlp.tools.tokenize.{TokenizerME, TokenizerModel}
@@ -23,7 +24,13 @@ class NLPParser {
     The rest has to be instanciated on a thread-by thread basis
      */
     val enPosModel = new POSModel(new FileInputStream("./nlp/en-pos-maxent.bin"))
-    val tokenModel = new TokenizerModel(new FileInputStream("./nlp/en-token.bin"))
+    val enTokenModel = new TokenizerModel(new FileInputStream("./nlp/en-token.bin"))
+
+    val frPosModel = new POSModel(new FileInputStream("./nlp/fr-pos.bin"))
+    val frTokenModel = new TokenizerModel(new FileInputStream("./nlp/fr-token.bin"))
+
+
+    val langDetectModel = new LanguageDetectorModel(new FileInputStream("./nlp/langdetect-183.bin"))
     //https://raw.githubusercontent.com/richardwilly98/elasticsearch-opennlp-auto-tagging/master/src/main/resources/models/en-lemmatizer.dict
     val dictFile: File = new File("nlp/en-lemmatizer.dict")
     val keytagList = List("NNP", "NNPS", "NN", "NNS", "FW")
@@ -39,40 +46,17 @@ class NLPParser {
       * @return the lemmas of it's NN/NNS
       */
     def getLemmas(text: String): Array[String] = {
-        val nounTag: (Array[String], Array[String]) = getTokenTags(text, nounsOnly = true).unzip
-        //val nounTag = (Array("alcoholized", "agabaaegj"), Array("VBN", "NN"))
 
-        val tempLemmas = new DictionaryLemmatizer(dictFile).lemmatize(nounTag._1, nounTag._2)
+        val lang = new LanguageDetectorME(langDetectModel).predictLanguage(text).getLang
 
-        /*
-        When the lemmatizer can't find a word, it outputs "O". We want to replace the O's with their original words
-        (found in nounTag).
+        val tokens = new TokenizerME(
+                if(lang.equals("fra")) frTokenModel else enTokenModel
+            ).tokenize(text).map(x => x.replaceAll("(\\.\\.)", ""))
+        val tags = new POSTaggerME(
+                if(lang.equals("fra")) frPosModel else enPosModel
+            ).tag(tokens)
 
-        We could technically zip tempLemmas with nountag and then use foldLeft with a case match; but that would be
-        pretty inefficient. Instead, we're going imperative-style and using the index of the O's to grab the word.
-         */
-
-        tempLemmas.indices.foldLeft(Set[String]()) { (acc: Set[String], i: Int) =>
-            val lemma: String = tempLemmas(i)
-
-            if(lemma.equals("")) acc    //lemmatizer bug? random empty strings
-            else if(lemma.equals("O")) acc + nounTag._1(i)
-            else acc + lemma
-        }.toArray
-    }
-
-    /**
-      * Returns every (NLP token, NLP tag) tuple from the provided text
-      *
-      * @param text the text to parse for tokentags
-      * @return the zip of the tokens and tags from the text
-      */
-    def getTokenTags(text: String, nounsOnly: Boolean = false): Array[(String, String)] = {
-        val tokens = tokenize(text)
-        val tokenTags = tokens.zip(new POSTaggerME(enPosModel).tag(tokens))   //POSTaggerME is not thread safe...
-
-        if(!nounsOnly) tokenTags
-        else {
+        val filteredTokenTags = {
 
             /**
               * Is the tag an important tag?
@@ -106,23 +90,31 @@ class NLPParser {
               */
             def isBoneID(str: String): Boolean = Pattern.matches("[a-z][0-9]+", str)
 
-            tokenTags.foldLeft(Array[(String, String)]()) { (acc, tokentag) =>
-                val token = tokentag._1.replaceAll("[,\\/#!$%\\^&\\*;|:{}=\\-_`~()\\[\\]<>\"”(\\.$)]", "").toLowerCase
-                val tag = tokentag._2
+            tokens.indices.foldLeft((Array[String](), Array[String]())){ (acc: (Array[String], Array[String]), i: Int) =>
+                val token: String = tokens(i).replaceAll("[,\\/#!$%\\^&\\*;|:{}=\\-_`~()\\[\\]<>\"”(\\.$)]", "").toLowerCase
+                val tag = tags(i)
 
-                if(isKeytag(tag) && (token.length>=3 || isBoneID(token)) && !isNumeric(token)) acc :+ (token, tag)
+                if(isKeytag(tag) && (token.length>=3 || isBoneID(token)) && !isNumeric(token)) (acc._1 :+ token, acc._2 :+ tag)
                 else acc
             }
         }
-    }
 
-    /**
-      * Gets the token from the provided text
-      *
-      * @param text the text to tokenize
-      * @return the text's tokens
-      */
-    private def tokenize(text: String): Array[String] =
-        //the tokenizer doesn't like ellipses, so we replace them with simple dots before the filter below
-        new TokenizerME(tokenModel).tokenize(text).map(x => x.replaceAll("(\\.\\.)", ""))
+        val tempLemmas = new DictionaryLemmatizer(dictFile).lemmatize(filteredTokenTags._1, filteredTokenTags._2)
+
+        /*
+        When the lemmatizer can't find a word, it outputs "O". We want to replace the O's with their original words
+        (found in nounTag).
+
+        We could technically zip tempLemmas with nountag and then use foldLeft with a case match; but that would be
+        pretty inefficient. Instead, we're going imperative-style and using the index of the O's to grab the word.
+         */
+
+        tempLemmas.indices.foldLeft(Set[String]()) { (acc: Set[String], i: Int) =>
+            val lemma: String = tempLemmas(i)
+
+            if(lemma.equals("")) acc    //lemmatizer bug? random empty strings
+            else if(lemma.equals("O")) acc + filteredTokenTags._1(i)
+            else acc + lemma
+        }.toArray
+    }
 }

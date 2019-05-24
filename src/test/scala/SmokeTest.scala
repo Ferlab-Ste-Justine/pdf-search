@@ -7,7 +7,7 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
     val nlpParser = new NLPParser
     val esIndexer = new ESIndexer
     //val publicMakeJson: PrivateMethod[Array[String]] = PrivateMethod[Array[String]]('makeJson)
-
+/*
     "ocr -> nlp" should "return [Brain cancer sucks man] with input ./testInput/brainCancer.pdf" in {
         val result = nlpParser.getTokenTags(ocrParser.parsePDF(new File("./testInput/brainCancer.pdf")))
         result shouldBe Array(("\"","``"), ("Brain","NN"), ("cancer","NN"), ("is","VBZ"), ("bad","JJ"), (".","."), ("This","DT"), ("sucks","VBZ"), (":",":"), ("it","PRP"), ("is","VBZ"), ("not","RB"), ("fun","NN"), (",",","), ("man","NN"), ("","FW"), (".","."), ("\"","''"))
@@ -17,7 +17,7 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
         val result = nlpParser.getTokenTags(ocrParser.parsePDF(new File("./testInput/yoda.pdf")))
         result shouldBe Array(("Yoda","NNP"), ("is","VBZ"), ("amazing","JJ"), (",",","), ("he","PRP"), ("'s","VBZ"), ("just","RB"), ("so","RB"), ("great","JJ"), ("with","IN"), ("lightsabers","NNS"), ("!","."))
     }
-
+*/
     "urliter -> nlp -> es.makeJson" should "return build correct json" in {
 
         val handlerPage1 = jsonHandler(
@@ -101,7 +101,7 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
             val result = URLIterator.applyOnAllFrom(start, "/studies", field = "name")(identity).mkString
             result shouldBe "Yoda is amazing, he's just so great with lightsabers!"
 
-            val tokenTags = nlpParser.getTokenTags(result)
+            //val tokenTags = nlpParser.getTokenTags(result)
 
             /*val temp = AdminFileWord("yoda", result, tokenTags)
 
