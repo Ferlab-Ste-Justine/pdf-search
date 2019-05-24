@@ -83,7 +83,6 @@ object Main {
 
         try {
             val text = ocrParser.parsePDF(pdf)
-            val lemmas = nlpParser.getLemmas(text)
 
             esIndexer.index(FileLemmas(name, text, nlpParser.getLemmas(text)))
 
@@ -115,7 +114,7 @@ object Main {
     }
 
     def adminIndexFilesRemote(start: String, mid: String, end: String): Unit = {
-        esIndexer.initIndexes
+        esIndexer.initIndexes()
 
         val futures: List[Future[String]] = URLIterator.applyOnAllFrom(start, mid, end){ url: String =>
             Future[String] {     //start a future to do: S3 -> OCR -> NLP -> ES
@@ -136,13 +135,12 @@ object Main {
       */
     def adminIndexFilesLocal(path: String): Unit = {
         //esIndexer.initAdminIndexes
-        esIndexer.initIndexes
+        esIndexer.initIndexes()
 
         val start = System.currentTimeMillis()
 
         val futures: Future[List[String]] = Future.traverse(getFiles(path).toList) { file: File =>
             Future[String] {     //start a future to do: OCR -> NLP -> ES
-                println(getFileName(file))
                 adminIndex(new FileInputStream(file), getFileName(file))
             }
         }
@@ -150,7 +148,7 @@ object Main {
         printReport(Await.result(futures, Duration.Inf))
 
         println("Files indexed.\nAdmin indexing done. Exiting now...")
-        println("Took: "+(System.currentTimeMillis()-start)+"ms for "+getFiles(path).length+" documents")
+        println("Took: "+(System.currentTimeMillis()-start)/1000+"s for "+getFiles(path).length+" documents")
         System.exit(0)
     }
 

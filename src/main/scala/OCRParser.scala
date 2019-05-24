@@ -6,7 +6,7 @@ import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.rendering.{ImageType, PDFRenderer}
 import org.apache.pdfbox.text.PDFTextStripper
 
-class OCRParser(languages: String = "eng+fra+spa") {
+class OCRParser(languages: String = "eng") {
 
     /*
         Bug on tesseract 4.0.0: crash when calling procedure is not tesseract itself. To fix, we're changing the locale

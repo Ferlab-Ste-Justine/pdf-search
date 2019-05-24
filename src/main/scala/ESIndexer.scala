@@ -62,13 +62,14 @@ class ESIndexer(url: String = "http://localhost:9200") {
         }
     }
 
-    def index(req: FileLemmas): Unit = {
-
+    private def makeIndexRequest(req: FileLemmas) = {
         val request = new IndexRequest(req.index)
         request.source(makeJson(req))
 
-        esClient.index(request, RequestOptions.DEFAULT)
+        request
     }
+
+    def index(req: FileLemmas): Unit = esClient.index(makeIndexRequest(req), RequestOptions.DEFAULT)
 
     def makeJson(req: FileLemmas): XContentBuilder = {
         val json = jsonBuilder

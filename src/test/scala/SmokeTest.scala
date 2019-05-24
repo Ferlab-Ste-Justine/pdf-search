@@ -1,5 +1,6 @@
 import java.io.File
 
+import org.elasticsearch.common.Strings
 import org.scalatest.{FlatSpec, Matchers, PrivateMethodTester}
 
 class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
@@ -7,17 +8,17 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
     val nlpParser = new NLPParser
     val esIndexer = new ESIndexer
     //val publicMakeJson: PrivateMethod[Array[String]] = PrivateMethod[Array[String]]('makeJson)
-/*
+
     "ocr -> nlp" should "return [Brain cancer sucks man] with input ./testInput/brainCancer.pdf" in {
-        val result = nlpParser.getTokenTags(ocrParser.parsePDF(new File("./testInput/brainCancer.pdf")))
-        result shouldBe Array(("\"","``"), ("Brain","NN"), ("cancer","NN"), ("is","VBZ"), ("bad","JJ"), (".","."), ("This","DT"), ("sucks","VBZ"), (":",":"), ("it","PRP"), ("is","VBZ"), ("not","RB"), ("fun","NN"), (",",","), ("man","NN"), ("","FW"), (".","."), ("\"","''"))
+        val result = nlpParser.getLemmas(ocrParser.parsePDF(new File("./testInput/brainCancer.pdf")))
+        result shouldBe Array("brain", "cancer", "fun", "man")
     }
 
     it should "return [Yoda he's lightsaber] with input ./testInput/yoda.pdf" in {
-        val result = nlpParser.getTokenTags(ocrParser.parsePDF(new File("./testInput/yoda.pdf")))
-        result shouldBe Array(("Yoda","NNP"), ("is","VBZ"), ("amazing","JJ"), (",",","), ("he","PRP"), ("'s","VBZ"), ("just","RB"), ("so","RB"), ("great","JJ"), ("with","IN"), ("lightsabers","NNS"), ("!","."))
+        val result = nlpParser.getLemmas(ocrParser.parsePDF(new File("./testInput/yoda.pdf")))
+        result shouldBe Array("yoda", "lightsabers")
     }
-*/
+
     "urliter -> nlp -> es.makeJson" should "return build correct json" in {
 
         val handlerPage1 = jsonHandler(
@@ -101,30 +102,16 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
             val result = URLIterator.applyOnAllFrom(start, "/studies", field = "name")(identity).mkString
             result shouldBe "Yoda is amazing, he's just so great with lightsabers!"
 
-            //val tokenTags = nlpParser.getTokenTags(result)
+            val temp = FileLemmas("yoda", result, nlpParser.getLemmas(result))
 
-            /*val temp = AdminFileWord("yoda", result, tokenTags)
+            val json = Strings.toString(esIndexer.makeJson(temp))
 
-            val json = esIndexer.makeJson(temp)
-
-            json shouldBe Array(
-                s"""
-                   |{"title":"yoda",
-                   |"text":"Yoda is amazing, he's just so great with lightsabers!",
-                   |"words":
-                   |[{"word":"Yoda","tag":"NNP"},
-                   |{"word":"is","tag":"VBZ"},
-                   |{"word":"amazing","tag":"JJ"},
-                   |{"word":",","tag":","},
-                   |{"word":"he","tag":"PRP"},
-                   |{"word":"'s","tag":"VBZ"},
-                   |{"word":"just","tag":"RB"},
-                   |{"word":"so","tag":"RB"},
-                   |{"word":"great","tag":"JJ"},
-                   |{"word":"with","tag":"IN"},
-                   |{"word":"lightsabers","tag":"NNS"},
-                   |{"word":"!","tag":"."}],
-                   |}""".stripMargin.replaceAll("\n", ""))   //realllllly doesn't like newlines...*/
+            json shouldBe s"""
+               |{"title":"yoda",
+               |"text":"Yoda is amazing, he's just so great with lightsabers!",
+               |"words":
+               |["yoda","lightsabers"]
+               |}""".stripMargin.replaceAll("\n", "")   //realllllly doesn't like newlines...*/
         }
     }
 }

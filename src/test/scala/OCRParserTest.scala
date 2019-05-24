@@ -10,6 +10,4 @@ class OCRParserTest extends FlatSpec with Matchers {
         val result = ocrParser.parsePDF(new File("./testInput/brainCancer.pdf"))
         result shouldBe "\"Brain cancer is bad. This sucks: it is not fun, man...\"\n"
     }
-
-    //machine learning, so we can't really test more complicated queries as the result with sometimes vary...
 }

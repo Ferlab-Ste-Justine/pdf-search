@@ -1,8 +1,6 @@
 import java.net.{InetAddress, InetSocketAddress}
 
 import com.sun.net.httpserver.{HttpExchange, HttpHandler, HttpServer}
-import org.scalatest.{FlatSpec, Matchers}
-import play.api.libs.json.{JsNull, Json}
 
 import scala.collection.JavaConverters._
 

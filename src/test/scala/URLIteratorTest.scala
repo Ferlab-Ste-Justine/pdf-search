@@ -11,68 +11,6 @@ Inspired by https://github.com/kids-first/kf-portal-etl/blob/develop/kf-portal-e
  */
 
 class URLIteratorTest extends FlatSpec with Matchers {
-    /*
-    "getNext" should "return ALLO" in {
-        val result = URLIterator.getNext(Json.obj(
-            "_links" -> Json.obj("next" -> "ALLO"),
-            "name" -> "Watership Down",
-            "location" -> Json.obj("lat" -> 51.235685, "long" -> -1.309197),
-            "residents" -> Json.arr(
-                Json.obj(
-                    "name" -> "Fiver",
-                    "age" -> 4,
-                    "role" -> JsNull
-                ),
-                Json.obj(
-                    "name" -> "Bigwig",
-                    "age" -> 6,
-                    "role" -> "Owsla"
-                )
-            )
-        ))
-        result shouldBe Some("ALLO")
-    }
-
-    it should "be None when no next" in {
-        val result = URLIterator.getNext(Json.obj(
-            "_links" -> Json.obj("pasnext" -> "ALLO"),
-            "name" -> "Watership Down",
-            "location" -> Json.obj("lat" -> 51.235685, "long" -> -1.309197),
-            "residents" -> Json.arr(
-                Json.obj(
-                    "name" -> "Fiver",
-                    "age" -> 4,
-                    "role" -> JsNull
-                ),
-                Json.obj(
-                    "name" -> "Bigwig",
-                    "age" -> 6,
-                    "role" -> "Owsla"
-                )
-            )
-        ))
-        result shouldBe None
-    }
-
-    it should "be None when no _links" in {
-        val result = URLIterator.getNext(Json.obj(
-            "name" -> "Watership Down",
-            "location" -> Json.obj("lat" -> 51.235685, "long" -> -1.309197),
-            "residents" -> Json.arr(
-                Json.obj(
-                    "name" -> "Fiver",
-                    "age" -> 4,
-                    "role" -> JsNull
-                ),
-                Json.obj(
-                    "name" -> "Bigwig",
-                    "age" -> 6,
-                    "role" -> "Owsla"
-                )
-            )
-        ))
-        result shouldBe None
-    }*/
 
     "apply" should "return the correct data" in {
         DataService.withDataService(Map("/studies" -> jsonHandler(
@@ -100,7 +38,6 @@ class URLIteratorTest extends FlatSpec with Matchers {
               |}
             """.stripMargin))) { start =>
 
-            //println(start)
             val result: List[String] = URLIterator.applyOnAllFrom(start, "/studies", field = "name")(identity)
             result shouldBe List("Study 1", "Study 2")
         }

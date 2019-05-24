@@ -1,30 +1,20 @@
+import org.elasticsearch.common.Strings
 import org.scalatest.{FlatSpec, Matchers, PrivateMethodTester}
 
 class ESIndexerTest extends FlatSpec with Matchers with PrivateMethodTester {
-    val esIndexer = new ESIndexer;
+    val esIndexer = new ESIndexer
     //val publicMakeJson: PrivateMethod[Array[String]] = PrivateMethod[Array[String]]('makeJson)
 
     //private tests: https://stackoverflow.com/a/43650990
 
-    /*
-    "es.makeJson" should """return [{title: allo, text: salut}] with AdminFile(allo, salu)t""" in {
-        val result = esIndexer.makeJson(AdminFile("allo", "salut"))
-        result shouldBe Array("{\"title\":\"allo\",\"text\":\"salut\"}")
+
+    "es.makeJson" should """return correct JSON for FileLemmas 1""" in {
+        val result = Strings.toString(esIndexer.makeJson(FileLemmas("allo", "salut", Array("1", "2"))))
+        result shouldBe "{\"title\":\"allo\",\"text\":\"salut\",\"words\":[\"1\",\"2\"]}"
     }
 
-    it should """return [{title: allo, word: le ciel, tag: bleu}] with AdminWord(allo, [(le ciel, bleu)])""" in {
-        val result = esIndexer.makeJson(AdminWord("allo", Array(("le ciel", "bleu"))))
-        result shouldBe Array("{\"title\":\"allo\",\"word\":\"le ciel\",\"tag\":\"bleu\"}")
+    it should """return correct JSON for FileLemmas 2""" in {
+        val result = Strings.toString(esIndexer.makeJson(FileLemmas("yoda", "manifesto", Array("gazon", "vert"))))
+        result shouldBe """{"title":"yoda","text":"manifesto","words":["gazon","vert"]}"""
     }
-
-    it should """return [{title: allo, word: le ciel, tag: bleu}, {title: allo, word: gazon, tag: vert}] with AdminWord(allo, [(le ciel, bleu), (gazon, vert)])""" in {
-        val result = esIndexer.makeJson(AdminWord("allo", Array(("le ciel", "bleu"), ("gazon", "vert"))))
-        result shouldBe Array("{\"title\":\"allo\",\"word\":\"le ciel\",\"tag\":\"bleu\"}", "{\"title\":\"allo\",\"word\":\"gazon\",\"tag\":\"vert\"}")
-    }
-
-     TODO TEMP refactoring adminFileWordKeyword...
-    "es.makeJson" should """return [{title: allo, text: salut, words[{word: le ciel, tag: bleu}, {word: gazon, tag: vert}]] with AdminWord(allo, [(le ciel, bleu), (gazon, vert)])""" in {
-        val result = esIndexer invokePrivate publicMakeJson(AdminFileWordKeyword("allo", "salut", Array(("le ciel", "bleu"), ("gazon", "vert"))))
-        result shouldBe Array("{\"title\":\"allo\",\"text\":\"salut\",\"words\":[{\"word\":\"le ciel\",\"tag\":\"bleu\"},{\"word\":\"gazon\",\"tag\":\"vert\"}]}")
-    }*/
 }
