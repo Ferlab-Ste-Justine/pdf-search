@@ -9,3 +9,4 @@ quoi le contenu; on veut pas optimiser pour la recherche!)
 
 pipe direct de futures indexage: 67s/20doc
 enlevé support pour fra et spa: 50s
+Futures partout + future englobant (donc deux await): 40s!!

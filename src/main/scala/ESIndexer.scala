@@ -76,9 +76,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
         request
     }
 
-    def index(req: FileLemmas): Unit = {
-        Await.result(Future[Unit] { esClient.index(makeIndexRequest(req), RequestOptions.DEFAULT) }, Duration.Inf)
-    }
+    def index(req: FileLemmas): Future[Unit] = Future[Unit](esClient.index(makeIndexRequest(req), RequestOptions.DEFAULT))
 
     def makeJson(req: FileLemmas): XContentBuilder = {
         val json = jsonBuilder

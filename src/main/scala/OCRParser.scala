@@ -6,6 +6,12 @@ import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.rendering.{ImageType, PDFRenderer}
 import org.apache.pdfbox.text.PDFTextStripper
 
+import scala.concurrent.Future
+import scala.annotation.tailrec
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Future, _}
+
 class OCRParser(languages: String = "eng") {
 
     /*
@@ -24,7 +30,7 @@ class OCRParser(languages: String = "eng") {
       * @param pdf the java.io.File to input to parsePDF
       * @return the text of the pdf
       */
-    def parsePDF(pdf: File): String = parsePDF(new FileInputStream(pdf))
+    def parsePDF(pdf: File): String = Await.result(parsePDF(new FileInputStream(pdf)), Duration.Inf)
 
     /**
       * Parses the requested pdf stream into a string.
@@ -35,7 +41,7 @@ class OCRParser(languages: String = "eng") {
       * @return The string (text) of the pdf
       */
     @throws[java.io.IOException]
-    def parsePDF(pdf: InputStream): String = {
+    def parsePDF(pdf: InputStream): Future[String] = Future[String]{
 
         val document =
             try {

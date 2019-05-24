@@ -82,13 +82,17 @@ object Main {
     def adminIndex(pdf: InputStream, name: String): String = {    //do: OCR -> NLP -> ES
 
         try {
-            val text = ocrParser.parsePDF(pdf)
+            val futures = ocrParser.parsePDF(pdf).flatMap{ text: String =>
+                nlpParser.getLemmas(text).flatMap{ lemmas: Iterable[String] =>
+                    esIndexer.index(FileLemmas(name, text, lemmas))
+                }
+            }
 
-            esIndexer.index(FileLemmas(name, text, nlpParser.getLemmas(text)))
+            Await.result(futures, Duration.Inf)
 
-            s"Indexed $name."
+            s"$name"
         } catch {
-            case _: Exception => s"Failed indexing $name: file is corrupt, ES URL is wrong, etc"
+            case _: Exception => s"Failed indexing $name"
         }
 
     }
@@ -139,6 +143,13 @@ object Main {
 
         val start = System.currentTimeMillis()
 
+        /*
+        Need an englobing Future to start the smaller Futures sequentially (prevents the indexation of 2-3 documents
+        from blocking the threads).
+
+        Without this future: 50s for 20 docs
+        With this future: 40s for 20 docs!
+         */
         val futures: Future[List[String]] = Future.traverse(getFiles(path).toList) { file: File =>
             Future[String] {     //start a future to do: OCR -> NLP -> ES
                 adminIndex(new FileInputStream(file), getFileName(file))

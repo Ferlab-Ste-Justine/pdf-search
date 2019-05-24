@@ -7,6 +7,11 @@ import opennlp.tools.postag.{POSModel, POSTaggerME}
 import opennlp.tools.tokenize.{TokenizerME, TokenizerModel}
 
 import scala.collection.mutable.ArrayBuffer
+import scala.concurrent.Future
+import scala.annotation.tailrec
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Future, _}
 
 class NLPParser {
 
@@ -39,7 +44,7 @@ class NLPParser {
       * @param text the input text
       * @return the lemmas of it's NN/NNS
       */
-    def getLemmas(text: String): Iterable[String] = {
+    def getLemmas(text: String): Future[Iterable[String]] = Future[Iterable[String]]{
 
         val tokens = new TokenizerME(enTokenModel).tokenize(text)
         val tags = new POSTaggerME(enPosModel).tag(tokens)
