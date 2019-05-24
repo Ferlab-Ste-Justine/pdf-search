@@ -26,14 +26,8 @@ class NLPParser {
     val enPosModel = new POSModel(new FileInputStream("./nlp/en-pos-maxent.bin"))
     val enTokenModel = new TokenizerModel(new FileInputStream("./nlp/en-token.bin"))
 
-    val frPosModel = new POSModel(new FileInputStream("./nlp/fr-pos.bin"))
-    val frTokenModel = new TokenizerModel(new FileInputStream("./nlp/fr-token.bin"))
-
-
-    val langDetectModel = new LanguageDetectorModel(new FileInputStream("./nlp/langdetect-183.bin"))
     //https://raw.githubusercontent.com/richardwilly98/elasticsearch-opennlp-auto-tagging/master/src/main/resources/models/en-lemmatizer.dict
     val dictFile: File = new File("nlp/en-lemmatizer.dict")
-    val keytagList = List("NNP", "NNPS", "NN", "NNS", "FW")
 
     /**
       * Gets the lemmas of the text (useful for keywordisation).
@@ -47,14 +41,8 @@ class NLPParser {
       */
     def getLemmas(text: String): Array[String] = {
 
-        val lang = new LanguageDetectorME(langDetectModel).predictLanguage(text).getLang
-
-        val tokens = new TokenizerME(
-                if(lang.equals("fra")) frTokenModel else enTokenModel
-            ).tokenize(text).map(x => x.replaceAll("(\\.\\.)", ""))
-        val tags = new POSTaggerME(
-                if(lang.equals("fra")) frPosModel else enPosModel
-            ).tag(tokens)
+        val tokens = new TokenizerME(enTokenModel).tokenize(text).map(x => x.replaceAll("(\\.\\.)", ""))
+        val tags = new POSTaggerME(enPosModel).tag(tokens)
 
         val filteredTokenTags = {
 
@@ -66,7 +54,7 @@ class NLPParser {
               * @param tag the tag
               * @return whether or not the tag is important
               */
-            def isKeytag(tag: String): Boolean = keytagList.contains(tag)
+            def isKeytag(tag: String): Boolean = List("NNP", "NNPS", "NN", "NNS", "FW").contains(tag)
 
             /**
               * Can this string be considered a number? / Is this a numeric string?
