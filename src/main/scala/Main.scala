@@ -138,6 +138,8 @@ object Main {
         //esIndexer.initAdminIndexes
         esIndexer.initIndexes
 
+        val start = System.currentTimeMillis()
+
         val futures: Future[List[String]] = Future.traverse(getFiles(path).toList) { file: File =>
             Future[String] {     //start a future to do: OCR -> NLP -> ES
                 println(getFileName(file))
@@ -148,6 +150,7 @@ object Main {
         printReport(Await.result(futures, Duration.Inf))
 
         println("Files indexed.\nAdmin indexing done. Exiting now...")
+        println("Took: "+(System.currentTimeMillis()-start)+"ms for "+getFiles(path).length+" documents")
         System.exit(0)
     }
 

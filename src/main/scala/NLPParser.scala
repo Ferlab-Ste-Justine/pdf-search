@@ -44,50 +44,9 @@ class NLPParser {
         val tokens = new TokenizerME(enTokenModel).tokenize(text).map(x => x.replaceAll("(\\.\\.)", ""))
         val tags = new POSTaggerME(enPosModel).tag(tokens)
 
-        val filteredTokenTags = {
+        val tokenTags = getFilteredTT(tokens, tags)
 
-            /**
-              * Is the tag an important tag?
-              *
-              * https://medium.com/@gianpaul.r/tokenization-and-parts-of-speech-pos-tagging-in-pythons-nltk-library-2d30f70af13b
-              *
-              * @param tag the tag
-              * @return whether or not the tag is important
-              */
-            def isKeytag(tag: String): Boolean = List("NNP", "NNPS", "NN", "NNS", "FW").contains(tag)
-
-            /**
-              * Can this string be considered a number? / Is this a numeric string?
-              * @param str the string
-              * @return wether or not it's a number
-              */
-            def isNumeric(str: String): Boolean = {
-                try {
-                    Integer.valueOf(str)
-                    true
-                } catch {
-                    case _: Exception => false
-                }
-            }
-
-            /**
-              * In our dataset the only interesting words of length two and lower are bone identifiers.
-              *
-              * @param str the word
-              * @return wether or not it's a bone ID
-              */
-            def isBoneID(str: String): Boolean = Pattern.matches("[a-z][0-9]+", str)
-
-            tokens.indices.foldLeft((Array[String](), Array[String]())){ (acc: (Array[String], Array[String]), i: Int) =>
-                val token: String = tokens(i).replaceAll("[,\\/#!$%\\^&\\*;|:{}=\\-_`~()\\[\\]<>\"”(\\.$)]", "").toLowerCase
-                val tag = tags(i)
-
-                if(isKeytag(tag) && (token.length>=3 || isBoneID(token)) && !isNumeric(token)) (acc._1 :+ token, acc._2 :+ tag)
-                else acc
-            }
-        }
-
-        val tempLemmas = new DictionaryLemmatizer(dictFile).lemmatize(filteredTokenTags._1, filteredTokenTags._2)
+        val tempLemmas = new DictionaryLemmatizer(dictFile).lemmatize(tokenTags._1, tokenTags._2)
 
         /*
         When the lemmatizer can't find a word, it outputs "O". We want to replace the O's with their original words
@@ -101,8 +60,51 @@ class NLPParser {
             val lemma: String = tempLemmas(i)
 
             if(lemma.equals("")) acc    //lemmatizer bug? random empty strings
-            else if(lemma.equals("O")) acc + filteredTokenTags._1(i)
+            else if(lemma.equals("O")) acc + tokenTags._1(i)
             else acc + lemma
         }.toArray
+    }
+
+    private def getFilteredTT(tokens: Array[String], tags: Array[String]) = {
+
+        /**
+          * Is the tag an important tag?
+          *
+          * https://medium.com/@gianpaul.r/tokenization-and-parts-of-speech-pos-tagging-in-pythons-nltk-library-2d30f70af13b
+          *
+          * @param tag the tag
+          * @return whether or not the tag is important
+          */
+        def isKeytag(tag: String): Boolean = List("NNP", "NNPS", "NN", "NNS", "FW").contains(tag)
+
+        /**
+          * Can this string be considered a number? / Is this a numeric string?
+          * @param str the string
+          * @return wether or not it's a number
+          */
+        def isNumeric(str: String): Boolean = {
+            try {
+                Integer.valueOf(str)
+                true
+            } catch {
+                case _: Exception => false
+            }
+        }
+
+        /**
+          * In our dataset the only interesting words of length two and lower are bone identifiers.
+          *
+          * @param str the word
+          * @return wether or not it's a bone ID
+          */
+        def isBoneID(str: String): Boolean = Pattern.matches("[a-z][0-9]+", str)
+
+        tokens.indices.foldLeft((Array[String](), Array[String]())){ (acc: (Array[String], Array[String]), i: Int) =>
+            val token: String = tokens(i).replaceAll("[,\\/#!$%\\^&\\*;|:{}=\\-_`~()\\[\\]<>\"”(\\.$)]", "").toLowerCase
+            val tag = tags(i)
+
+            if(isKeytag(tag) && (token.length>=3 || isBoneID(token)) && !isNumeric(token)) (acc._1 :+ token, acc._2 :+ tag)
+            else acc
+        }
     }
 }

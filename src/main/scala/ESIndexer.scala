@@ -28,7 +28,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
     //https://discuss.elastic.co/t/elasticsearch-total-term-frequency-and-doc-count-from-given-set-of-documents/115223
     //https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-termvectors.html
 
-    def initIndexes: Unit = {
+    def initIndexes(): Unit = {
         val jsonAdminFileLemma = jsonBuilder
 
         jsonAdminFileLemma.startObject()
