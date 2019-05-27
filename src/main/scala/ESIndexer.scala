@@ -78,23 +78,24 @@ class ESIndexer(url: String = "http://localhost:9200") {
 
     def index(req: FileLemmas): Future[Unit] = Future[Unit](esClient.index(makeIndexRequest(req), RequestOptions.DEFAULT))
 
-    def makeJson(req: FileLemmas): XContentBuilder = {
-        val json = jsonBuilder
+    def makeJson(req: IndexingRequest): XContentBuilder = req match {
+        case req: FileLemmas =>
+            val json = jsonBuilder
 
-        json.startObject()
-        json.field("title", req.title)
-        json.field("text", req.text)
+            json.startObject()
+            json.field("title", req.title)
+            json.field("text", req.text)
 
-        json.startArray("words")
+            json.startArray("words")
 
-        req.words.foreach{ word =>
-            json.value(word)
-        }
+            req.words.foreach{ word =>
+                json.value(word)
+            }
 
-        json.endArray()
+            json.endArray()
 
-        json.endObject()
+            json.endObject()
 
-        json
+            json
     }
 }

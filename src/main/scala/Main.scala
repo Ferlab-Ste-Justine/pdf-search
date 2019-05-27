@@ -92,6 +92,11 @@ object Main {
 
             s"$name"
         } catch {
+            case e: java.net.ConnectException =>
+                e.printStackTrace()
+                println("ES or connection error; exiting now...")
+                System.exit(1)
+                ""
             case _: Exception => s"Failed indexing $name"
         }
 
