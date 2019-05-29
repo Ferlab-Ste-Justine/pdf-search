@@ -30,7 +30,7 @@ class OCRParser(languages: String = "eng") {
       * @param pdf the java.io.File to input to parsePDF
       * @return the text of the pdf
       */
-    def parsePDF(pdf: File): String = Await.result(parsePDF(new FileInputStream(pdf)), Duration.Inf)
+    def parsePDF(pdf: File): String = parsePDF(new FileInputStream(pdf))
 
     /**
       * Parses the requested pdf stream into a string.
@@ -41,7 +41,7 @@ class OCRParser(languages: String = "eng") {
       * @return The string (text) of the pdf
       */
     @throws[java.io.IOException]
-    def parsePDF(pdf: InputStream): Future[String] = Future[String]{
+    def parsePDF(pdf: InputStream):String = {
 
         val document =
             try {
@@ -118,7 +118,7 @@ class OCRParser(languages: String = "eng") {
          */
 
         var asText = ""
-        for(i <- 0 until document.getNumberOfPages) asText += tesseract.doOCR(renderer.renderImage(i, 3, ImageType.GRAY))
+        for(i <- 0 until document.getNumberOfPages) asText += tesseract.doOCR(renderer.renderImage(i, 3.1f, ImageType.GRAY))
 
         asText
     }

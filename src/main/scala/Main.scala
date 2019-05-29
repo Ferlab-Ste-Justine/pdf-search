@@ -82,15 +82,12 @@ object Main {
     def adminIndex(pdf: InputStream, name: String, typ: String = "local"): String = {    //do: OCR -> NLP -> ES
 
         try {
-            val futures = ocrParser.parsePDF(pdf).flatMap{ text: String =>
-                nlpParser.getLemmas(text).flatMap{ lemmas: Iterable[String] =>
-                    esIndexer.index(FileLemmas(name, text, lemmas))
-                }
-            }
+            val text = ocrParser.parsePDF(pdf)
 
-            Await.result(futures, Duration.Inf)
+            esIndexer.index(FileLemmas(name, text, nlpParser.getLemmas(text), typ))
 
             s"$name"
+
         } catch {
             case e: java.net.ConnectException =>
                 e.printStackTrace()
@@ -155,7 +152,7 @@ object Main {
         Without this future: 50s for 20 docs
         With this future: 40s for 20 docs!
          */
-        val futures: Future[List[String]] = Future.traverse(getFiles(path).toList) { file: File =>
+        val futures = Future.traverse(getFiles(path).toList) { file: File =>
             Future[String] {     //start a future to do: OCR -> NLP -> ES
                 adminIndex(new FileInputStream(file), getFileName(file))
             }

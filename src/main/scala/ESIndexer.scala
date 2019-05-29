@@ -7,7 +7,8 @@ import org.elasticsearch.common.xcontent.{XContentBuilder, XContentType}
 import org.elasticsearch.common.xcontent.XContentFactory._
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
 
 
 sealed trait IndexingRequest { //represents an IndexRequest into index of name getClass
@@ -79,7 +80,7 @@ class ESIndexer(url: String = "http://localhost:9200") {
 
         request
     }
-    def index(req: FileLemmas): Future[Unit] = Future[Unit] (esClient.index(makeIndexRequest(req), RequestOptions.DEFAULT))
+    def index(req: FileLemmas): Unit = Await.result(Future[Unit] (esClient.index(makeIndexRequest(req), RequestOptions.DEFAULT)), Duration.Inf)
 
     def makeJson(req: IndexingRequest): XContentBuilder = req match {
         case req: FileLemmas =>

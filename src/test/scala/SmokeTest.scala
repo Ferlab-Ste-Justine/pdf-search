@@ -12,13 +12,14 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
     val esIndexer = new ESIndexer
     //val publicMakeJson: PrivateMethod[Array[String]] = PrivateMethod[Array[String]]('makeJson)
 
+
     "ocr -> nlp" should "return [Brain cancer sucks man] with input ./testInput/brainCancer.pdf" in {
-        val result = Await.result(nlpParser.getLemmas(ocrParser.parsePDF(new File("./testInput/brainCancer.pdf"))), Duration.Inf)
+        val result = nlpParser.getLemmas(ocrParser.parsePDF(new File("./testInput/brainCancer.pdf")))
         result shouldBe Set("brain", "cancer", "fun", "man")
     }
 
     it should "return [Yoda he's lightsaber] with input ./testInput/yoda.pdf" in {
-        val result = Await.result(nlpParser.getLemmas(ocrParser.parsePDF(new File("./testInput/yoda.pdf"))), Duration.Inf)
+        val result = nlpParser.getLemmas(ocrParser.parsePDF(new File("./testInput/yoda.pdf")))
         result shouldBe Set("yoda", "lightsabers")
     }
 
@@ -102,16 +103,17 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
             "/studies3" -> handlerPage3
         )) { start =>
 
-            val result = URLIterator.applyOnAllFrom(start, "/studies", fields = List("name"))(identity).mkString
+            val result = URLIterator.applyOnAllFrom(start, "/studies", fields = List("name"))(identity).flatten.foldLeft("")( (acc, ele) => acc + ele)
             result shouldBe "Yoda is amazing, he's just so great with lightsabers!"
 
-            val temp = FileLemmas("yoda", result, Await.result(nlpParser.getLemmas(result), Duration.Inf))
+            val temp = FileLemmas("yoda", result, nlpParser.getLemmas(result))
 
             val json = Strings.toString(esIndexer.makeJson(temp))
 
             json shouldBe s"""
                |{"title":"yoda",
                |"text":"Yoda is amazing, he's just so great with lightsabers!",
+               |"type":"local",
                |"words":
                |["yoda","lightsabers"]
                |}""".stripMargin.replaceAll("\n", "")   //realllllly doesn't like newlines...*/

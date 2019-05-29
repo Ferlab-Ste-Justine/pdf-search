@@ -11,7 +11,7 @@ Inspired by https://github.com/kids-first/kf-portal-etl/blob/develop/kf-portal-e
  */
 
 class URLIteratorTest extends FlatSpec with Matchers {
-/*
+
     "apply" should "return the correct data" in {
         DataService.withDataService(Map("/studies" -> jsonHandler(
             """
@@ -38,7 +38,7 @@ class URLIteratorTest extends FlatSpec with Matchers {
               |}
             """.stripMargin))) { start =>
 
-            val result: List[String] = URLIterator.applyOnAllFrom(start, "/studies", fields = List("name"))(identity)
+            val result = URLIterator.applyOnAllFrom(start, "/studies", fields = List("name"))(identity).flatten
             result shouldBe List("Study 1", "Study 2")
         }
     }
@@ -91,8 +91,8 @@ class URLIteratorTest extends FlatSpec with Matchers {
             "/studies2" -> handlerPage2
         )) { start =>
 
-            val result: List[String] = URLIterator.applyOnAllFrom(start, "/studies", field = "name")(identity)
+            val result: List[String] = URLIterator.applyOnAllFrom(start, "/studies", fields = List("name"))(identity).flatten
             result shouldBe List("Study 1", "Study 2")
         }
-    }*/
+    }
 }

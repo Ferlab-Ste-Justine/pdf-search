@@ -44,7 +44,7 @@ class NLPParser {
       * @param text the input text
       * @return the lemmas of it's NN/NNS
       */
-    def getLemmas(text: String): Future[Iterable[String]] = Future[Iterable[String]]{
+    def getLemmas(text: String): Iterable[String] = {
 
         val tokens = new TokenizerME(enTokenModel).tokenize(text)
         val tags = new POSTaggerME(enPosModel).tag(tokens)
