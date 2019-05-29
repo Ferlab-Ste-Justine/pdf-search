@@ -8,7 +8,7 @@ import scala.annotation.tailrec
 
 //https://stackoverflow.com/questions/1359689/how-to-send-http-request-in-java
 object URLIterator {
-    def applyOnAllFrom[B](start: String, mid: String, end: String = "", method: String = "GET", field: String = "external_id")(cont: String => B): List[B] = {
+    def applyOnAllFrom[B](start: String, mid: String, end: String = "", fields: List[String], method: String = "GET")(cont: List[String] => B): List[B] = {
 
         @tailrec
         def getAllFrom(iter: String, resList: List[B]): List[B] = {
@@ -24,9 +24,16 @@ object URLIterator {
 
             val json= Json.parse(request)
 
-            val arr = json("results").as[Array[JsObject]].map( _(field).as[String] )
+            val fList = json("results").as[Array[JsObject]].foldLeft(resList){ (acc, jsonObj: JsObject) =>
+                val temp = fields.map{ item =>
+                    jsonObj(item).asOpt[String] match {
+                        case Some(value) => value
+                        case None => "null"
+                    }
+                }
 
-            val fList = arr.foldLeft(resList)( (acc, ele) => {println(ele); acc :+ cont(ele)} )
+                acc :+ cont(temp)
+            }
 
             val next: Option[String] = (json \ "_links" \ "next").asOpt[String]
 

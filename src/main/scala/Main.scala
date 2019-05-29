@@ -79,7 +79,7 @@ object Main {
         } else printHelp
     }
 
-    def adminIndex(pdf: InputStream, name: String): String = {    //do: OCR -> NLP -> ES
+    def adminIndex(pdf: InputStream, name: String, typ: String = "local"): String = {    //do: OCR -> NLP -> ES
 
         try {
             val futures = ocrParser.parsePDF(pdf).flatMap{ text: String =>
@@ -125,9 +125,9 @@ object Main {
     def adminIndexFilesRemote(start: String, mid: String, end: String): Unit = {
         esIndexer.initIndexes()
 
-        val futures: List[Future[String]] = URLIterator.applyOnAllFrom(start, mid, end){ url: String =>
+        val futures = URLIterator.applyOnAllFrom(start, mid, end, List("external_id", "data_type")) { urlType: List[String] =>
             Future[String] {     //start a future to do: S3 -> OCR -> NLP -> ES
-                adminIndex(s3Downloader.download(url), url)
+                adminIndex(s3Downloader.download(urlType.head), urlType.head.substring(urlType.indexOf("/", urlType.indexOf("/")) + 1, urlType.length), urlType(1))
             }
         }
 

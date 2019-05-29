@@ -16,7 +16,7 @@ libraryDependencies += "org.apache.opennlp" % "opennlp-tools" % "1.9.1"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % "test"
 
 // https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-high-level-client
-libraryDependencies += "org.elasticsearch.client" % "elasticsearch-rest-high-level-client" % "7.0.1"
+libraryDependencies += "org.elasticsearch.client" % "elasticsearch-rest-high-level-client" % "6.5.0"
 
 // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3
 libraryDependencies += "com.amazonaws" % "aws-java-sdk-s3" % "1.11.549"

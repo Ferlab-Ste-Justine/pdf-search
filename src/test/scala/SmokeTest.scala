@@ -102,7 +102,7 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
             "/studies3" -> handlerPage3
         )) { start =>
 
-            val result = URLIterator.applyOnAllFrom(start, "/studies", field = "name")(identity).mkString
+            val result = URLIterator.applyOnAllFrom(start, "/studies", fields = List("name"))(identity).mkString
             result shouldBe "Yoda is amazing, he's just so great with lightsabers!"
 
             val temp = FileLemmas("yoda", result, Await.result(nlpParser.getLemmas(result), Duration.Inf))
