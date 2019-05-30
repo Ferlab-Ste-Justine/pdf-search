@@ -106,7 +106,7 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
             val result = URLIterator.applyOnAllFrom(start, "/studies", fields = List("name"))(identity).flatten.foldLeft("")( (acc, ele) => acc + ele)
             result shouldBe "Yoda is amazing, he's just so great with lightsabers!"
 
-            val temp = FileLemmas("yoda", result, nlpParser.getLemmas(result))
+            val temp = IndexingRequest("yoda", result, nlpParser.getLemmas(result))
 
             val json = Strings.toString(esIndexer.makeJson(temp))
 

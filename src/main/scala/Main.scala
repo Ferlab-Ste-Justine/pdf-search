@@ -71,20 +71,43 @@ object Main {
         esIndexer = new ESIndexer(argMap("esurl"))
         s3Downloader = new S3Downloader(argMap("bucket"))
 
+        val temperino = System.currentTimeMillis()
+
+        val allo = URLIterator.applyOnAllFrom("https://kf-api-dataservice-qa.kids-first.io",
+            "/participants", "limit=100&visible=true", List("kf_id", "ethnicity", "race", "gender"), batched = true){ batchedierg: Seq[String] =>
+            Future[Unit] {
+                esIndexer.bulkIndex(
+                    batchedierg.grouped(4).foldLeft(List[IndexingRequest]()) { (acc, ierg) =>
+                        val text = "KF_ID: "+ierg(0)+". Ethnicity: "+ierg(1)+". Race: "+ierg(2)+". Gender: "+ierg(3)+". "
+                        val words = ierg.tail
+
+                        acc :+ IndexingRequest("Participant"+ierg(0), text, words, "participant", "participant", ierg(0))
+                    }
+                )
+            }
+        }
+
+        Await.result(Future.sequence(allo), Duration.Inf)
+
+        adminIndexFilesLocal(argMap("localinput"))
+
+        println("took "+(System.currentTimeMillis() - temperino)/1000+" seconds to index all participants")
+
+/*
         if(argMap("do").equals("adminremote")) {
             adminIndexFilesRemote(argMap("starturl"), argMap("midurl"), argMap("endurl"))
         } else if(argMap("do").equals("adminlocal")) {
             adminIndexFilesLocal(argMap("localinput"))
 
-        } else printHelp
+        } else printHelp*/
     }
 
-    def adminIndex(pdf: InputStream, name: String, typ: String = "local"): String = {    //do: OCR -> NLP -> ES
+    def adminIndex(pdf: InputStream, name: String, dataType: String = "local", fileFormat: String = "pdf", kfId: String = "local"): String = {    //do: OCR -> NLP -> ES
 
         try {
             val text = ocrParser.parsePDF(pdf)
 
-            esIndexer.index(FileLemmas(name, text, nlpParser.getLemmas(text), typ))
+            esIndexer.index(IndexingRequest(name, text, nlpParser.getLemmas(text), dataType, fileFormat, kfId))
 
             s"$name"
 
@@ -120,11 +143,9 @@ object Main {
     }
 
     def adminIndexFilesRemote(start: String, mid: String, end: String): Unit = {
-        esIndexer.initIndexes()
-
-        val futures = URLIterator.applyOnAllFrom(start, mid, end, List("external_id", "data_type")) { urlType: List[String] =>
+        val futures = URLIterator.applyOnAllFrom(start, mid, end, List("external_id", "data_type", "file_format", "file_name", "kf_id")) { edffk: List[String] =>
             Future[String] {     //start a future to do: S3 -> OCR -> NLP -> ES
-                adminIndex(s3Downloader.download(urlType.head), urlType.head.substring(urlType.indexOf("/", urlType.indexOf("/")) + 1, urlType.length), urlType(1))
+                adminIndex(s3Downloader.download(edffk(0)), edffk(3), edffk(1), edffk(2), edffk(4))
             }
         }
 
@@ -141,8 +162,6 @@ object Main {
       */
     def adminIndexFilesLocal(path: String): Unit = {
         //esIndexer.initAdminIndexes
-        esIndexer.initIndexes()
-
         val start = System.currentTimeMillis()
 
         /*
