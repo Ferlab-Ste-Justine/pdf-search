@@ -138,7 +138,7 @@ object Main {
                 }
             }
 
-        Await.result(Future.sequence(participantsFuture), Duration.Inf)
+        Await.result(Future.sequence(participantsFuture), Duration.Inf) //quand on arrive ici, on s'arrête même si on a pas finit?
 
         println("CECI N'EST JAMAIS IMPRIMÉ! BUG!")
         println("Participants indexing done. exiting now...")

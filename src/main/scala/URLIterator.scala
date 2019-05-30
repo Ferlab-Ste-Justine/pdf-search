@@ -18,12 +18,43 @@ object URLIterator {
     //https://stackoverflow.com/questions/3508077/how-to-define-type-disjunction-union-types
     //https://www.scala-lang.org/api/2.12.1/scala/PartialFunction.html
 
+    /**
+      * Calls an Dataservice URL and iterates on it, applying a callback "cont" on every result in the returned JSON.
+      *
+      * Cont can be a Future, and the iteration will continue even while cont does it's thing.
+      *
+      * The Map passed to cont has all the requested links and fields. The fields will be directly accessible using
+      * map("FIELD_NAME"). The links have a header added and can be accessed with map("_links.LINK_NAME").
+      *
+      * @param start the start of the URL
+      * @param mid the middle of the URL
+      * @param end the end of the URL
+      * @param fields the requested fields
+      * @param links the requested links
+      * @param method the HTTP method to use
+      * @param cont the continuation
+      * @tparam B the return type of Cont
+      * @return the list of all the results of the calls to cont
+      */
     def applyOnAllFrom[B](start: String, mid: String, end: String = "", fields: List[String], links: List[String] = List(), method: String = "GET")(cont: Map[String, String] => B): List[B] = {
         val client = HttpClient.newHttpClient()
 
+        /**
+          * Gets everything from the start-mid-end URL, calling cont on it and accumulating the calls' results into
+          * resList
+          *
+          * @param iter the current middle part of the URL
+          * @param resList the result list
+          * @return the completed result list
+          */
         @tailrec
         def getAllFrom(iter: String, resList: List[B]): List[B] = {
 
+            /**
+              * Sends a request
+              *
+              * @return the response as a String
+              */
             def request = {
                 val request = HttpRequest.newBuilder().uri(URI.create(start + iter + (if(resList.isEmpty) "?" else "&") + end)).build()
 
@@ -32,6 +63,12 @@ object URLIterator {
                 response.body()
             }
 
+            /**
+              * Transforms the obj into a Map of the requested links of fields
+              *
+              * @param obj the object
+              * @return the corresponding map
+              */
             def intoMap(obj: JsObject): Map[String, String] = {
                 def extract(thisObj: JsObject, item: String, prefix: String = ""): (String, String) = {
                     (prefix+item, thisObj(item).asOpt[String] match {
@@ -41,14 +78,16 @@ object URLIterator {
                 }
 
                 val fieldMap = fields.map(extract(obj, _))
-                val linkMap = if(links.nonEmpty) links.map(extract(obj("_links").as[JsObject], _, "_links.")) else List()
+                val linkMap = //if we're requesting links, ask for them. Otherwise, return no Link tuples
+                    if(links.nonEmpty) links.map(extract(obj("_links").as[JsObject], _, "_links."))
+                    else List()
 
-                (fieldMap ::: linkMap).toMap
+                (fieldMap ::: linkMap).toMap    //transforms the list of tuples into a Map
             }
 
             val json= Json.parse(request)
 
-            val fList: List[B] =
+            val fList: List[B] =    //some resultsets are a direct JSON object and not an Array
                 try {
                     val results: Array[JsObject] = json("results").as[Array[JsObject]]
 
@@ -61,19 +100,36 @@ object URLIterator {
                         resList :+ cont(intoMap(results))
                 }
 
-
-
             val next: Option[String] = (json \ "_links" \ "next").asOpt[String]
 
             next match {
                 case Some(url) => println(url); getAllFrom(url, fList)
-                case None => fList
+                case None => fList  //if there's no next, we're done!
             }
         }
 
         getAllFrom(mid, List())
     }
 
+    /**
+      * Batching version of applyOnAllFrom
+      *
+      * Uses a mutable list to accumulate Maps from a call to the non-batched method. When that accumulator reaches
+      * batchSize, it calls cont on it and resets the accumulator.
+      *
+      * Cont can create a Future. That way, the accumulation will continue even during the call to cont.
+      *
+      * @param start the start of the URL
+      * @param mid the middle of the URL (starting position)
+      * @param end the end of the URL
+      * @param fields the requested fields
+      * @param links the requested links
+      * @param method the HTTP method to use
+      * @param batchSize the batchsize
+      * @param cont the continuation to call on the batch
+      * @tparam C the return type of Cont
+      * @return a list of all the results of cont
+      */
     def batchedApplyOnAllFrom[C](start: String, mid: String, end: String = "", fields: List[String], links: List[String] = List(), method: String = "GET", batchSize: Int = 500)(cont: List[Map[String, String]] => C): List[C] = {
         var accumulator = ListBuffer[Map[String, String]]()
         val results = ListBuffer[C]()
@@ -92,7 +148,4 @@ object URLIterator {
 
         results.toList
     }
-
-    //def getNameFromUrl(url: String): String =  url.substring(url.indexOf('/', url.indexOf('/')) + 1, url.length).replaceAll("(.pdf)$", "")
-
 }
