@@ -71,35 +71,32 @@ object Main {
         esIndexer = new ESIndexer(argMap("esurl"))
         s3Downloader = new S3Downloader(argMap("bucket"))
 
-        val temperino = System.currentTimeMillis()
-
-        val allo = URLIterator.applyOnAllFrom("https://kf-api-dataservice-qa.kids-first.io",
-            "/participants", "limit=100&visible=true", List("kf_id", "ethnicity", "race", "gender"), batched = true){ batchedierg: Seq[String] =>
+        /*
+        val participantsFuture = URLIterator.batchedApplyOnAllFrom("https://kf-api-dataservice-qa.kids-first.io",
+            "/participants", "limit=100&visible=true", List("kf_id", "ethnicity", "race", "gender")){ batchedierg: List[List[String]] =>
             Future[Unit] {
                 esIndexer.bulkIndex(
-                    batchedierg.grouped(4).foldLeft(List[IndexingRequest]()) { (acc, ierg) =>
-                        val text = "KF_ID: "+ierg(0)+". Ethnicity: "+ierg(1)+". Race: "+ierg(2)+". Gender: "+ierg(3)+". "
-                        val words = ierg.tail
+                    batchedierg.foldLeft(List[IndexingRequest]()) { (acc, ierg: List[String]) =>
+                        val text = "KF_ID: "+ierg.head+". Ethnicity: "+ierg(1)+". Race: "+ierg(2)+". Gender: "+ierg(3)+". "
+                        val words = ierg.slice(1, 3)
 
-                        acc :+ IndexingRequest("Participant"+ierg(0), text, words, "participant", "participant", ierg(0))
+                        acc :+ IndexingRequest("Participant"+ierg.head, text, words, "participant", "participant", ierg.head)
                     }
                 )
             }
         }
 
-        Await.result(Future.sequence(allo), Duration.Inf)
+        Await.result(Future.sequence(participantsFuture), Duration.Inf)*/
 
-        adminIndexFilesLocal(argMap("localinput"))
+        val temp = URLIterator.batchedApplyOnAllFrom("https://kf-api-dataservice-qa.kids-first.io",
+            "/participants", "limit=100&visible=true", List("kf_id", "ethnicity", "race", "gender"), List("family"))(identity)
 
-        println("took "+(System.currentTimeMillis() - temperino)/1000+" seconds to index all participants")
-
-/*
         if(argMap("do").equals("adminremote")) {
             adminIndexFilesRemote(argMap("starturl"), argMap("midurl"), argMap("endurl"))
         } else if(argMap("do").equals("adminlocal")) {
             adminIndexFilesLocal(argMap("localinput"))
 
-        } else printHelp*/
+        } else printHelp
     }
 
     def adminIndex(pdf: InputStream, name: String, dataType: String = "local", fileFormat: String = "pdf", kfId: String = "local"): String = {    //do: OCR -> NLP -> ES
