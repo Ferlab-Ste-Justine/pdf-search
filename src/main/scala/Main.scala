@@ -1,30 +1,11 @@
 import java.io.{File, FileInputStream, InputStream}
-import java.util.concurrent.Executors
 
 import scala.annotation.tailrec
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.Duration
-import scala.concurrent.{Future, _}
-import scala.util.{Failure, Success}
-
-
-//https://github.com/overview/pdfocr
-
-//https://stackoverflow.com/questions/4827924/is-tesseractan-ocr-engine-reentrant thread safe: FUTURES!
-
-//TODO conf https://github.com/lightbend/config
 
 object Main {
-
-    //implicit val blockContext = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(Runtime.getRuntime.availableProcessors()))
-    implicit class bockContext(size: Int = Runtime.getRuntime.availableProcessors()) extends scala.concurrent.ExecutionContext {
-        val pool: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
-
-        override def execute(runnable: Runnable): Unit = pool.execute(runnable)
-
-        override def reportFailure(cause: Throwable): Unit = pool.reportFailure(cause)
-    }
-
-    implicit val bocker = bockContext()
 
     var ocrParser: OCRParser = _
     var nlpParser: NLPParser = _
@@ -83,89 +64,93 @@ object Main {
         esIndexer = new ESIndexer(argMap("esurl"))
         s3Downloader = new S3Downloader(argMap("bucket"))
 
-        indexParticipants("https://kf-api-dataservice-qa.kids-first.io", "/participants", "limit=100&visible=true")
+        /**
+          * Transforms a call-by-name into a no-parameter function call to be able to use it in a varargs
+          *
+          * https://stackoverflow.com/questions/13307418/scala-variable-argument-list-with-call-by-name-possible
+          *
+          * @param a the call-by-name parameter
+          * @tparam A its return type
+          * @return the call by name parameter as a function
+          */
+        implicit def bynameToNoarg[A](a: => A): () => A = () => a
+        /**
+          * Syntactic sugar to parallelize the execution of multiple function calls.
+          *
+          * Creates a Future per block of code to execute and then blocks until all the tasks are done.
+          *
+          * https://alvinalexander.com/scala/fp-book/how-to-use-by-name-parameters-scala-functions
+          *
+          * @param codes the function calls to parallelize
+          */
+        case class Tasks(codes: (() => Any)*) {
+            Await.result(
+                Future.traverse(codes) { code =>
+                    Future[Unit] {
+                        println(code())
+                    }
+                }
+                , Duration.Inf)
+        }
 
+        val startTime = System.currentTimeMillis()
 
-        val temp = URLIterator.batchedApplyOnAllFrom("https://kf-api-dataservice-qa.kids-first.io",
-            "/participants", "limit=100&visible=true", List("kf_id", "ethnicity", "race", "gender"), List("family"))(identity)
+        Tasks(
+            indexParticipants("https://kf-api-dataservice.kids-first.io", "/participants", "limit=100&visible=true"),
+            if(argMap("do").equals("adminremote")) {
+                indexPDFRemote(argMap("starturl"), argMap("midurl"), argMap("endurl"))
+            } else if(argMap("do").equals("adminlocal")) {
+                indexPDFLocal(argMap("localinput"))
+            }
+        )
 
-        if(argMap("do").equals("adminremote")) {
-            adminIndexFilesRemote(argMap("starturl"), argMap("midurl"), argMap("endurl"))
-        } else if(argMap("do").equals("adminlocal")) {
-            adminIndexFilesLocal(argMap("localinput"))
+        esIndexer.cleanup()
 
-        } else printHelp
+        println("took "+(System.currentTimeMillis()-startTime)/1000+" seconds")
+        System.exit(0)
     }
 
     def indexParticipants(start: String, mid: String, end: String): Unit = {
-
-        /* TODO
-
-        On est pas capables de finir ceci. Comme dans notre callback on doit accéder au dataservice aussi (pour les family), on est complètement bloqués sur
-        l'IO. On échoue avec Caused by: java.lang.OutOfMemoryError: unable to create native thread: possibly out of memory or process/resource limits reached
-
-        https://stackoverflow.com/questions/16789288/java-lang-outofmemoryerror-unable-to-create-new-native-thread
-        http://www.beyondthelines.net/computing/scala-future-and-execution-context/
-
-        Il faut soit abandonner les Futures ici, soit tout downloader sur disque, pour ensuite pouvoir utiliser des futures lorsqu'on demande les familly.
-
-        L'ajout de Blocking n'a rien changé.
-
-        Ça semble pire lorsqu'on ne batch pas puisqu'on crée un future qui appelle le URLiterator par participant concuremment au lieu de séquentiellement pour la batch,
-        mais au moins on arrive à en faire quelques uns avant de crasher. Ça fonctionne avec blocking, cependant.
-
-         */
-
-        /* AVEC BATCHING
-        val participantsFuture = URLIterator.batchedApplyOnAllFrom(start,
-            mid, end, List("kf_id", "ethnicity", "race", "gender"), List("family")){ batch: List[Map[String, String]] =>
-            Future[Unit] {
-                blocking{
-                    val participantList = batch.foldLeft(List[IndexingRequest]()) { (acc, participant: Map[String, String]) =>
-                        val family = URLIterator.applyOnAllFrom(start, participant("_links.family"), end="", List("kf_id") )(identity)
+        /*with side effects of bulkIndex
+        Await.result(
+            Future.sequence(
+                URLIterator.applyOnAllFrom(start,
+                    mid, end, List("kf_id", "ethnicity", "race", "gender"), List("family")){ participant: Map[String, String] =>
+                    Future[Unit] {
+                        val familyLink = participant("_links.family")
+                        val family = familyLink.substring(familyLink.indexOf('/')+1, familyLink.length)
                         val text = "KF_ID: "+participant("kf_id")+". Ethnicity: "+participant("ethnicity")+". Race: "+participant("race")+". Gender: "+participant("gender")+". Family_id: "+family+"."
                         val words = participant.values.slice(1, 3)
 
-                        acc :+ IndexingRequest("Participant "+participant("kf_id"), text, words, "participant", "participant", participant("kf_id"))
+                        esIndexer.bulkIndex(IndexingRequest("Participant "+participant("kf_id"), text, words, "participant", "participant", participant("kf_id")))
                     }
-
-                    esIndexer.bulkIndex(participantList)
                 }
+            )
+        , Duration.Inf)*/
 
-            }
-        }*/
+        Await.result(
+            Future.sequence(
+                URLIterator.batchedApplyOnAllFrom(start, mid, end, List("kf_id", "ethnicity", "race", "gender"), List("family"), batchSize = 1500) { participants: List[Map[String, String]] =>
+                    Future[Unit] {
+                        val futures = Future.traverse(participants) { participant: Map[String, String] =>
+                            Future[IndexingRequest] {
+                                val familyLink = participant("_links.family")
+                                val family = familyLink.substring(familyLink.indexOf('/') + 1, familyLink.length)
+                                val text = "KF_ID: " + participant("kf_id") + ". Ethnicity: " + participant("ethnicity") + ". Race: " + participant("race") + ". Gender: " + participant("gender") + ". Family_id: " + family + "."
+                                val words = participant.values.slice(1, 3)
 
-        // SANS BATCHING: ne semble jamais finir???
-        val participantsFuture: List[Future[Unit]] = URLIterator.applyOnAllFrom(start,
-            mid, end, List("kf_id", "ethnicity", "race", "gender"), List("family")){ participant: Map[String, String] =>
-            val temp = Future[Unit] {
-                blocking{
-                    val family = URLIterator.applyOnAllFrom(start, participant("_links.family"), end="", List("kf_id") )(identity)
-                    val text = "KF_ID: "+participant("kf_id")+". Ethnicity: "+participant("ethnicity")+". Race: "+participant("race")+". Gender: "+participant("gender")+". Family_id: "+family+"."
-                    val words = participant.values.slice(1, 3)
+                                IndexingRequest("Participant " + participant("kf_id"), text, words, "participant", "participant", participant("kf_id"))
+                            }
+                        }
 
-                    esIndexer.index(IndexingRequest("Participant "+participant("kf_id"), text, words, "participant", "participant", participant("kf_id")))
+                        esIndexer.bulkIndex(Await.result(futures, Duration.Inf))
+                    }
                 }
-
-            }
-
-            temp.onComplete{
-                case Success(value) =>
-                case Failure(exception) =>
-                    exception.printStackTrace()
-            }
-
-            temp
-        }
-
-        Await.result(Future.sequence(participantsFuture), Duration.Inf) //quand on arrive ici, on s'arrête même si on a pas finit?
-
-        println("CECI N'EST JAMAIS IMPRIMÉ! BUG!")
-        println("Participants indexing done. exiting now...")
-        System.exit(1)
+            )
+        , Duration.Inf)
     }
 
-    def adminIndex(pdf: InputStream, name: String, dataType: String = "local", fileFormat: String = "pdf", kfId: String = "local"): String = {    //do: OCR -> NLP -> ES
+    def indexPDF(pdf: InputStream, name: String, dataType: String = "local", fileFormat: String = "pdf", kfId: String = "local"): String = {    //do: OCR -> NLP -> ES
 
         try {
             val text = ocrParser.parsePDF(pdf)
@@ -205,17 +190,18 @@ object Main {
         printIter(list, List())
     }
 
-    def adminIndexFilesRemote(start: String, mid: String, end: String): Unit = {
-        val futures = URLIterator.applyOnAllFrom(start, mid, end, List("external_id", "data_type", "file_format", "file_name", "kf_id")) { edffk =>
-            Future[String] {     //start a future to do: S3 -> OCR -> NLP -> ES
-                adminIndex(s3Downloader.download(edffk("external_id")), edffk("file_name"), edffk("data_type"), edffk("file_format"), edffk("kf-id"))
-            }
-        }
+    def indexPDFRemote(start: String, mid: String, end: String): Unit = {
+        Await.result(
+            Future.sequence(
+                URLIterator.applyOnAllFrom(start, mid, end, List("external_id", "data_type", "file_format", "file_name", "kf_id")) { edffk =>
+                    Future[String] {     //start a future to do: S3 -> OCR -> NLP -> ES
+                        indexPDF(s3Downloader.download(edffk("external_id")), edffk("file_name"), edffk("data_type"), edffk("file_format"), edffk("kf-id"))
+                    }
+                }
+            )
+        , Duration.Inf)
 
-        printReport(Await.result(Future.sequence(futures), Duration.Inf))
-
-        println("Files indexed.\nAdmin indexing done. Exiting now...")
-        System.exit(0)
+        Unit
     }
 
     /**
@@ -223,28 +209,15 @@ object Main {
       *
       * @param path the path to the folder containing the files
       */
-    def adminIndexFilesLocal(path: String): Unit = {
-        //esIndexer.initAdminIndexes
-        val start = System.currentTimeMillis()
-
-        /*
-        Need an englobing Future to start the smaller Futures sequentially (prevents the indexation of 2-3 documents
-        from blocking the threads).
-
-        Without this future: 50s for 20 docs
-        With this future: 40s for 20 docs!
-         */
-        val futures = Future.traverse(getFiles(path).toList) { file: File =>
-            Future[String] {     //start a future to do: OCR -> NLP -> ES
-                adminIndex(new FileInputStream(file), getFileName(file))
+    def indexPDFLocal(path: String) = {
+        Await.result(
+            Future.traverse(getFiles(path).toList) { file: File =>
+                Future[String] {     //start a future to do: OCR -> NLP -> ES
+                    indexPDF(new FileInputStream(file), getFileName(file))
+                }
             }
-        }
+        , Duration.Inf)
 
-        printReport(Await.result(futures, Duration.Inf))
-
-        println("Files indexed.\nAdmin indexing done. Exiting now...")
-        println("Took: "+(System.currentTimeMillis()-start)/1000+"s for "+getFiles(path).length+" documents")
-        System.exit(0)
     }
 
     def getFileName(file: File): String = file.getName.replaceAll("(.pdf)$", "")

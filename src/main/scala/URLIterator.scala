@@ -74,6 +74,7 @@ object URLIterator {
                     } catch {
                         case e: Exception =>
                             if(tries >= retries) {
+                                //TODO que faire lorsqu'on plante? demander Jeremy
                                 val exception: Exception = new Exception(s"Retrying failed $tries times. Exiting now...")
                                 exception.initCause(e.getCause)
                                 exception.setStackTrace(e.getStackTrace)
@@ -155,21 +156,27 @@ object URLIterator {
       * @tparam C the return type of Cont
       * @return a list of all the results of cont
       */
-    def batchedApplyOnAllFrom[C](start: String, mid: String, end: String = "", fields: List[String], links: List[String] = List(), method: String = "GET", batchSize: Int = 500)(cont: List[Map[String, String]] => C): List[C] = {
+    def batchedApplyOnAllFrom[C](start: String, mid: String, end: String = "", fields: List[String], links: List[String] = List(), method: String = "GET", retries: Int = 10, batchSize: Int = 500)(cont: List[Map[String, String]] => C): List[C] = {
         var accumulator = ListBuffer[Map[String, String]]()
         val results = ListBuffer[C]()
 
-        def applyCont(batch: ListBuffer[Map[String, String]]) = cont(batch.toList)
+        /**
+          * Applies the continuation on batch.toList
+          *
+          * @param batch the batch
+          * @return the result of the continuation
+          */
+        def applyCont(batch: ListBuffer[Map[String, String]]) = results += cont(batch.toList)
 
         applyOnAllFrom(start, mid, end, fields, links, method = method) { item: Map[String, String] =>
             accumulator += item
             if(accumulator.size >= batchSize) {
-                results += applyCont(accumulator)
+                applyCont(accumulator)
                 accumulator = ListBuffer[Map[String, String]]()
             }
         }
 
-        if(accumulator.nonEmpty) results += applyCont(accumulator)
+        if(accumulator.nonEmpty) applyCont(accumulator)
 
         results.toList
     }
