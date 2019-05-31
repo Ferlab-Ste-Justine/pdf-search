@@ -1,9 +1,10 @@
 import java.io.{File, FileInputStream, InputStream}
+import java.util.concurrent.Executors
 
 import scala.annotation.tailrec
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Future, _}
+import scala.util.{Failure, Success}
 
 
 //https://github.com/overview/pdfocr
@@ -13,6 +14,17 @@ import scala.concurrent.{Future, _}
 //TODO conf https://github.com/lightbend/config
 
 object Main {
+
+    //implicit val blockContext = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(Runtime.getRuntime.availableProcessors()))
+    implicit class bockContext(size: Int = Runtime.getRuntime.availableProcessors()) extends scala.concurrent.ExecutionContext {
+        val pool: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
+
+        override def execute(runnable: Runnable): Unit = pool.execute(runnable)
+
+        override def reportFailure(cause: Throwable): Unit = pool.reportFailure(cause)
+    }
+
+    implicit val bocker = bockContext()
 
     var ocrParser: OCRParser = _
     var nlpParser: NLPParser = _
@@ -126,17 +138,25 @@ object Main {
         // SANS BATCHING: ne semble jamais finir???
         val participantsFuture: List[Future[Unit]] = URLIterator.applyOnAllFrom(start,
             mid, end, List("kf_id", "ethnicity", "race", "gender"), List("family")){ participant: Map[String, String] =>
-                Future[Unit] {
-                    blocking{
-                        val family = URLIterator.applyOnAllFrom(start, participant("_links.family"), end="", List("kf_id") )(identity)
-                        val text = "KF_ID: "+participant("kf_id")+". Ethnicity: "+participant("ethnicity")+". Race: "+participant("race")+". Gender: "+participant("gender")+". Family_id: "+family+"."
-                        val words = participant.values.slice(1, 3)
+            val temp = Future[Unit] {
+                blocking{
+                    val family = URLIterator.applyOnAllFrom(start, participant("_links.family"), end="", List("kf_id") )(identity)
+                    val text = "KF_ID: "+participant("kf_id")+". Ethnicity: "+participant("ethnicity")+". Race: "+participant("race")+". Gender: "+participant("gender")+". Family_id: "+family+"."
+                    val words = participant.values.slice(1, 3)
 
-                        esIndexer.index(IndexingRequest("Participant "+participant("kf_id"), text, words, "participant", "participant", participant("kf_id")))
-                    }
-
+                    esIndexer.index(IndexingRequest("Participant "+participant("kf_id"), text, words, "participant", "participant", participant("kf_id")))
                 }
+
             }
+
+            temp.onComplete{
+                case Success(value) =>
+                case Failure(exception) =>
+                    exception.printStackTrace()
+            }
+
+            temp
+        }
 
         Await.result(Future.sequence(participantsFuture), Duration.Inf) //quand on arrive ici, on s'arrête même si on a pas finit?
 

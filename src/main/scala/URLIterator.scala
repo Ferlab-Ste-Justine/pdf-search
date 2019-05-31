@@ -36,7 +36,7 @@ object URLIterator {
       * @tparam B the return type of Cont
       * @return the list of all the results of the calls to cont
       */
-    def applyOnAllFrom[B](start: String, mid: String, end: String = "", fields: List[String], links: List[String] = List(), method: String = "GET")(cont: Map[String, String] => B): List[B] = {
+    def applyOnAllFrom[B](start: String, mid: String, end: String = "", fields: List[String], links: List[String] = List(), method: String = "GET", retries: Int = 10)(cont: Map[String, String] => B): List[B] = {
         val client = HttpClient.newHttpClient()
 
         /**
@@ -56,11 +56,36 @@ object URLIterator {
               * @return the response as a String
               */
             def request = {
-                val request = HttpRequest.newBuilder().uri(URI.create(start + iter + (if(resList.isEmpty) "?" else "&") + end)).build()
 
-                val response: HttpResponse[String] = client.send(request, BodyHandlers.ofString())
+                /**
+                  * Sends the request retries times
+                  *
+                  * @param tries the current number of tries
+                  * @return the response body as a String
+                  */
+                @tailrec
+                def requestIter(tries: Int = 0): String = {
+                    try {
+                        val request = HttpRequest.newBuilder().uri(URI.create(start + iter + (if(resList.isEmpty) "?" else "&") + end)).build()
 
-                response.body()
+                        val response: HttpResponse[String] = client.send(request, BodyHandlers.ofString())
+
+                        response.body()
+                    } catch {
+                        case e: Exception =>
+                            if(tries >= retries) {
+                                val exception: Exception = new Exception(s"Retrying failed $tries times. Exiting now...")
+                                exception.initCause(e.getCause)
+                                exception.setStackTrace(e.getStackTrace)
+                                exception.printStackTrace()
+
+                                System.exit(1)
+                            }
+                            requestIter(tries+1)
+                    }
+                }
+
+                requestIter()
             }
 
             /**
