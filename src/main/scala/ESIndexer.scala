@@ -29,11 +29,7 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
     //https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html
     //https://www.elastic.co/guide/en/elasticsearch/client/java-rest/master/java-rest-high-document-bulk.html
 
-    val esClient = new RestHighLevelClient(RestClient.builder(HttpHost.create(url)).setRequestConfigCallback{
-        requestConfigBuilder: RequestConfig.Builder => {
-            requestConfigBuilder.setConnectTimeout(Int.MaxValue - 1).setSocketTimeout(Int.MaxValue - 1)
-        }
-    })
+    val esClient = new RestHighLevelClient(RestClient.builder(HttpHost.create(url)))
 
     //https://www.elastic.co/guide/en/elasticsearch/client/java-rest/master/java-rest-high-create-index.html
     //https://discuss.elastic.co/t/elasticsearch-total-term-frequency-and-doc-count-from-given-set-of-documents/115223
