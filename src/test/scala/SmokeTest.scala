@@ -103,7 +103,7 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
             "/studies3" -> handlerPage3
         )) { start =>
 
-            val result = URLIterator.applyOnAllFrom(start, "/studies", fields = List("name"))(identity).flatten.foldLeft("")( (acc, ele) => acc + ele)
+            val result = URLIterator.applyOnAllFrom(start, "/studies", fields = List("name"))().flatten.foldLeft("")( (acc, ele: (String, String)) => acc + ele._2)
             result shouldBe "Yoda is amazing, he's just so great with lightsabers!"
 
             val temp = IndexingRequest("yoda", result, nlpParser.getLemmas(result))
@@ -111,9 +111,11 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
             val json = Strings.toString(esIndexer.makeJson(temp))
 
             json shouldBe s"""
-               |{"title":"yoda",
+               |{"name":"yoda",
                |"text":"Yoda is amazing, he's just so great with lightsabers!",
-               |"type":"local",
+               |"data_type":"local",
+               |"kf_id":"local",
+               |"file_format":"local",
                |"words":
                |["yoda","lightsabers"]
                |}""".stripMargin.replaceAll("\n", "")   //realllllly doesn't like newlines...*/

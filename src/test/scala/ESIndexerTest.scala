@@ -10,11 +10,11 @@ class ESIndexerTest extends FlatSpec with Matchers with PrivateMethodTester {
 
     "es.makeJson" should """return correct JSON for FileLemmas 1""" in {
         val result = Strings.toString(esIndexer.makeJson(IndexingRequest("allo", "salut", Array("1", "2"))))
-        result shouldBe "{\"title\":\"allo\",\"text\":\"salut\",\"type\":\"local\",\"words\":[\"1\",\"2\"]}"
+        result shouldBe "{\"name\":\"allo\",\"text\":\"salut\",\"data_type\":\"local\",\"kf_id\":\"local\",\"file_format\":\"local\",\"words\":[\"1\",\"2\"]}"
     }
 
     it should """return correct JSON for FileLemmas 2""" in {
         val result = Strings.toString(esIndexer.makeJson(IndexingRequest("yoda", "manifesto", Array("gazon", "vert"))))
-        result shouldBe """{"title":"yoda","text":"manifesto","type":"local","words":["gazon","vert"]}"""
+        result shouldBe """{"name":"yoda","text":"manifesto","data_type":"local","kf_id":"local","file_format":"local","words":["gazon","vert"]}"""
     }
 }

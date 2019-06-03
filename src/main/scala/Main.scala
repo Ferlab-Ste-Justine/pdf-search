@@ -111,23 +111,6 @@ object Main {
     }
 
     def indexParticipants(start: String, mid: String, end: String): Unit = {
-        /*with side effects of bulkIndex
-        Await.result(
-            Future.sequence(
-                URLIterator.applyOnAllFrom(start,
-                    mid, end, List("kf_id", "ethnicity", "race", "gender"), List("family")){ participant: Map[String, String] =>
-                    Future[Unit] {
-                        val familyLink = participant("_links.family")
-                        val family = familyLink.substring(familyLink.indexOf('/')+1, familyLink.length)
-                        val text = "KF_ID: "+participant("kf_id")+". Ethnicity: "+participant("ethnicity")+". Race: "+participant("race")+". Gender: "+participant("gender")+". Family_id: "+family+"."
-                        val words = participant.values.slice(1, 3)
-
-                        esIndexer.bulkIndex(IndexingRequest("Participant "+participant("kf_id"), text, words, "participant", "participant", participant("kf_id")))
-                    }
-                }
-            )
-        , Duration.Inf)*/
-
         Await.result(
             Future.sequence(
                 URLIterator.batchedApplyOnAllFrom(start, mid, end, List("kf_id", "ethnicity", "race", "gender"), List("family"), batchSize = 1500) { participants: List[Map[String, String]] =>
@@ -135,7 +118,7 @@ object Main {
                         val futures = Future.traverse(participants) { participant: Map[String, String] =>
                             Future[IndexingRequest] {
                                 val familyLink = participant("_links.family")
-                                val family = familyLink.substring(familyLink.indexOf('/') + 1, familyLink.length)
+                                val family = familyLink.substring(familyLink.lastIndexOf('/') + 1, familyLink.length)
                                 val text = "KF_ID: " + participant("kf_id") + ". Ethnicity: " + participant("ethnicity") + ". Race: " + participant("race") + ". Gender: " + participant("gender") + ". Family_id: " + family + "."
                                 val words = participant.values.slice(1, 3)
 
@@ -150,8 +133,17 @@ object Main {
         , Duration.Inf)
     }
 
-    def indexPDF(pdf: InputStream, name: String, dataType: String = "local", fileFormat: String = "pdf", kfId: String = "local"): String = {    //do: OCR -> NLP -> ES
-
+    /**
+      * Indexes PDFs into ES.
+      *
+      * @param pdf the PDF as an InputStream. Uses call-by-name to create a future on the download of said stream
+      * @param name the name of the PDF
+      * @param dataType the datatype of the PDF
+      * @param fileFormat the format of the PDF (always PDF, but we're not hard-coding it...)
+      * @param kfId the Kid's First ID of the PDF
+      * @return String representing wether or not the indexing succeeded
+      */
+    def indexPDF(pdf: => InputStream, name: String, dataType: String = "local", fileFormat: String = "pdf", kfId: String = "local"): Future[String] = Future[String] {    //do: OCR -> NLP -> ES
         try {
             val text = ocrParser.parsePDF(pdf)
 
@@ -167,7 +159,6 @@ object Main {
                 ""
             case _: Exception => s"Failed indexing $name"
         }
-
     }
 
     def printReport(list: List[String]): Unit = {
@@ -190,18 +181,17 @@ object Main {
         printIter(list, List())
     }
 
-    def indexPDFRemote(start: String, mid: String, end: String): Unit = {
-        Await.result(
-            Future.sequence(
-                URLIterator.applyOnAllFrom(start, mid, end, List("external_id", "data_type", "file_format", "file_name", "kf_id")) { edffk =>
-                    Future[String] {     //start a future to do: S3 -> OCR -> NLP -> ES
+    def indexPDFRemote(start: String, mid: String, end: String) = {
+        printReport(
+            Await.result(
+                Future.sequence(
+                    URLIterator.applyOnAllFrom(start, mid, end, List("external_id", "data_type", "file_format", "file_name", "kf_id")) { edffk =>
+                        //start a future to do: S3 -> OCR -> NLP -> ES
                         indexPDF(s3Downloader.download(edffk("external_id")), edffk("file_name"), edffk("data_type"), edffk("file_format"), edffk("kf-id"))
                     }
-                }
-            )
-        , Duration.Inf)
-
-        Unit
+                )
+                , Duration.Inf)
+        )
     }
 
     /**
@@ -210,14 +200,14 @@ object Main {
       * @param path the path to the folder containing the files
       */
     def indexPDFLocal(path: String) = {
-        Await.result(
-            Future.traverse(getFiles(path).toList) { file: File =>
-                Future[String] {     //start a future to do: OCR -> NLP -> ES
+        printReport(
+            Await.result(
+                Future.traverse(getFiles(path).toList) { file: File =>
+                    //start a future to do: OCR -> NLP -> ES
                     indexPDF(new FileInputStream(file), getFileName(file))
                 }
-            }
-        , Duration.Inf)
-
+                , Duration.Inf)
+        )
     }
 
     def getFileName(file: File): String = file.getName.replaceAll("(.pdf)$", "")

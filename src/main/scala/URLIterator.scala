@@ -36,7 +36,7 @@ object URLIterator {
       * @tparam B the return type of Cont
       * @return the list of all the results of the calls to cont
       */
-    def applyOnAllFrom[B](start: String, mid: String, end: String = "", fields: List[String], links: List[String] = List(), method: String = "GET", retries: Int = 10)(cont: Map[String, String] => B): List[B] = {
+    def applyOnAllFrom[B](start: String, mid: String, end: String = "", fields: List[String], links: List[String] = List(), method: String = "GET", retries: Int = 10)(cont: Map[String, String] => B = identity[Map[String, String]] _ ): List[B] = {
         val client = HttpClient.newHttpClient()
 
         /**
