@@ -65,25 +65,18 @@ object URLIterator {
                   */
                 @tailrec
                 def requestIter(tries: Int = 0): String = {
-                    try {
-                        val request = HttpRequest.newBuilder().uri(URI.create(start + iter + (if(resList.isEmpty) "?" else "&") + end)).build()
+                    val request = HttpRequest.newBuilder().uri(URI.create(start + iter + (if(resList.isEmpty) "?" else "&") + end)).build()
 
-                        val response: HttpResponse[String] = client.send(request, BodyHandlers.ofString())
+                    val response: HttpResponse[String] = client.send(request, BodyHandlers.ofString())
 
-                        response.body()
-                    } catch {
-                        case e: Exception =>
-                            if(tries >= retries) {
-                                //TODO que faire lorsqu'on plante? demander Jeremy
-                                val exception: Exception = new Exception(s"Retrying failed $tries times. Exiting now...")
-                                exception.initCause(e.getCause)
-                                exception.setStackTrace(e.getStackTrace)
-                                exception.printStackTrace()
+                    val code = response.statusCode()
 
-                                System.exit(1)
-                            }
-                            requestIter(tries+1)
-                    }
+                    if(code < 200 || code >= 300) {
+
+                        if(tries < retries) requestIter(tries+1)
+                        else throw new Exception(s"Retrying failed $tries times of $retries.")
+
+                    } else response.body()
                 }
 
                 requestIter()
