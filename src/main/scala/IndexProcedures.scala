@@ -61,7 +61,7 @@ object IndexProcedures {
     * @param list
     * @return
     */
-  private def printReport(list: List[String]): Future[List[String]] = {
+  private def printReport(list: List[String]): List[String] = {
     def printtab(str: String): Unit = println("\t" + str)
 
     @tailrec
@@ -80,7 +80,7 @@ object IndexProcedures {
     println("Successes:")
     printIter(list, List())
 
-    Future(list)
+    list
   }
 
   def indexPDFRemote(start: String, mid: String, end: String): Future[List[String]] = {
@@ -89,7 +89,7 @@ object IndexProcedures {
         //start a future to do: S3 -> OCR -> NLP -> ES
         indexPDF(s3Downloader.download(edffk("external_id")), edffk("file_name"), edffk("data_type"), edffk("file_format"), edffk("kf-id"))
       }
-    }.flatMap(printReport)
+    }.map(printReport)
   }
 
   /**
@@ -101,6 +101,6 @@ object IndexProcedures {
     Future.traverse(new File(path).listFiles().toList) { file: File =>
       //start a future to do: OCR -> NLP -> ES
       indexPDF(new FileInputStream(file), file.getName)
-    }.flatMap(printReport)
+    }.map(printReport)
   }
 }

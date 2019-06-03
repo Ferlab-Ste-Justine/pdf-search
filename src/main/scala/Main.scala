@@ -7,6 +7,7 @@ import scala.annotation.tailrec
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.Duration
+import scala.concurrent.blocking
 
 object Main {
 
@@ -51,16 +52,16 @@ object Main {
 
       val defaults = Map[String, String](
         "esurl" -> "http://localhost:9200",
-        "starturl" -> "https://kf-api-dataservice.kidsfirstdrc.org",
-        "midurl" -> "/genomic-files",
         "endurl" -> "file_format=pdf&limit=100",
+        "studyid" -> "",
         "do" -> "adminremote",
         "localinput" -> "./input/",
         "bucket" -> "TEMP"
         //"languages" -> "eng"
       )
 
-      mapFromArgsIter(args, defaults)
+      val argMap = mapFromArgsIter(args, defaults)
+      if(argMap("studyid").length >= 1) argMap + ("endurl" -> (argMap("endurl") + s"&${argMap("studyid")}")) else argMap
     }
 
     argMap = mapFromArgs
@@ -73,11 +74,15 @@ object Main {
     val startTime = System.currentTimeMillis()
 
     val f1 = Future {
-      indexParticipants("https://kf-api-dataservice.kids-first.io", "/participants", "limit=100&visible=true")
+      blocking{
+        indexParticipants("https://kf-api-dataservice.kids-first.io", "/participants", argMap("endurl"))
+      }
     }.flatten
     val f2 = Future {
       if (argMap("do").equals("adminremote")) {
-        indexPDFRemote(argMap("starturl"), argMap("midurl"), argMap("endurl"))
+        blocking{
+          indexPDFRemote("https://kf-api-dataservice.kidsfirstdrc.org", "/genomic-files", argMap("endurl"))
+        }
       } else {
         indexPDFLocal(argMap("localinput"))
       }
