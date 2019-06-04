@@ -27,6 +27,27 @@ object IndexProcedures {
     )
   }
 
+  def indexPDFRemote(start: String, mid: String, end: String): Future[List[String]] = {
+    Future.sequence {
+      URLIterator.applyOnAllFrom(start, mid, end, List("external_id", "data_type", "file_format", "file_name", "kf_id")) { edffk =>
+        //start a future to do: S3 -> OCR -> NLP -> ES
+        indexPDF(s3Downloader.download(edffk("external_id")), edffk("file_name"), edffk("data_type"), edffk("file_format"), edffk("kf-id"))
+      }
+    }.map(printReport)
+  }
+
+  /**
+    * Indexes files from a local directory into ES
+    *
+    * @param path the path to the folder containing the files
+    */
+  def indexPDFLocal(path: String): Future[List[String]] = {
+    Future.traverse(new File(path).listFiles().toList) { file: File =>
+      //start a future to do: OCR -> NLP -> ES
+      indexPDF(new FileInputStream(file), file.getName)
+    }.map(printReport)
+  }
+
   /**
     * Indexes PDFs into ES.
     *
@@ -81,26 +102,5 @@ object IndexProcedures {
     printIter(list, List())
 
     list
-  }
-
-  def indexPDFRemote(start: String, mid: String, end: String): Future[List[String]] = {
-    Future.sequence{
-      URLIterator.applyOnAllFrom(start, mid, end, List("external_id", "data_type", "file_format", "file_name", "kf_id")) { edffk =>
-        //start a future to do: S3 -> OCR -> NLP -> ES
-        indexPDF(s3Downloader.download(edffk("external_id")), edffk("file_name"), edffk("data_type"), edffk("file_format"), edffk("kf-id"))
-      }
-    }.map(printReport)
-  }
-
-  /**
-    * Indexes files from a local directory into ES
-    *
-    * @param path the path to the folder containing the files
-    */
-  def indexPDFLocal(path: String): Future[List[String]] = {
-    Future.traverse(new File(path).listFiles().toList) { file: File =>
-      //start a future to do: OCR -> NLP -> ES
-      indexPDF(new FileInputStream(file), file.getName)
-    }.map(printReport)
   }
 }

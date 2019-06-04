@@ -1,26 +1,20 @@
 
 
 import org.apache.http.HttpHost
+import org.elasticsearch.action.ActionListener
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest
+import org.elasticsearch.action.admin.indices.get.GetIndexRequest
 import org.elasticsearch.action.bulk.{BulkRequest, BulkResponse}
 import org.elasticsearch.action.index.IndexRequest
-import org.elasticsearch.client.{RequestOptions, RestClient, RestClientBuilder, RestHighLevelClient}
+import org.elasticsearch.client.{RequestOptions, RestClient, RestHighLevelClient}
 import org.elasticsearch.common.Strings
-import org.elasticsearch.common.xcontent.{XContentBuilder, XContentType}
 import org.elasticsearch.common.xcontent.XContentFactory._
+import org.elasticsearch.common.xcontent.{XContentBuilder, XContentType}
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future, Promise}
-import org.apache.http.client.config.RequestConfig
-import org.elasticsearch.action.ActionListener
-import org.elasticsearch.action.admin.indices.get.GetIndexRequest
-
-import scala.annotation.tailrec
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{Await, Future}
-import scala.concurrent.duration.Duration
 
 
 case class IndexingRequest(name: String, text: String, words: Iterable[String], dataType: String = "local", fileFormat: String = "local", kfId: String = "local", index: String = "qsearch")
@@ -39,13 +33,15 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
   //https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-termvectors.html
 
   initIndexes()
+  private val bulkedFutures = ListBuffer[Future[BulkResponse]]()
+  private var bulked = new BulkRequest()
 
   def initIndexes(): Unit = {
 
     val exists = new GetIndexRequest()
     exists.indices("qsearch")
 
-    if(esClient.indices().exists(exists, RequestOptions.DEFAULT)) return  //if index exists, stop
+    if (esClient.indices().exists(exists, RequestOptions.DEFAULT)) return //if index exists, stop
 
     val jsonAdminFileLemma = jsonBuilder
 
@@ -98,6 +94,14 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
   }
 
   /**
+    * Indexes an IndexingRequest into ES using a Future on which we directly wait (improves performance: while we wait
+    * for the response we're blocked, so other threads can move.
+    *
+    * @param req the request to index
+    */
+  def index(req: IndexingRequest): Unit = Await.result(Future[Unit](esClient.index(makeIndexRequest(req), RequestOptions.DEFAULT)), Duration.Inf)
+
+  /**
     * Makes an ES IndexRequest from an IndexingRequest
     *
     * @param req
@@ -109,69 +113,6 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
     request.source(makeJson(req))
 
     request
-  }
-
-  /**
-    * Indexes an IndexingRequest into ES using a Future on which we directly wait (improves performance: while we wait
-    * for the response we're blocked, so other threads can move.
-    *
-    * @param req the request to index
-    */
-  def index(req: IndexingRequest): Unit = Await.result(Future[Unit](esClient.index(makeIndexRequest(req), RequestOptions.DEFAULT)), Duration.Inf)
-
-  def bulkIndex(reqs: List[IndexingRequest]): Unit = {
-    val bulked = new BulkRequest()
-
-    reqs.foreach(req => bulked.add(makeIndexRequest(req)))
-
-    esClient.bulk(bulked, RequestOptions.DEFAULT)
-  }
-
-  def bulkIndexAsync(reqs: List[IndexingRequest]): Future[Unit] = {
-
-
-    val bulked = new BulkRequest()
-
-    reqs.foreach(req => bulked.add(makeIndexRequest(req)))
-
-    val p = Promise[Unit]()
-    val listener = new ActionListener[BulkResponse]() {
-      def onResponse(bulkResponse: BulkResponse): Unit = {
-        p.success()
-      }
-
-      def onFailure(e: Exception): Unit = p.failure(e)
-    }
-
-    esClient.bulkAsync(bulked, RequestOptions.DEFAULT, listener)
-    p.future
-  }
-
-  private var bulked = new BulkRequest()
-
-  def bulkIndex(req: IndexingRequest): Unit = {
-
-    val request = makeIndexRequest(req)
-
-    bulked.synchronized {
-      bulked.add(request)
-      if (bulked.numberOfActions() >= bulking) {
-        sendBulk(bulked)
-        bulked = new BulkRequest()
-      }
-    }
-  }
-
-  private val bulkedFutures = ListBuffer[Future[BulkResponse]]()
-
-  private def sendBulk(bulked: BulkRequest) = {
-    bulkedFutures += Future[BulkResponse](esClient.bulk(bulked, RequestOptions.DEFAULT))
-  }
-
-  def cleanup(): Unit = {
-    if (bulked.numberOfActions() > 0) sendBulk(bulked)
-
-    Await.result(Future.sequence(bulkedFutures), Duration.Inf)
   }
 
   def makeJson(req: IndexingRequest): XContentBuilder = {
@@ -195,5 +136,53 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
     json.endObject()
 
     json
+  }
+
+  def bulkIndex(reqs: List[IndexingRequest]): Unit = {
+    val bulked = new BulkRequest()
+
+    reqs.foreach(req => bulked.add(makeIndexRequest(req)))
+
+    esClient.bulk(bulked, RequestOptions.DEFAULT)
+  }
+
+  def bulkIndexAsync(reqs: List[IndexingRequest]): Future[Unit] = {
+
+    val bulked = new BulkRequest()
+
+    reqs.foreach(req => bulked.add(makeIndexRequest(req)))
+
+    val p = Promise[Unit]()
+    val listener = new ActionListener[BulkResponse]() {
+      def onResponse(bulkResponse: BulkResponse): Unit = p.success()
+
+      def onFailure(e: Exception): Unit = p.failure(e)
+    }
+
+    esClient.bulkAsync(bulked, RequestOptions.DEFAULT, listener)
+    p.future
+  }
+
+  def bulkIndex(req: IndexingRequest): Unit = {
+
+    val request = makeIndexRequest(req)
+
+    bulked.synchronized {
+      bulked.add(request)
+      if (bulked.numberOfActions() >= bulking) {
+        sendBulk(bulked)
+        bulked = new BulkRequest()
+      }
+    }
+  }
+
+  private def sendBulk(bulked: BulkRequest) = {
+    bulkedFutures += Future[BulkResponse](esClient.bulk(bulked, RequestOptions.DEFAULT))
+  }
+
+  def cleanup(): Unit = {
+    if (bulked.numberOfActions() > 0) sendBulk(bulked)
+
+    Await.result(Future.sequence(bulkedFutures), Duration.Inf)
   }
 }

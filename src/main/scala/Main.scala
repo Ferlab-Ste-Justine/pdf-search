@@ -1,13 +1,9 @@
-import java.io.{File, FileInputStream, InputStream}
-
-import Tasker._
 import IndexProcedures._
 
 import scala.annotation.tailrec
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.Duration
-import scala.concurrent.blocking
+import scala.concurrent.{Await, Future, blocking}
 
 object Main {
 
@@ -16,24 +12,6 @@ object Main {
   var esIndexer: ESIndexer = _
   var s3Downloader: S3Downloader = _
   var argMap: Map[String, String] = _
-
-  def printHelp(): Unit = {
-    val help =
-      """
-        |HELP: command line arguments are of form key:value and are not case sensitive
-        |Here are the possible options:
-        |- esurl : ElasticSearch UR
-        |- starturl : first portion of the URL on which we iterate to get the file's S3 keys
-        |- midurl : middle portion (changes while iterating)
-        |- endurl : end portion (additionnal options for the GET request)
-        |- do : what the program will do (adminremote to index remote files, adminlocal to index local files)
-        |- localinput : the local folder used as source for adminlocal
-        |- bucket : the S3 source bucket
-        |As an example of the syntax, to change the localinput to MYFOLDER, one would write "localinput:MYFOLDER"
-      """.stripMargin
-    println(help)
-    System.exit(0)
-  }
 
   def main(args: Array[String]) {
 
@@ -61,7 +39,7 @@ object Main {
       )
 
       val argMap = mapFromArgsIter(args, defaults)
-      if(argMap("studyid").length >= 1) argMap + ("endurl" -> (argMap("endurl") + s"&${argMap("studyid")}")) else argMap
+      if (argMap("studyid").length >= 1) argMap + ("endurl" -> (argMap("endurl") + s"&${argMap("studyid")}")) else argMap
     }
 
     argMap = mapFromArgs
@@ -71,16 +49,19 @@ object Main {
     esIndexer = new ESIndexer(argMap("esurl"))
     s3Downloader = new S3Downloader(argMap("bucket"))
 
+    import Models.Implicits._
+    val temp = Await.result(URLIterator.fetch[Participant]("https://kf-api-dataservice.kids-first.io", "/participants", argMap("endurl")), Duration.Inf)
+
     val startTime = System.currentTimeMillis()
 
     val f1 = Future {
-      blocking{
+      blocking {
         indexParticipants("https://kf-api-dataservice.kids-first.io", "/participants", argMap("endurl"))
       }
     }.flatten
     val f2 = Future {
       if (argMap("do").equals("adminremote")) {
-        blocking{
+        blocking {
           indexPDFRemote("https://kf-api-dataservice.kidsfirstdrc.org", "/genomic-files", argMap("endurl"))
         }
       } else {
@@ -94,6 +75,24 @@ object Main {
     esIndexer.cleanup()
 
     println("took " + (System.currentTimeMillis() - startTime) / 1000 + " seconds")
+    System.exit(0)
+  }
+
+  def printHelp(): Unit = {
+    val help =
+      """
+        |HELP: command line arguments are of form key:value and are not case sensitive
+        |Here are the possible options:
+        |- esurl : ElasticSearch UR
+        |- starturl : first portion of the URL on which we iterate to get the file's S3 keys
+        |- midurl : middle portion (changes while iterating)
+        |- endurl : end portion (additionnal options for the GET request)
+        |- do : what the program will do (adminremote to index remote files, adminlocal to index local files)
+        |- localinput : the local folder used as source for adminlocal
+        |- bucket : the S3 source bucket
+        |As an example of the syntax, to change the localinput to MYFOLDER, one would write "localinput:MYFOLDER"
+      """.stripMargin
+    println(help)
     System.exit(0)
   }
 
