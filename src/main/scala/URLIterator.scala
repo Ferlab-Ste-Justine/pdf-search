@@ -13,10 +13,13 @@ import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
+import play.api.libs.ws.JsonBodyReadables._
+
 //https://stackoverflow.com/questions/1359689/how-to-send-http-request-in-java
 object URLIterator {
   //https://stackoverflow.com/questions/3508077/how-to-define-type-disjunction-union-types
   //https://www.scala-lang.org/api/2.12.1/scala/PartialFunction.html
+
   /**
     * Batching version of applyOnAllFrom
     *
@@ -36,7 +39,7 @@ object URLIterator {
     * @tparam C the return type of Cont
     * @return a list of all the results of cont
     */
-  def batchedApplyOnAllFrom[C](start: String, mid: String, end: String = "", fields: List[String], links: List[String] = List(), method: String = "GET", retries: Int = 10, batchSize: Int = 500)(cont: List[Map[String, String]] => C): List[C] = {
+  def blockingFetchBatchedcont[C](start: String, mid: String, end: String = "", fields: List[String], links: List[String] = List(), method: String = "GET", retries: Int = 10, batchSize: Int = 500)(cont: List[Map[String, String]] => C): List[C] = {
     var accumulator = ListBuffer[Map[String, String]]()
     val results = ListBuffer[C]()
 
@@ -48,7 +51,7 @@ object URLIterator {
       */
     def applyCont(batch: ListBuffer[Map[String, String]]) = results += cont(batch.toList)
 
-    applyOnAllFrom(start, mid, end, fields, links, method = method) { item: Map[String, String] =>
+    blockingFetch(start, mid, end, fields, links, method = method) { item: Map[String, String] =>
       accumulator += item
       if (accumulator.size >= batchSize) {
         applyCont(accumulator)
@@ -77,7 +80,7 @@ object URLIterator {
     * @tparam B the return type of Cont
     * @return the list of all the results of the calls to cont
     */
-  def applyOnAllFrom[B](start: String, mid: String, end: String = "", fields: List[String], links: List[String] = List(), method: String = "GET", retries: Int = 10)(cont: Map[String, String] => B = identity[Map[String, String]] _): List[B] = {
+  def blockingFetch[B](start: String, mid: String, end: String = "", fields: List[String], links: List[String] = List(), method: String = "GET", retries: Int = 10)(cont: Map[String, String] => B = identity[Map[String, String]] _): List[B] = {
     val client = HttpClient.newHttpClient()
 
     /**
@@ -166,109 +169,55 @@ object URLIterator {
     getAllFrom(mid, List())
   }
 
-  def applyOnAllFrom2[B](start: String, mid: String, end: String = "", fields: List[String], links: List[String] = List(), method: String = "GET", retries: Int = 10)(cont: Map[String, String] => B = identity[Map[String, String]] _): Future[List[Map[String, String]]] = {
-    implicit val system: ActorSystem = ActorSystem()
-    system.registerOnTermination {
-      System.exit(0)
-    }
-    implicit val materializer: ActorMaterializer = ActorMaterializer()
-    // Create the standalone WS client
-    // no argument defaults to a AhcWSClientConfig created from
-    // "AhcWSClientConfigFactory.forConfig(ConfigFactory.load, this.getClass.getClassLoader)"
-    val client = StandaloneAhcWSClient()
-    val doneList = ListBuffer[B]()
-    import play.api.libs.ws.JsonBodyReadables._
-    /**
-      * Gets everything from the start-mid-end URL, calling cont on it and accumulating the calls' results into
-      * resList
-      *
-      * @param iter    the current middle part of the URL
-      * @param resList the result list
-      * @return the completed result list
-      */
-    def getAllFrom(iter: String, resList: List[Map[String, String]], first: Boolean = false): Future[List[Map[String, String]]] = {
-      /**
-        * Sends a request
-        *
-        * @return the response as a String
-        */
-      def request: Future[JsValue] = {
-        /*val temp2 = (0 to retries).toStream.foldLeft(Stream[Future[StandaloneWSRequest#Response]]()){ (acc: Stream[Future[StandaloneWSRequest#Response]], i) =>
-          acc.#::(requestIter(i))
-        }*/
-        /**
-          * Sends the request retries times
-          *
-          * @param tries the current number of tries
-          * @return the response body as a String
-          */
-        def requestIter(tries: Int = 0): Future[JsValue] = {
-          if (tries >= retries) throw new IllegalArgumentException
-          val temp: Future[StandaloneWSRequest#Response] = client.url(start + iter + (if (first) "?" else "&") + end).get()
-          temp.flatMap { resp =>
-            val code = resp.status
-            if (code <= 200 || code >= 300) requestIter(tries + 1)
-            else Future(resp.body[JsValue])
-          }
-        }
+  def fetch[B <: Model](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)
+                       (implicit r: Reads[B]): Future[Seq[B]] = fetchPriv[B, B](start, mid, end, method, retries)()
 
-        requestIter()
-      }
-
-      /**
-        * Transforms the obj into a Map of the requested links of fields
-        *
-        * @param obj the object
-        * @return the corresponding map
-        */
-      def intoMap(obj: JsObject): Map[String, String] = {
-        def extract(thisObj: JsObject, item: String, prefix: String = ""): (String, String) = {
-          (prefix + item, thisObj(item).asOpt[String] match {
-            case Some(value) => value
-            case None => "null"
-          })
-        }
-
-        val fieldMap = fields.map(extract(obj, _))
-        val linkMap = //if we're requesting links, ask for them. Otherwise, return no Link tuples
-          if (links.nonEmpty) links.map(extract(obj("_links").as[JsObject], _, "_links."))
-          else List()
-        (fieldMap ::: linkMap).toMap //transforms the list of tuples into a Map
-      }
-
-      request.flatMap { json =>
-        val fList: List[Map[String, String]] =
-          try {
-            val results: Array[JsObject] = json("results").as[Array[JsObject]]
-            results.foldLeft(resList)((acc, jsonObj: JsObject) => acc :+ intoMap(jsonObj))
-          } catch {
-            case e: play.api.libs.json.JsResultException =>
-              val results: JsObject = json("results").as[JsObject]
-              resList :+ intoMap(results)
-          }
-        val next: Option[String] = (json \ "_links" \ "next").asOpt[String]
-        next match {
-          case Some(url) => getAllFrom(url, fList)
-          case None => Future.successful(fList)
-        }
-      }
-    }
-
-    getAllFrom(mid, List())
+  def fetchBatchedcont[B <: Model, A](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)
+                                     (batchedCont: Seq[B] => Seq[A])(implicit r: Reads[B]): Future[Seq[A]] = {
+    fetchPriv[B, A](start, mid, end, method, retries)(null, batchedCont, batched = true)
   }
 
-  def fetch[B](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)(implicit r: Reads[B]): Future[Seq[B]] = {
+  def fetchCont[B <: Model, A](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)(cont: B => A)
+                       (implicit r: Reads[B]): Future[Seq[A]] = fetchPriv[B, A](start, mid, end, method, retries)(cont)
+
+  /**
+    * Fetches everything from a Dataservice URL.
+    *
+    * If no continuations are passed, default to identity[B] and returns a Seq of Models. In that case, on must call it
+    * with fetchPriv[C, C] where C is the Model.
+    *
+    * If a continuation is passed and batched is false, it applies the continuation on every Model
+    * If a batched continuation is passed and batched is false, it applies the continuation on a Seq of Model
+    *
+    * @param start
+    * @param mid
+    * @param end
+    * @param method
+    * @param retries
+    * @param cont
+    * @param batchedCont
+    * @param batched
+    * @param r
+    * @tparam B
+    * @tparam A
+    * @return
+    */
+  private def fetchPriv[B <: Model, A](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)
+                              (cont: B => A = identity[B] _, batchedCont: Seq[B] => Seq[A] = null, batched: Boolean = false)
+                              (implicit r: Reads[B]): Future[Seq[A]] = {
+
     implicit val system: ActorSystem = ActorSystem()
     system.registerOnTermination {
       System.exit(0)
     }
+
     implicit val materializer: ActorMaterializer = ActorMaterializer()
     // Create the standalone WS client
     // no argument defaults to a AhcWSClientConfig created from
     // "AhcWSClientConfigFactory.forConfig(ConfigFactory.load, this.getClass.getClassLoader)"
+
     val client = StandaloneAhcWSClient()
-    val doneList = ListBuffer[B]()
-    import play.api.libs.ws.JsonBodyReadables._
+
     /**
       * Gets everything from the start-mid-end URL, calling cont on it and accumulating the calls' results into
       * resList
@@ -277,7 +226,7 @@ object URLIterator {
       * @param resList the result list
       * @return the completed result list
       */
-    def getAllFrom(iter: String, resList: Seq[B]): Future[Seq[B]] = {
+    def getAllFrom(iter: String, resList: Seq[A]): Future[Seq[A]] = {
       /**
         * Sends a request
         *
@@ -309,7 +258,10 @@ object URLIterator {
       request.flatMap { json =>
         val results: Seq[JsValue] = json("results").as[Array[JsObject]]
 
-        val models = resList ++ results.map(_.as[B])
+        val models =
+          if(batched) resList ++ batchedCont(results.map(_.as[B]))
+          else resList ++ results.map( result => cont(result.as[B]) )
+
 
         val next: Option[String] = (json \ "_links" \ "next").asOpt[String]
 
@@ -323,5 +275,5 @@ object URLIterator {
     getAllFrom(mid, List())
   }
 
-  
+
 }

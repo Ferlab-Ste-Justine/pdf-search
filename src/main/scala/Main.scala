@@ -49,7 +49,11 @@ object Main {
     esIndexer = new ESIndexer(argMap("esurl"))
     s3Downloader = new S3Downloader(argMap("bucket"))
 
-    import Models.Implicits._
+
+
+    ("https://kf-api-dataservice.kids-first.io", "/participants", argMap("endurl"))
+
+    import Model.Implicits._
     val temp = Await.result(URLIterator.fetch[Participant]("https://kf-api-dataservice.kids-first.io", "/participants", argMap("endurl")), Duration.Inf)
 
     val startTime = System.currentTimeMillis()

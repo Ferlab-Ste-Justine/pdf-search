@@ -38,7 +38,7 @@ class URLIteratorTest extends FlatSpec with Matchers {
               |}
             """.stripMargin))) { start =>
 
-            val result = URLIterator.applyOnAllFrom(start, "/studies", fields = List("name"))(identity).flatten
+            val result = URLIterator.blockingFetch(start, "/studies", fields = List("name"))(identity).flatten
             result shouldBe List(("name", "Study 1"), ("name","Study 2"))
         }
     }

@@ -10,7 +10,7 @@ object IndexProcedures {
 
   def indexParticipants(start: String, mid: String, end: String): Future[List[Unit]] = {
     Future.sequence(
-      URLIterator.batchedApplyOnAllFrom(start, mid, end, List("kf_id", "ethnicity", "race", "gender"), List("family"), batchSize = 1500) { participants: List[Map[String, String]] =>
+      URLIterator.blockingFetchBatchedcont(start, mid, end, List("kf_id", "ethnicity", "race", "gender"), List("family"), batchSize = 1500) { participants: List[Map[String, String]] =>
         val requests = participants.map { participant: Map[String, String] =>
 
           val familyLink = participant("_links.family")
@@ -29,7 +29,7 @@ object IndexProcedures {
 
   def indexPDFRemote(start: String, mid: String, end: String): Future[List[String]] = {
     Future.sequence {
-      URLIterator.applyOnAllFrom(start, mid, end, List("external_id", "data_type", "file_format", "file_name", "kf_id")) { edffk =>
+      URLIterator.blockingFetch(start, mid, end, List("external_id", "data_type", "file_format", "file_name", "kf_id")) { edffk =>
         //start a future to do: S3 -> OCR -> NLP -> ES
         indexPDF(s3Downloader.download(edffk("external_id")), edffk("file_name"), edffk("data_type"), edffk("file_format"), edffk("kf-id"))
       }
