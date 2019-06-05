@@ -169,25 +169,132 @@ object URLIterator {
     getAllFrom(mid, List())
   }
 
-  def fetch[B <: Model](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)
-                       (implicit r: Reads[B]): Future[Seq[B]] = fetchPriv[B, B](start, mid, end, method, retries)()
+  sealed case class Util[B <: Model](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10, reader: Reads[B]) {
+    implicit val system: ActorSystem = ActorSystem()
+    system.registerOnTermination {
+      System.exit(0)
+    }
 
-  def fetchBatchedcont[B <: Model, A](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)
-                                     (batchedCont: Seq[B] => Seq[A])(implicit r: Reads[B]): Future[Seq[A]] = {
-    fetchPriv[B, A](start, mid, end, method, retries)(null, batchedCont, batched = true)
+    implicit val materializer: ActorMaterializer = ActorMaterializer()
+    // Create the standalone WS client
+    // no argument defaults to a AhcWSClientConfig created from
+    // "AhcWSClientConfigFactory.forConfig(ConfigFactory.load, this.getClass.getClassLoader)"
+
+    implicit val r = reader
+
+    val client = StandaloneAhcWSClient()
+
+    /**
+      * Sends a request
+      *
+      * @return the response as a String
+      */
+    def request(iter:String, first: Boolean, tries: Int = 0): Future[JsValue] = {
+      def requestIter(tries: Int): Future[JsValue] = {
+        if (tries >= retries) throw new IllegalArgumentException
+        val temp: Future[StandaloneWSRequest#Response] = client.url(start + iter + (if (first) "?" else "&") + end).get()
+        temp.flatMap { resp =>
+          val code = resp.status
+          if (code < 200 || code >= 300) requestIter(tries + 1)
+          else Future(resp.body[JsValue])
+        }
+      }
+
+      requestIter(0)
+    }
+
+    def fetchWithCont[A](cont: B => A): Future[List[A]] = {  //wrapper allors us to not pass cont
+      def singler(iter: String, resList: List[A]): Future[List[A]] = {
+        request(iter, resList.isEmpty).flatMap { json =>
+          val results: Seq[JsValue] = json("results").as[Array[JsObject]]
+
+          val models = resList ++ results.map( result => cont(result.as[B]) )
+
+          val next: Option[String] = (json \ "_links" \ "next").asOpt[String]
+
+          next match {
+            case Some(url) => singler(url, models)
+            case None => Future.successful(models)
+          }
+        }
+      }
+
+      singler(mid, List())
+    }
+
+    def fetch: Future[List[B]] = fetchWithCont(identity)
+
+    def fetchWithBatchedcont[A](batchedCont: List[B] => List[A], batchSize: Int = 1500): Future[List[A]] = {
+      def batcher(iter: String, builder: List[B], resList: List[A]): Future[List[A]] = {
+        request(iter, resList.isEmpty).flatMap { json =>
+          val results: Seq[JsValue] = json("results").as[Array[JsObject]]
+
+          val batchResult = ListBuffer[A]() ++= resList
+
+          val accumulator = results.foldLeft(builder) { (acc: List[B], result) =>
+            val asModel = result.as[B]
+
+            if(acc.length >= batchSize) {
+              batchResult ++= batchedCont(acc)
+              List(asModel)
+            } else {
+              acc :+ asModel
+            }
+
+          }
+
+          val next: Option[String] = (json \ "_links" \ "next").asOpt[String]
+
+          next match {
+            case Some(url) => batcher(url, accumulator, batchResult.toList)
+            case None =>
+              if(accumulator.nonEmpty) batchResult ++= batchedCont(accumulator)
+              Future.successful(batchResult.toList)
+          }
+        }
+      }
+
+      batcher(mid, List(), List())
+    }
   }
 
-  def fetchCont[B <: Model, A](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)(cont: B => A)
-                       (implicit r: Reads[B]): Future[Seq[A]] = fetchPriv[B, A](start, mid, end, method, retries)(cont)
+  def fetch2[B <: Model](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)
+                       (implicit r: Reads[B]): Future[List[B]] = Util(start, mid, end, method, retries, r).fetch
+
+  def fetch2WithCont[B <: Model, A](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)(cont: B => A)
+                               (implicit r: Reads[B]): Future[List[A]] = Util(start, mid, end, method, retries, r).fetchWithCont(cont)
+
+  def fetch2WithBatchedCont[B <: Model, A](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)(cont: List[B] => List[A])
+                                  (implicit r: Reads[B]): Future[List[A]] = Util(start, mid, end, method, retries, r).fetchWithBatchedcont(cont)
 
   /**
-    * Fetches everything from a Dataservice URL.
+    * Calls fetchPriv directly. Specify the request model like so: fetch[Model](...)
     *
-    * If no continuations are passed, default to identity[B] and returns a Seq of Models. In that case, on must call it
-    * with fetchPriv[C, C] where C is the Model.
+    * See fetchPriv for parameter doc
     *
-    * If a continuation is passed and batched is false, it applies the continuation on every Model
-    * If a batched continuation is passed and batched is false, it applies the continuation on a Seq of Model
+    * @param start
+    * @param mid
+    * @param end
+    * @param method
+    * @param retries
+    * @param r
+    * @tparam B
+    * @return
+    */
+  def fetch[B <: Model](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)
+                       (implicit r: Reads[B]): Future[List[B]] = fetchPriv[B, B](start, mid, end, method, retries)()
+
+
+
+  /**
+    * Calls fetchPriv with a continuation. Specify the continuation's input type and you won't have to call
+    * fetchCont[InputType, OutputType]
+    *
+    * Example:
+    *
+    * fetchCont(...) { part: Participant => ... }
+    *
+    * See fetchPriv for parameter doc
     *
     * @param start
     * @param mid
@@ -195,16 +302,36 @@ object URLIterator {
     * @param method
     * @param retries
     * @param cont
-    * @param batchedCont
-    * @param batched
     * @param r
     * @tparam B
     * @tparam A
     * @return
     */
+  def fetchCont[B <: Model, A](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)(cont: B => A)
+                       (implicit r: Reads[B]): Future[List[A]] = fetchPriv[B, A](start, mid, end, method, retries)(cont)
+
+  /**
+    * Private method that fetches everything from a Dataservice URL.
+    *
+    * If no continuations are passed, default to identity[B] and returns a List of Models. In that case, on must call it
+    * with fetchPriv[C, C] where C is the Model.
+    *
+    * If a continuation is passed, it applies the continuation on every Model
+    *
+    * @param start the start of the URL
+    * @param mid the middle of the URL (taken from next on subListuent calls)
+    * @param end the end of the URL (limti=100, or file_format, etc)
+    * @param method the HTTP method
+    * @param retries the number of allowed retries
+    * @param cont the continuation
+    * @param r the implicit that transforms the JSON into a model
+    * @tparam B the type of the model
+    * @tparam A the return type of the continuations
+    * @return a future of List of A (the cont applied on every result)
+    */
   private def fetchPriv[B <: Model, A](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)
-                              (cont: B => A = identity[B] _, batchedCont: Seq[B] => Seq[A] = null, batched: Boolean = false)
-                              (implicit r: Reads[B]): Future[Seq[A]] = {
+                              (cont: B => A = identity[B] _)
+                              (implicit r: Reads[B]): Future[List[A]] = {
 
     implicit val system: ActorSystem = ActorSystem()
     system.registerOnTermination {
@@ -226,41 +353,26 @@ object URLIterator {
       * @param resList the result list
       * @return the completed result list
       */
-    def getAllFrom(iter: String, resList: Seq[A]): Future[Seq[A]] = {
+    def getAllFrom(iter: String, resList: List[A]): Future[List[A]] = {
       /**
         * Sends a request
         *
         * @return the response as a String
         */
-      def request: Future[JsValue] = {
-        /*val temp2 = (0 to retries).toStream.foldLeft(Stream[Future[StandaloneWSRequest#Response]]()){ (acc: Stream[Future[StandaloneWSRequest#Response]], i) =>
-          acc.#::(requestIter(i))
-        }*/
-        /**
-          * Sends the request retries times
-          *
-          * @param tries the current number of tries
-          * @return the response body as a String
-          */
-        def requestIter(tries: Int = 0): Future[JsValue] = {
-          if (tries >= retries) throw new IllegalArgumentException
-          val temp: Future[StandaloneWSRequest#Response] = client.url(start + iter + (if (resList.isEmpty) "?" else "&") + end).get()
-          temp.flatMap { resp =>
-            val code = resp.status
-            if (code < 200 || code >= 300) requestIter(tries + 1)
-            else Future(resp.body[JsValue])
-          }
+      def request(tries: Int = 0): Future[JsValue] = {
+        if (tries >= retries) throw new IllegalArgumentException
+        val temp: Future[StandaloneWSRequest#Response] = client.url(start + iter + (if (resList.isEmpty) "?" else "&") + end).get()
+        temp.flatMap { resp =>
+          val code = resp.status
+          if (code < 200 || code >= 300) request(tries + 1)
+          else Future(resp.body[JsValue])
         }
-
-        requestIter()
       }
 
-      request.flatMap { json =>
+      request().flatMap { json =>
         val results: Seq[JsValue] = json("results").as[Array[JsObject]]
 
-        val models =
-          if(batched) resList ++ batchedCont(results.map(_.as[B]))
-          else resList ++ results.map( result => cont(result.as[B]) )
+        val models = resList ++ results.map( result => cont(result.as[B]) )
 
 
         val next: Option[String] = (json \ "_links" \ "next").asOpt[String]
