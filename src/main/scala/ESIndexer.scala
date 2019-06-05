@@ -48,6 +48,7 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
     jsonAdminFileLemma.startObject()
     jsonAdminFileLemma.startObject("_doc")
     jsonAdminFileLemma.startObject("properties")
+
     jsonAdminFileLemma.startObject("name")
     jsonAdminFileLemma.field("type", "text")
     jsonAdminFileLemma.field("analyzer", "english") //use the custom analyser we're creating in jsonSettings
@@ -115,6 +116,20 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
     request
   }
 
+  /**
+    * Makes an ES IndexRequest from an IndexingRequest
+    *
+    * @param req
+    * @return
+    */
+  private def makeIndexRequest(req: String) = {
+    val request = new IndexRequest("qsearch")
+    request.`type`("_doc")
+    request.source(req, XContentType.JSON)
+
+    request
+  }
+
   def makeJson(req: IndexingRequest): XContentBuilder = {
     val json = jsonBuilder
 
@@ -147,6 +162,23 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
   }
 
   def bulkIndexAsync(reqs: List[IndexingRequest]): Future[Unit] = {
+
+    val bulked = new BulkRequest()
+
+    reqs.foreach(req => bulked.add(makeIndexRequest(req)))
+
+    val p = Promise[Unit]()
+    val listener = new ActionListener[BulkResponse]() {
+      def onResponse(bulkResponse: BulkResponse): Unit = p.success()
+
+      def onFailure(e: Exception): Unit = p.failure(e)
+    }
+
+    esClient.bulkAsync(bulked, RequestOptions.DEFAULT, listener)
+    p.future
+  }
+
+  def bulkIndexAsync2(reqs: List[String]): Future[Unit] = {
 
     val bulked = new BulkRequest()
 

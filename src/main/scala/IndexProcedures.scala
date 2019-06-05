@@ -5,26 +5,14 @@ import Main.{esIndexer, nlpParser, ocrParser, s3Downloader}
 import scala.annotation.tailrec
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import Model.Implicits._
 
 object IndexProcedures {
 
   def indexParticipants(start: String, mid: String, end: String): Future[List[Unit]] = {
-    Future.sequence(
-      URLIterator.blockingFetchBatchedcont(start, mid, end, List("kf_id", "ethnicity", "race", "gender"), List("family"), batchSize = 1500) { participants: List[Map[String, String]] =>
-        val requests = participants.map { participant: Map[String, String] =>
-
-          val familyLink = participant("_links.family")
-          val family = familyLink.substring(familyLink.lastIndexOf('/') + 1, familyLink.length)
-
-          val text = s"KF_ID: ${participant("kf_id")}. Ethnicity: ${participant("ethnicity")}. Race: ${participant("race")}. Gender: ${participant("gender")}. Family_id: $family."
-          val words = participant.values.slice(1, 3)
-
-          IndexingRequest("Participant " + participant("kf_id"), text, words, "participant", "participant", participant("kf_id"))
-
-        }
-        esIndexer.bulkIndexAsync(requests)
+      URLIterator.fetch2WithBatchedCont(start, mid, end) { participants: List[Participant] =>
+        esIndexer.bulkIndexAsync2(participants.map(_.toJson))
       }
-    )
   }
 
   def indexPDFRemote(start: String, mid: String, end: String): Future[List[String]] = {

@@ -224,7 +224,7 @@ object URLIterator {
 
     def fetch: Future[List[B]] = fetchWithCont(identity)
 
-    def fetchWithBatchedcont[A](batchedCont: List[B] => List[A], batchSize: Int = 1500): Future[List[A]] = {
+    def fetchWithBatchedcont[A](batchedCont: List[B] => A, batchSize: Int = 1500): Future[List[A]] = {
       def batcher(iter: String, builder: List[B], resList: List[A]): Future[List[A]] = {
         request(iter, resList.isEmpty).flatMap { json =>
           val results: Seq[JsValue] = json("results").as[Array[JsObject]]
@@ -235,7 +235,7 @@ object URLIterator {
             val asModel = result.as[B]
 
             if(acc.length >= batchSize) {
-              batchResult ++= batchedCont(acc)
+              batchResult += batchedCont(acc)
               List(asModel)
             } else {
               acc :+ asModel
@@ -248,7 +248,7 @@ object URLIterator {
           next match {
             case Some(url) => batcher(url, accumulator, batchResult.toList)
             case None =>
-              if(accumulator.nonEmpty) batchResult ++= batchedCont(accumulator)
+              if(accumulator.nonEmpty) batchResult += batchedCont(accumulator)
               Future.successful(batchResult.toList)
           }
         }
@@ -264,8 +264,8 @@ object URLIterator {
   def fetch2WithCont[B <: Model, A](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)(cont: B => A)
                                (implicit r: Reads[B]): Future[List[A]] = Util(start, mid, end, method, retries, r).fetchWithCont(cont)
 
-  def fetch2WithBatchedCont[B <: Model, A](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)(cont: List[B] => List[A])
-                                  (implicit r: Reads[B]): Future[List[A]] = Util(start, mid, end, method, retries, r).fetchWithBatchedcont(cont)
+  def fetch2WithBatchedCont[B <: Model, A](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10, batchSize: Int = 1500)(cont: List[B] => A)
+                                  (implicit r: Reads[B]): Future[List[A]] = Util(start, mid, end, method, retries, r).fetchWithBatchedcont(cont, batchSize)
 
   /**
     * Calls fetchPriv directly. Specify the request model like so: fetch[Model](...)

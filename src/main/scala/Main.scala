@@ -49,13 +49,6 @@ object Main {
     esIndexer = new ESIndexer(argMap("esurl"))
     s3Downloader = new S3Downloader(argMap("bucket"))
 
-
-
-    ("https://kf-api-dataservice.kids-first.io", "/participants", argMap("endurl"))
-
-    import Model.Implicits._
-    val temp = Await.result(URLIterator.fetch2WithBatchedCont("https://kf-api-dataservice.kids-first.io", "/participants", argMap("endurl")){parts: List[Participant] => println(parts.length);parts}, Duration.Inf)
-
     val startTime = System.currentTimeMillis()
 
     val f1 = Future {
@@ -63,7 +56,7 @@ object Main {
         indexParticipants("https://kf-api-dataservice.kids-first.io", "/participants", argMap("endurl"))
       }
     }.flatten
-    val f2 = Future {
+    /*val f2 = Future {
       if (argMap("do").equals("adminremote")) {
         blocking {
           indexPDFRemote("https://kf-api-dataservice.kidsfirstdrc.org", "/genomic-files", argMap("endurl"))
@@ -71,9 +64,9 @@ object Main {
       } else {
         indexPDFLocal(argMap("localinput"))
       }
-    }.flatten
+    }.flatten*/
 
-    val f = Future.sequence(Seq(f1, f2))
+    val f = Future.sequence(Seq(f1))
     Await.result(f, Duration.Inf)
 
     esIndexer.cleanup()
