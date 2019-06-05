@@ -11,7 +11,7 @@ object IndexProcedures {
 
   def indexParticipants(start: String, mid: String, end: String): Future[List[Unit]] = {
       URLIterator.fetch2WithBatchedCont(start, mid, end) { participants: List[Participant] =>
-        esIndexer.bulkIndexAsync2(participants.map(_.toJson))
+        esIndexer.bulkIndexAsync2(participants.map(_.toIndexingRequest))
       }
   }
 
