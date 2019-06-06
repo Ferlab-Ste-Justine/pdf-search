@@ -4,24 +4,29 @@ import Main.{esIndexer, nlpParser, ocrParser, s3Downloader}
 
 import scala.annotation.tailrec
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import Model.Implicits._
+import scala.concurrent.{Await, CanAwait, Future}
+import Model.ExternalImplicits._
+
+import scala.concurrent.duration.Duration
 
 object IndexProcedures {
 
   def indexParticipants(start: String, mid: String, end: String): Future[List[Unit]] = {
       URLIterator.fetch2WithBatchedCont(start, mid, end) { participants: List[Participant] =>
-        esIndexer.bulkIndexAsync2(participants.map(_.toIndexingRequest))
+        esIndexer.bulkIndexAsync2(participants.map(_.toJson))
       }
   }
 
-  def indexPDFRemote(start: String, mid: String, end: String): Future[List[String]] = {
-    Future.sequence {
-      URLIterator.blockingFetch(start, mid, end, List("external_id", "data_type", "file_format", "file_name", "kf_id")) { edffk =>
-        //start a future to do: S3 -> OCR -> NLP -> ES
-        indexPDF(s3Downloader.download(edffk("external_id")), edffk("file_name"), edffk("data_type"), edffk("file_format"), edffk("kf-id"))
-      }
-    }.map(printReport)
+  def indexPDFRemote(start: String, mid: String, end: String) = {
+    val i = URLIterator.fetch2WithCont(start, mid, end) { pdf: PDF =>
+      //start a future to do: S3 -> OCR -> NLP -> ES
+      esIndexer.indexAsync2(pdf.toJson)
+      ()
+    }
+
+    val j = i
+
+    Await.result(j, Duration.Inf)
   }
 
   /**

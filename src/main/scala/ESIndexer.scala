@@ -1,12 +1,12 @@
 
 
 import org.apache.http.HttpHost
-import org.elasticsearch.action.ActionListener
+import org.elasticsearch.action.{ActionListener, ActionResponse}
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest
 import org.elasticsearch.action.bulk.{BulkRequest, BulkResponse}
-import org.elasticsearch.action.index.IndexRequest
-import org.elasticsearch.client.{RequestOptions, RestClient, RestHighLevelClient}
+import org.elasticsearch.action.index.{IndexRequest, IndexResponse}
+import org.elasticsearch.client.{RequestOptions, Response, RestClient, RestHighLevelClient}
 import org.elasticsearch.common.Strings
 import org.elasticsearch.common.xcontent.XContentFactory._
 import org.elasticsearch.common.xcontent.{XContentBuilder, XContentType}
@@ -116,20 +116,6 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
     request
   }
 
-  /**
-    * Makes an ES IndexRequest from an IndexingRequest
-    *
-    * @param req
-    * @return
-    */
-  private def makeIndexRequest(req: String) = {
-    val request = new IndexRequest("qsearch")
-    request.`type`("_doc")
-    request.source(req, XContentType.JSON)
-
-    request
-  }
-
   def makeJson(req: IndexingRequest): XContentBuilder = {
     val json = jsonBuilder
 
@@ -178,21 +164,46 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
     p.future
   }
 
-  def bulkIndexAsync2(reqs: List[String]): Future[Unit] = {
+  def indexAsync2(req: Future[String]): Future[Unit] = req.flatMap(indexAsync2)
 
-    val bulked = new BulkRequest()
-
-    reqs.foreach(req => bulked.add(makeIndexRequest(req)))
-
+  def indexAsync2(req: String): Future[Unit] = {
     val p = Promise[Unit]()
-    val listener = new ActionListener[BulkResponse]() {
-      def onResponse(bulkResponse: BulkResponse): Unit = p.success()
+    esClient.indexAsync(makeIndexRequest2(req), RequestOptions.DEFAULT, listener2[IndexResponse](p))
+    p.future
+  }
+
+  private def listener2[A <: ActionResponse](p: Promise[Unit]): ActionListener[A] =
+    new ActionListener[A]() {
+      def onResponse(resp: A): Unit = p.success(resp)
 
       def onFailure(e: Exception): Unit = p.failure(e)
     }
 
-    esClient.bulkAsync(bulked, RequestOptions.DEFAULT, listener)
+  def bulkIndexAsync2(reqs: Future[List[String]]): Future[Unit] = reqs.flatMap(bulkIndexAsync2)
+
+  def bulkIndexAsync2(reqs: List[String]): Future[Unit] = {
+
+    val bulked = new BulkRequest()
+
+    reqs.foreach(req => bulked.add(makeIndexRequest2(req)))
+
+    val p = Promise[Unit]()
+    esClient.bulkAsync(bulked, RequestOptions.DEFAULT, listener2[BulkResponse](p))
     p.future
+  }
+
+  /**
+    * Makes an ES IndexRequest from an IndexingRequest
+    *
+    * @param req
+    * @return
+    */
+  private def makeIndexRequest2(req: String) = {
+    val request = new IndexRequest("qsearch")
+    request.`type`("_doc")
+    request.source(req, XContentType.JSON)
+
+    request
   }
 
   def bulkIndex(req: IndexingRequest): Unit = {

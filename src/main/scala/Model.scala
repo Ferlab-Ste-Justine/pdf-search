@@ -1,94 +1,87 @@
-import Model.Implicits._
+import java.io.File
+
+import Main.argMap
+import Model.InternalImplicits._
+import Model.Utils._
 import play.api.libs.functional.syntax._
 import play.api.libs.json.Reads._
 import play.api.libs.json._
 
-import scala.concurrent.Future
-
-
-import scala.annotation.tailrec
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, Future, blocking}
+import scala.concurrent.Future
+import scala.language.implicitConversions
+import scala.util.Random
 
 sealed trait Model {
-  def toIndexingRequest: Any
+
+  protected def toIndexingRequest: Future[IndexingRequest2]
+
+  def toJson: Future[String] = toIndexingRequest.map(_.toJson)
 }
 
 case class Participant(kf_id: String, ethnicity: Option[String], race: Option[String], gender: Option[String], family: Option[String]) extends Model {
-  def toIndexingRequest: IndexingRequest2 = {
-    val family = family match {
+  protected def toIndexingRequest: Future[IndexingRequest2] = {
+    val fam = family match {
       case None => "null"
       case Some(value: String) => value.substring(value.lastIndexOf('/') + 1, value.length)
     }
 
     val asJson: JsValue = Json.toJson(this)(Json.writes[Participant])
 
-    val asMap = asJson.as[Map[String, String]] + ("family" -> family)
+    val asMap = asJson.as[Map[String, String]] + ("family" -> fam)
 
     val text = asMap.map{ case (key, value) =>
       s"${key.capitalize}: $value"
     }.mkString(", ")
 
-    val words: Iterable[String] = asMap.values.asInstanceOf[List[String]]
+    val words: List[String] = asMap.values.toList
 
-    IndexingRequest2(kf_id, text, s"Participant $kf_id", words, "participant", "participant")
+    Future.successful(IndexingRequest2(kf_id, text, s"Participant $kf_id", words, "participant", "participant"))
   }
-
-  def toJson: String = Json.toJson(toIndexingRequest).toString()
 }
 
-case class PDF(kf_id: String, external_id: Option[String], data_type: Option[String], file_name: Option[String]) extends Model {
-  def toIndexingRequest: Future[IndexingRequest2] = Future{Json.toJson(this).toString()}
+case class PDF(kf_id: String, external_id: Option[String], data_type: Option[String], file_name: Option[String], file_format: Option[String]) extends Model {
+  protected def toIndexingRequest: Future[IndexingRequest2] = {
+
+    external_id.map{ key =>
+      val temp = new File("./input").listFiles
+
+      val stream = temp(Random.nextInt(temp.size))//s3Downloader.download(key)
+
+      Future{
+        val text = ocrParser.parsePDF(stream)
+
+        IndexingRequest2(kf_id, text, file_name, nlpParser.getLemmas(text), file_format, data_type)
+      }
+
+    }.getOrElse(Future.failed(new Exception("PDF has no external id (S3 key)")))
+
+  }
 }
 
-case class IndexingRequest2(kf_id: String, text: String, name: String, words: Iterable[String], file_format: String, data_type: String) {
+private case class IndexingRequest2(kf_id: String, text: String, name: Option[String], words: Iterable[String], file_format: Option[String], data_type: Option[String]) {
   def toJson: String = Json.toJson(this).toString()
 }
 
 object Model {
-  object Implicits {
+  object Utils {
+    val ocrParser = new OCRParser
+    val nlpParser = new NLPParser
+    val s3Downloader = new S3Downloader(argMap("bucket"))
+  }
+
+  object InternalImplicits {
+    implicit def stringToOption(value: String): Option[String] = Option(value)  //syntactic sugar; "string" instead of Some("string")
 
     implicit val writeIndexingRequest: Writes[IndexingRequest2] = Json.writes[IndexingRequest2]
+  }
 
+  object ExternalImplicits {
     implicit val readPDF: Reads[PDF] = Json.reads[PDF]
-
-    implicit val writePDF: Writes[PDF] = (pdf: PDF, thing: String) => {
-      Json.obj(
-        "a" -> "b"
-      )
-    }
 
     implicit val readParticipant: Reads[Participant] = (Json.reads[Participant] and (__ \ "_links" \ "family").readNullable[String]) { (participant, family) =>
       participant.copy(family = family)
     }
-
-    implicit val writeParticipant: Writes[Participant] = (participant: Participant) => {
-      val family = participant.family match {
-        case None => "null"
-        case Some(value) => value.substring(value.lastIndexOf('/') + 1, value.length)
-      }
-
-      val asJson: JsValue = Json.toJson(participant)(Json.writes[Participant])
-
-      val asMap = asJson.as[Map[String, String]] + ("family" -> family)
-
-      val text = asMap.map{ case (key, value) =>
-        s"${key.capitalize}: $value"
-      }.mkString(", ")
-
-      val words = asMap.values
-
-      Json.obj(
-        "kf_id" -> participant.kf_id,
-        "text" -> text,
-        "name" -> s"Participant ${participant.kf_id}",
-        "words" -> words,
-        "file_format" -> "participant",
-        "data_type" -> "participant"
-      )
-    }
-
 
   }
 }

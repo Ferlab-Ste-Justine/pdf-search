@@ -51,23 +51,25 @@ object Main {
 
     val startTime = System.currentTimeMillis()
 
-    val f1 = Future {
-      blocking {
-        indexParticipants("https://kf-api-dataservice.kids-first.io", "/participants", argMap("endurl"))
-      }
-    }.flatten
-    /*val f2 = Future {
-      if (argMap("do").equals("adminremote")) {
-        blocking {
-          indexPDFRemote("https://kf-api-dataservice.kidsfirstdrc.org", "/genomic-files", argMap("endurl"))
-        }
-      } else {
-        indexPDFLocal(argMap("localinput"))
-      }
-    }.flatten*/
+    indexPDFRemote("https://kf-api-dataservice.kidsfirstdrc.org", "/genomic-files", argMap("endurl"))
+    /*
+        val f1 = Future {
+          blocking {
+            indexParticipants("https://kf-api-dataservice.kids-first.io", "/participants", argMap("endurl"))
+          }
+        }.flatten
+        val f2 = Future {
+          if (argMap("do").equals("adminremote")) {
+            blocking {
+              indexPDFRemote("https://kf-api-dataservice.kidsfirstdrc.org", "/genomic-files", argMap("endurl"))
+            }
+          } else {
+            indexPDFLocal(argMap("localinput"))
+          }
+        }.flatten
 
     val f = Future.sequence(Seq(f1))
-    Await.result(f, Duration.Inf)
+    Await.result(f, Duration.Inf)*/
 
     esIndexer.cleanup()
 
