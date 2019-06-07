@@ -15,7 +15,7 @@ object Main {
 
   def main(args: Array[String]) {
 
-    def mapFromArgs: Map[String, String] = {
+    argMap = {
 
       if (args.contains("--help") || args.contains("--h")) printHelp()
 
@@ -30,48 +30,35 @@ object Main {
 
       val defaults = Map[String, String](
         "esurl" -> "http://localhost:9200",
-        "endurl" -> "file_format=pdf&limit=100",
+        "endurl" -> "limit=100",
         "studyid" -> "",
         "do" -> "adminremote",
         "localinput" -> "./input/",
         "bucket" -> "TEMP"
-        //"languages" -> "eng"
       )
 
-      val argMap = mapFromArgsIter(args, defaults)
-      if (argMap("studyid").length >= 1) argMap + ("endurl" -> (argMap("endurl") + s"&${argMap("studyid")}")) else argMap
+      mapFromArgsIter(args, defaults)
     }
-
-    argMap = mapFromArgs
-
-    ocrParser = new OCRParser
-    nlpParser = new NLPParser
-    esIndexer = new ESIndexer(argMap("esurl"))
-    s3Downloader = new S3Downloader(argMap("bucket"))
 
     val startTime = System.currentTimeMillis()
 
-    indexPDFRemote("https://kf-api-dataservice.kidsfirstdrc.org", "/genomic-files", argMap("endurl"))
-    /*
-        val f1 = Future {
-          blocking {
-            indexParticipants("https://kf-api-dataservice.kids-first.io", "/participants", argMap("endurl"))
-          }
-        }.flatten
-        val f2 = Future {
-          if (argMap("do").equals("adminremote")) {
-            blocking {
-              indexPDFRemote("https://kf-api-dataservice.kidsfirstdrc.org", "/genomic-files", argMap("endurl"))
-            }
-          } else {
-            indexPDFLocal(argMap("localinput"))
-          }
-        }.flatten
+    val f1 = Future {
+      blocking {
+        indexParticipants("https://kf-api-dataservice.kids-first.io", "/participants", argMap("endurl"))
+      }
+    }.flatten
+    val f2 = Future {
+      if (argMap("do").equals("adminremote")) {
+        blocking {
+          indexPDFRemote("https://kf-api-dataservice.kidsfirstdrc.org", "/genomic-files", argMap("endurl"))
+        }
+      } else {
+        indexPDFLocal(argMap("localinput"))
+      }
+    }.flatten
 
     val f = Future.sequence(Seq(f1))
-    Await.result(f, Duration.Inf)*/
-
-    esIndexer.cleanup()
+    Await.result(f, Duration.Inf)
 
     println("took " + (System.currentTimeMillis() - startTime) / 1000 + " seconds")
     System.exit(0)
@@ -85,7 +72,7 @@ object Main {
         |- esurl : ElasticSearch UR
         |- starturl : first portion of the URL on which we iterate to get the file's S3 keys
         |- midurl : middle portion (changes while iterating)
-        |- endurl : end portion (additionnal options for the GET request)
+        |- endurl : end portion (additionnal options for the GET request). Must fit all requests (example: limit=100 is ok, but not file_format=something)
         |- do : what the program will do (adminremote to index remote files, adminlocal to index local files)
         |- localinput : the local folder used as source for adminlocal
         |- bucket : the S3 source bucket

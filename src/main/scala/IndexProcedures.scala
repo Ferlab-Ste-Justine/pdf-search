@@ -1,32 +1,30 @@
-import java.io.{File, FileInputStream, InputStream}
+import java.io.File
 
-import Main.{esIndexer, nlpParser, ocrParser, s3Downloader}
-
-import scala.annotation.tailrec
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{Await, CanAwait, Future}
+import Main.argMap
 import Model.ExternalImplicits._
 
-import scala.concurrent.duration.Duration
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 object IndexProcedures {
+  val ocrParser = new OCRParser
+  val nlpParser = new NLPParser
+  //TODO when we stop testing locally, remove these first two vals and remove indexPDFLocal
+  val esIndexer = new ESIndexer(argMap("esurl"))
 
   def indexParticipants(start: String, mid: String, end: String): Future[List[Unit]] = {
-      URLIterator.fetch2WithBatchedCont(start, mid, end) { participants: List[Participant] =>
-        esIndexer.bulkIndexAsync2(participants.map(_.toJson))
-      }
-  }
-
-  def indexPDFRemote(start: String, mid: String, end: String) = {
-    val i = URLIterator.fetch2WithCont(start, mid, end) { pdf: PDF =>
-      //start a future to do: S3 -> OCR -> NLP -> ES
-      esIndexer.indexAsync2(pdf.toJson)
+    URLIterator.fetch2WithBatchedCont(start, mid, end) { participants: List[Participant] =>
+      esIndexer.bulkIndexAsync(Future.sequence(participants.map(_.toJson)))
       ()
     }
+  }
 
-    val j = i
-
-    Await.result(j, Duration.Inf)
+  def indexPDFRemote(start: String, mid: String, end: String = ""): Future[List[Unit]] = {
+    URLIterator.fetch2WithCont(start, mid, s"file_format=pdf&$end") { pdf: PDF =>
+      //start a future to do: S3 -> OCR -> NLP -> ES
+      esIndexer.indexAsync(pdf.toJson)
+      ()
+    }
   }
 
   /**
@@ -34,66 +32,20 @@ object IndexProcedures {
     *
     * @param path the path to the folder containing the files
     */
-  def indexPDFLocal(path: String): Future[List[String]] = {
+  def indexPDFLocal(path: String): Future[List[Unit]] = {
     Future.traverse(new File(path).listFiles().toList) { file: File =>
       //start a future to do: OCR -> NLP -> ES
-      indexPDF(new FileInputStream(file), file.getName)
-    }.map(printReport)
-  }
 
-  /**
-    * Indexes PDFs into ES.
-    *
-    * @param pdf        the PDF as an InputStream. Uses call-by-name to create a future on the download of said stream
-    * @param name       the name of the PDF
-    * @param dataType   the datatype of the PDF
-    * @param fileFormat the format of the PDF (always PDF, but we're not hard-coding it...)
-    * @param kfId       the Kid's First ID of the PDF
-    * @return String representing wether or not the indexing succeeded
-    */
-  private def indexPDF(pdf: => InputStream, name: String, dataType: String = "local", fileFormat: String = "pdf", kfId: String = "local"): Future[String] = Future[String] { //do: OCR -> NLP -> ES
-    try {
-      val text = ocrParser.parsePDF(pdf)
+      Future{
+        val text = ocrParser.parsePDF(file)
 
-      esIndexer.index(IndexingRequest(name, text, nlpParser.getLemmas(text), dataType, fileFormat, kfId))
+        val lemmas = nlpParser.getLemmas(text)
 
-      s"$name"
+        import Model.Internals._
 
-    } catch {
-      case e: java.net.ConnectException =>
-        e.printStackTrace()
-        println("ES or connection error; exiting now...")
-        System.exit(1)
-        ""
-      case _: Exception => s"Failed indexing $name"
+        esIndexer.indexAsync(IndexingRequest("local", text, Some(file.getName), lemmas, Some("pdf"), Some("pdf")).toJson)
+      }.flatten
+
     }
-  }
-
-  /**
-    * Prints things in the list of pdf indexing result. Returns
-    *
-    * @param list
-    * @return
-    */
-  private def printReport(list: List[String]): List[String] = {
-    def printtab(str: String): Unit = println("\t" + str)
-
-    @tailrec
-    def printIter(main: List[String], failures: List[String]): Unit = main match {
-      case x :: tail =>
-        if (x.startsWith("Failed")) printIter(tail, failures :+ x)
-        else {
-          printtab(x)
-          printIter(tail, failures)
-        }
-      case List() =>
-        println("Failures:")
-        failures.foreach(printtab)
-    }
-
-    println("Successes:")
-    printIter(list, List())
-
-    list
   }
 }
