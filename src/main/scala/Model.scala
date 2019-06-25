@@ -1,4 +1,5 @@
 import java.io.File
+import java.util.regex.Pattern
 
 import Main.argMap
 import Model.InternalImplicits._
@@ -44,15 +45,18 @@ case class Participant(kf_id: String, ethnicity: Option[String], race: Option[St
   }
 }
 
-case class PDF(kf_id: String, external_id: Option[String], data_type: Option[String], file_name: Option[String], file_format: Option[String]) extends Model {
+case class PDF(kf_id: String, bucket: Option[String], data_type: Option[String], file_name: Option[String], file_format: Option[String]) extends Model {
   import Model.Internals._
 
   protected def toIndexingRequest: Future[IndexingRequest] = {
 
-    external_id.map{ key =>
-      val temp = new File("./input").listFiles
+    bucket.map{ bucketAndKey =>
+      val matcher = pdfPattern.matcher(bucketAndKey)
+      matcher.find()
+      val bucket = matcher.group(1)
+      val key = matcher.group(2)
 
-      val stream = temp(Random.nextInt(temp.size))//s3Downloader.download(key)
+      val stream = s3Downloader.download(bucket, key)
 
       Future{
         val text = ocrParser.parsePDF(stream)
@@ -88,6 +92,7 @@ object Model {
     val ocrParser = new OCRParser
     val nlpParser = new NLPParser
     val s3Downloader = new S3Downloader(argMap("bucket"))
+    val pdfPattern = Pattern.compile("^s3://([a-zA-Z0-9\\.-]{3,63})/(.+)")
   }
 
   object InternalImplicits {
@@ -109,7 +114,9 @@ object Model {
       JsSuccess(Holder(listOfFieldValues))
     }
 
-    implicit val readPDF: Reads[PDF] = Json.reads[PDF]
+    implicit val readPDF: Reads[PDF] = (Json.reads[PDF] and (__ \ "urls").read[Array[String]]) { (pdf, bucket) =>
+      pdf.copy(bucket = Some(bucket(0)))
+    }
 
     implicit val readParticipant: Reads[Participant] = (Json.reads[Participant] and (__ \ "_links" \ "family").readNullable[String]) { (participant, family) =>
       participant.copy(family = family)
