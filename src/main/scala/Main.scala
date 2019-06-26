@@ -44,19 +44,14 @@ object Main {
 
     val f2 = Future {
       if (argMap("do").equals("adminremote")) {
-        blocking {
-          indexPDFRemote("https://kf-api-dataservice.kids-first.io", "/genomic-files", argMap("endurl"))
-        }
+        indexPDFRemote("https://kf-api-dataservice.kids-first.io", "/genomic-files", argMap("endurl"))
       } else {
         indexPDFLocal(argMap("localinput"))
       }
     }.flatten
     val f1 = Future {
-      blocking {
-        indexParticipants("https://kf-api-dataservice.kids-first.io", "/participants", argMap("endurl"))
-      }
+      indexParticipants("https://kf-api-dataservice.kids-first.io", "/participants", argMap("endurl"))
     }.flatten
-
 
     val f = Future.sequence(Seq(f1, f2))
     Await.result(f, Duration.Inf)

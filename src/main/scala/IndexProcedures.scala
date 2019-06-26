@@ -15,6 +15,7 @@ object IndexProcedures {
   def indexParticipants(start: String, mid: String, end: String): Future[List[Unit]] = {
     URLIterator.fetch2WithBatchedCont(start, mid, end) { participants: List[Participant] =>
       esIndexer.bulkIndexAsync(Future.sequence(participants.map(_.toJson)))
+      println("Participant.........................")
       ()
     }
   }
@@ -43,7 +44,12 @@ object IndexProcedures {
 
         import Model.Internals._
 
+        println("PDF.........................")
+
         esIndexer.indexAsync(IndexingRequest("local", text, Some(file.getName), lemmas, Some("pdf"), Some("pdf")).toJson)
+
+
+
       }.flatten
 
     }
