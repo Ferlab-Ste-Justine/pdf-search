@@ -13,7 +13,7 @@ object IndexProcedures {
   val esIndexer = new ESIndexer(argMap("esurl"))
 
   def indexParticipants(start: String, mid: String, end: String): Future[List[Unit]] = {
-    URLIterator.fetch2WithBatchedCont(start, mid, end) { participants: List[Participant] =>
+    URLIterator.fetchWithBatchedCont(start, mid, end) { participants: List[Participant] =>
       esIndexer.bulkIndexAsync(Future.sequence(participants.map(_.toJson)))
       println("Participant.........................")
       ()
@@ -21,7 +21,7 @@ object IndexProcedures {
   }
 
   def indexPDFRemote(start: String, mid: String, end: String = ""): Future[List[Unit]] = {
-    URLIterator.fetch2WithCont(start, mid, s"file_format=pdf&$end") { pdf: PDF =>
+    URLIterator.fetchWithCont(start, mid, s"file_format=pdf&$end") { pdf: PDF =>
       //start a future to do: S3 -> OCR -> NLP -> ES
       esIndexer.indexAsync(pdf.toJson)
       ()
@@ -37,17 +37,14 @@ object IndexProcedures {
     Future.traverse(new File(path).listFiles().toList) { file: File =>
       //start a future to do: OCR -> NLP -> ES
 
-      Future{
+      Future {
         val text = ocrParser.parsePDF(file)
 
         val lemmas = nlpParser.getLemmas(text)
 
-        import Model.Internals._
-
         println("PDF.........................")
 
         esIndexer.indexAsync(IndexingRequest("local", text, Some(file.getName), lemmas, Some("pdf"), Some("pdf")).toJson)
-
 
 
       }.flatten

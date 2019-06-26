@@ -3,7 +3,7 @@ import IndexProcedures._
 import scala.annotation.tailrec
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, Future, blocking}
+import scala.concurrent.{Await, Future}
 
 object Main {
 

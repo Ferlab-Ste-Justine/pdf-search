@@ -34,9 +34,9 @@ class URLIteratorTest extends FlatSpec with Matchers {
         | "total":2
         |}
       """.stripMargin))) { start =>
-        val result = Await.result(URLIterator.fetchGeneric(start, "/studies", fields = List("name")), Duration.Inf)
+      val result = Await.result(URLIterator.fetchGeneric(start, "/studies", fields = List("name")), Duration.Inf)
 
-        result shouldBe List(Holder(List(Some("Study 1"))), Holder(List(Some("Study 2"))))
+      result shouldBe List(Holder(List(Some("Study 1"))), Holder(List(Some("Study 2"))))
     }
   }
 
@@ -101,7 +101,7 @@ class URLIteratorTest extends FlatSpec with Matchers {
     )) { start =>
 
       import Model.ExternalImplicits._
-      val result = URLIterator.fetch2WithCont(start, "/studies"){ p: Participant =>
+      val result = URLIterator.fetchWithCont(start, "/studies") { p: Participant =>
         p.ethnicity.get
       }
 

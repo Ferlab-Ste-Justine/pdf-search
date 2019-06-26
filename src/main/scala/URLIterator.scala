@@ -1,21 +1,27 @@
-import java.net.URI
-import java.net.http.HttpResponse.BodyHandlers
-import java.net.http.{HttpClient, HttpRequest, HttpResponse}
-
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
-import play.api.libs.json.{JsObject, JsValue, Json, Reads}
+import play.api.libs.json.{JsObject, JsValue, Reads}
+import play.api.libs.ws.JsonBodyReadables._
 import play.api.libs.ws.StandaloneWSRequest
 import play.api.libs.ws.ahc.StandaloneAhcWSClient
 
-import scala.annotation.tailrec
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-import play.api.libs.ws.JsonBodyReadables._
-
 object URLIterator {
+
+  def fetchGeneric(start: String, mid: String, end: String = "", fields: List[String] = List(), method: String = "GET", retries: Int = 10):
+  Future[List[Holder]] = Util(start, mid, end, method, retries)(Model.ExternalImplicits.readHolder(fields)).fetch
+
+  def fetch[B <: Model](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)
+                       (implicit r: Reads[B]): Future[List[B]] = Util(start, mid, end, method, retries).fetch
+
+  def fetchWithCont[B <: Model, A](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)(cont: B => A)
+                                  (implicit r: Reads[B]): Future[List[A]] = Util(start, mid, end, method, retries).fetchWithCont(cont)
+
+  def fetchWithBatchedCont[B <: Model, A](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10, batchSize: Int = 1500)(cont: List[B] => A)
+                                         (implicit r: Reads[B]): Future[List[A]] = Util(start, mid, end, method, retries).fetchWithBatchedcont(cont, batchSize)
 
   private sealed case class Util[B <: Model](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)(implicit reader: Reads[B]) {
     implicit val system: ActorSystem = ActorSystem()
@@ -30,31 +36,14 @@ object URLIterator {
 
     val client = StandaloneAhcWSClient()
 
-    /**
-      * Sends a request
-      *
-      * @return the response as a String
-      */
-    def request(iter:String, first: Boolean, tries: Int = 0): Future[JsValue] = {
-      def requestIter(tries: Int): Future[JsValue] = {
-        if (tries >= retries) throw new IllegalArgumentException
-        val temp: Future[StandaloneWSRequest#Response] = client.url(start + iter + (if (first) "?" else "&") + end).get()
-        temp.flatMap { resp =>
-          val code = resp.status
-          if (code < 200 || code >= 300) requestIter(tries + 1)
-          else Future(resp.body[JsValue])
-        }
-      }
+    def fetch: Future[List[B]] = fetchWithCont(identity)
 
-      requestIter(0)
-    }
-
-    def fetchWithCont[A](cont: B => A): Future[List[A]] = {  //wrapper allors us to not pass cont
+    def fetchWithCont[A](cont: B => A): Future[List[A]] = { //wrapper allors us to not pass cont
       def singler(iter: String, resList: List[A]): Future[List[A]] = {
         request(iter, resList.isEmpty).flatMap { json =>
           val results: Seq[JsValue] = json("results").as[Array[JsObject]]
 
-          val models = resList ++ results.map( result => cont(result.as[B]) )
+          val models = resList ++ results.map(result => cont(result.as[B]))
 
           val next: Option[String] = (json \ "_links" \ "next").asOpt[String]
 
@@ -68,8 +57,6 @@ object URLIterator {
       singler(mid, List())
     }
 
-    def fetch: Future[List[B]] = fetchWithCont(identity)
-
     def fetchWithBatchedcont[A](batchedCont: List[B] => A, batchSize: Int = 1500): Future[List[A]] = {
       def batcher(iter: String, builder: List[B], resList: List[A]): Future[List[A]] = {
         request(iter, resList.isEmpty).flatMap { json =>
@@ -80,7 +67,7 @@ object URLIterator {
           val accumulator = results.foldLeft(builder) { (acc: List[B], result) =>
             val asModel = result.as[B]
 
-            if(acc.length >= batchSize) {
+            if (acc.length >= batchSize) {
               batchResult += batchedCont(acc)
               List(asModel)
             } else {
@@ -94,7 +81,7 @@ object URLIterator {
           next match {
             case Some(url) => batcher(url, accumulator, batchResult.toList)
             case None =>
-              if(accumulator.nonEmpty) batchResult += batchedCont(accumulator)
+              if (accumulator.nonEmpty) batchResult += batchedCont(accumulator)
               Future.successful(batchResult.toList)
           }
         }
@@ -102,17 +89,24 @@ object URLIterator {
 
       batcher(mid, List(), List())
     }
+
+    /**
+      * Sends a request
+      *
+      * @return the response as a String
+      */
+    def request(iter: String, first: Boolean, tries: Int = 0): Future[JsValue] = {
+      def requestIter(tries: Int): Future[JsValue] = {
+        if (tries >= retries) throw new IllegalArgumentException
+        val temp: Future[StandaloneWSRequest#Response] = client.url(start + iter + (if (first) "?" else "&") + end).get()
+        temp.flatMap { resp =>
+          val code = resp.status
+          if (code < 200 || code >= 300) requestIter(tries + 1)
+          else Future(resp.body[JsValue])
+        }
+      }
+
+      requestIter(0)
+    }
   }
-
-  def fetchGeneric(start: String, mid: String, end: String = "", fields: List[String] = List(), method: String = "GET", retries: Int = 10):
-    Future[List[Holder]] = Util(start, mid, end, method, retries)(Model.ExternalImplicits.readHolder(fields)).fetch
-
-  def fetch2[B <: Model](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)
-    (implicit r: Reads[B]): Future[List[B]] = Util(start, mid, end, method, retries).fetch
-
-  def fetch2WithCont[B <: Model, A](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)(cont: B => A)
-    (implicit r: Reads[B]): Future[List[A]] = Util(start, mid, end, method, retries).fetchWithCont(cont)
-
-  def fetch2WithBatchedCont[B <: Model, A](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10, batchSize: Int = 1500)(cont: List[B] => A)
-    (implicit r: Reads[B]): Future[List[A]] = Util(start, mid, end, method, retries).fetchWithBatchedcont(cont, batchSize)
 }

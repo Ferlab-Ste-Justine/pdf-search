@@ -1,12 +1,10 @@
-import java.io
 import java.io.File
 
-import org.elasticsearch.common.Strings
 import org.scalatest.{FlatSpec, Matchers, PrivateMethodTester}
-import play.api.libs.json.{JsPath, Json, OFormat, Reads}
+import play.api.libs.json.Json
 
+import scala.concurrent.Await
 import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, Future}
 
 class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
   val ocrParser = new OCRParser
@@ -117,7 +115,7 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
 
       results shouldBe testers.map((b: (Option[String], Option[String])) => Holder(List(b._1, b._2)))
 
-      val asString = results.foldLeft(("", "")){ (acc, tester: Holder) =>
+      val asString = results.foldLeft(("", "")) { (acc, tester: Holder) =>
 
         (acc._1 + tester.valList.head.getOrElse(""), acc._2 + tester.valList(1).getOrElse(""))
       }.productIterator.toList.mkString(" ")

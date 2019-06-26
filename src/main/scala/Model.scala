@@ -1,4 +1,3 @@
-import java.io.File
 import java.util.regex.Pattern
 
 import Main.argMap
@@ -10,21 +9,16 @@ import play.api.libs.json._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.implicitConversions
-import scala.util.Random
 
 trait Model {
 
-  protected def toIndexingRequest: Future[IndexingRequest]
-
   def toJson: Future[String] = toIndexingRequest.map(_.toJson)
+
+  protected def toIndexingRequest: Future[IndexingRequest]
 }
 
 case class Participant(kf_id: String, ethnicity: Option[String], race: Option[String], gender: Option[String], family: Option[String]) extends Model {
   protected def toIndexingRequest: Future[IndexingRequest] = {
-    val fam = family match {
-      case None => "null"
-      case Some(value: String) => value.substring(value.lastIndexOf('/') + 1, value.length)
-    }
 
     val asJson: JsValue = Json.toJson(this)(Json.writes[Participant])
 
@@ -35,7 +29,7 @@ case class Participant(kf_id: String, ethnicity: Option[String], race: Option[St
       case Some(value: String) => asMapInit + ("family" -> value.substring(value.lastIndexOf('/') + 1, value.length))
     }
 
-    val text = asMap.map{ case (key, value) =>
+    val text = asMap.map { case (key, value) =>
       s"${key.capitalize}: $value"
     }.mkString(", ")
 
@@ -46,11 +40,12 @@ case class Participant(kf_id: String, ethnicity: Option[String], race: Option[St
 }
 
 case class PDF(kf_id: String, bucket: Option[String], data_type: Option[String], file_name: Option[String], file_format: Option[String]) extends Model {
+
   import Model.Internals._
 
   protected def toIndexingRequest: Future[IndexingRequest] = {
 
-    bucket.map{ bucketAndKey =>
+    bucket.map { bucketAndKey =>
       val matcher = pdfPattern.matcher(bucketAndKey)
       matcher.find()
       val bucket = matcher.group(1)
@@ -58,7 +53,7 @@ case class PDF(kf_id: String, bucket: Option[String], data_type: Option[String],
 
       val stream = s3Downloader.download(bucket, key)
 
-      Future{
+      Future {
         val text = ocrParser.parsePDF(stream)
 
         IndexingRequest(kf_id, text, file_name, nlpParser.getLemmas(text), file_format, data_type)
@@ -71,7 +66,7 @@ case class PDF(kf_id: String, bucket: Option[String], data_type: Option[String],
 
 case class Holder(valList: List[Option[String]]) extends Model {
   override protected def toIndexingRequest: Future[IndexingRequest] = {
-    val temp = valList.foldLeft(List[String]()){ (acc, value) =>
+    val temp = valList.foldLeft(List[String]()) { (acc, value) =>
       value.map(acc :+ _).getOrElse(acc)
     }
 
@@ -109,7 +104,7 @@ object Model {
     def readHolder(list: List[String]): Reads[Holder] = (json: JsValue) => {
       val readMap = json.as[Map[String, String]]
 
-      val listOfFieldValues: List[Option[String]] = list.map( field => if(readMap.isDefinedAt(field)) Some(readMap(field)) else None )
+      val listOfFieldValues: List[Option[String]] = list.map(field => if (readMap.isDefinedAt(field)) Some(readMap(field)) else None)
 
       JsSuccess(Holder(listOfFieldValues))
     }
@@ -123,5 +118,6 @@ object Model {
     }
 
   }
+
 }
 

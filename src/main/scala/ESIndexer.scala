@@ -1,20 +1,18 @@
 
 
 import org.apache.http.HttpHost
-import org.elasticsearch.action.{ActionListener, ActionResponse}
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest
 import org.elasticsearch.action.bulk.{BulkRequest, BulkResponse}
 import org.elasticsearch.action.index.{IndexRequest, IndexResponse}
-import org.elasticsearch.client.{RequestOptions, Response, RestClient, RestHighLevelClient}
+import org.elasticsearch.action.{ActionListener, ActionResponse}
+import org.elasticsearch.client.{RequestOptions, RestClient, RestHighLevelClient}
 import org.elasticsearch.common.Strings
 import org.elasticsearch.common.xcontent.XContentFactory._
-import org.elasticsearch.common.xcontent.{XContentBuilder, XContentType}
+import org.elasticsearch.common.xcontent.XContentType
 
-import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, Future, Promise}
+import scala.concurrent.{Future, Promise}
 
 class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
   //https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/java-docs-index.html
@@ -89,6 +87,14 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
     }
   }
 
+  def indexAsync(req: Future[String]): Future[Unit] = req.flatMap(indexAsync)
+
+  def indexAsync(req: String): Future[Unit] = {
+    val p = Promise[Unit]()
+    esClient.indexAsync(makeIndexRequest(req), RequestOptions.DEFAULT, makeListener[IndexResponse](p))
+    p.future
+  }
+
   /**
     * Makes an ES IndexRequest from an IndexingRequest
     *
@@ -109,14 +115,6 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
 
       def onFailure(e: Exception): Unit = p.failure(e)
     }
-
-  def indexAsync(req: Future[String]): Future[Unit] = req.flatMap(indexAsync)
-
-  def indexAsync(req: String): Future[Unit] = {
-    val p = Promise[Unit]()
-    esClient.indexAsync(makeIndexRequest(req), RequestOptions.DEFAULT, makeListener[IndexResponse](p))
-    p.future
-  }
 
   def bulkIndexAsync(reqs: Future[List[String]]): Future[Unit] = reqs.flatMap(bulkIndexAsync)
 
