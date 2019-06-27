@@ -86,7 +86,7 @@ object Model {
   object Internals {
     val ocrParser = new OCRParser
     val nlpParser = new NLPParser
-    val s3Downloader = new S3Downloader(argMap("bucket"))
+    val s3Downloader = new S3Downloader()
     val pdfPattern = Pattern.compile("^s3://([a-zA-Z0-9\\.-]{3,63})/(.+)")
   }
 
