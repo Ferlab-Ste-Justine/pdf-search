@@ -40,35 +40,41 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
 
     jsonAdminFileLemma.startObject()
     jsonAdminFileLemma.startObject("_doc")
-    jsonAdminFileLemma.startObject("properties")
 
-    jsonAdminFileLemma.startObject("name")
-    jsonAdminFileLemma.field("type", "text")
-    jsonAdminFileLemma.field("analyzer", "english") //use the custom analyser we're creating in jsonSettings
-    jsonAdminFileLemma.endObject()
+      jsonAdminFileLemma.startObject("properties")
 
-    jsonAdminFileLemma.startObject("text")
-    jsonAdminFileLemma.field("type", "text")
-    jsonAdminFileLemma.field("analyzer", "english") //use the custom analyser we're creating in jsonSettings
-    jsonAdminFileLemma.endObject()
+        jsonAdminFileLemma.startObject("name")
+        jsonAdminFileLemma.field("type", "text")
+        jsonAdminFileLemma.field("analyzer", "english") //use the custom analyser we're creating in jsonSettings
+        jsonAdminFileLemma.endObject()
 
-    jsonAdminFileLemma.startObject("words")
-    jsonAdminFileLemma.field("type", "keyword")
-    jsonAdminFileLemma.endObject()
+        jsonAdminFileLemma.startObject("text")
+        jsonAdminFileLemma.field("type", "text")
+        jsonAdminFileLemma.field("analyzer", "english") //use the custom analyser we're creating in jsonSettings
+        jsonAdminFileLemma.endObject()
 
-    jsonAdminFileLemma.startObject("file_format")
-    jsonAdminFileLemma.field("type", "keyword")
-    jsonAdminFileLemma.endObject()
+        jsonAdminFileLemma.startObject("words")
+        jsonAdminFileLemma.field("type", "keyword")
+        jsonAdminFileLemma.endObject()
 
-    jsonAdminFileLemma.startObject("data_type")
-    jsonAdminFileLemma.field("type", "keyword")
-    jsonAdminFileLemma.endObject()
+        jsonAdminFileLemma.startObject("file_format")
+        jsonAdminFileLemma.field("type", "keyword")
+        jsonAdminFileLemma.endObject()
 
-    jsonAdminFileLemma.startObject("kf_id")
-    jsonAdminFileLemma.field("type", "keyword")
-    jsonAdminFileLemma.endObject()
+        jsonAdminFileLemma.startObject("data_type")
+        jsonAdminFileLemma.field("type", "keyword")
+        jsonAdminFileLemma.endObject()
 
-    jsonAdminFileLemma.endObject()
+        jsonAdminFileLemma.startObject("kf_id")
+        jsonAdminFileLemma.field("type", "keyword")
+        jsonAdminFileLemma.endObject()
+
+      jsonAdminFileLemma.endObject()
+
+      jsonAdminFileLemma.startObject("settings")
+      jsonAdminFileLemma.field("number_of_shards",3)
+      jsonAdminFileLemma.endObject()
+
     jsonAdminFileLemma.endObject()
     jsonAdminFileLemma.endObject()
 
