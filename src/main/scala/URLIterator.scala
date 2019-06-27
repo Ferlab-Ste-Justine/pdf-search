@@ -9,6 +9,8 @@ import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
+//https://github.com/netty/netty/issues/7768
+
 object URLIterator {
 
   def fetchGeneric(start: String, mid: String, end: String = "", fields: List[String] = List(), method: String = "GET", retries: Int = 10):

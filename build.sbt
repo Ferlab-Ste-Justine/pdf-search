@@ -9,7 +9,7 @@ scalaVersion := "2.12.8"
 libraryDependencies += "net.sourceforge.tess4j" % "tess4j" % "4.0.0"
 
 // https://mvnrepository.com/artifact/io.searchbox/jest-common
-libraryDependencies += "io.searchbox" % "jest-common" % "0.1.1"
+libraryDependencies += "io.searchbox" % "jest-common" % "0.1.1" 
 
 libraryDependencies += "org.apache.opennlp" % "opennlp-tools" % "1.9.1"
 
