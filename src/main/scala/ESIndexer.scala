@@ -8,6 +8,7 @@ import org.elasticsearch.action.index.{IndexRequest, IndexResponse}
 import org.elasticsearch.action.{ActionListener, ActionResponse}
 import org.elasticsearch.client.{RequestOptions, RestClient, RestHighLevelClient}
 import org.elasticsearch.common.Strings
+import org.elasticsearch.common.settings.Settings
 import org.elasticsearch.common.xcontent.XContentFactory._
 import org.elasticsearch.common.xcontent.XContentType
 
@@ -71,12 +72,6 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
 
       jsonAdminFileLemma.endObject()
 
-      jsonAdminFileLemma.startObject("settings")
-      jsonAdminFileLemma.startObject("index")
-        jsonAdminFileLemma.field("number_of_shards",1)
-      jsonAdminFileLemma.endObject()
-      jsonAdminFileLemma.endObject()
-
     jsonAdminFileLemma.endObject()
     jsonAdminFileLemma.endObject()
 
@@ -84,6 +79,8 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
     request.mapping("_doc",
       Strings.toString(jsonAdminFileLemma),
       XContentType.JSON)
+
+    request.settings(Settings.builder().put("induex.number_of_shards", 1))
 
     /*
     Try to create the index. If it already exists, don't do anything
