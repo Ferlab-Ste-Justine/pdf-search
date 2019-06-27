@@ -1,5 +1,6 @@
 import java.io.InputStream
 
+import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.services.s3.model.{GetObjectRequest, S3Object}
 import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
 
@@ -11,10 +12,11 @@ class S3Downloader(region: String = "us-east-1") {
 
   val s3Client: AmazonS3 = AmazonS3ClientBuilder.standard()
     .withRegion(region)
+    .withCredentials(new ProfileCredentialsProvider())
     .build()
 
   def download(bucketName: String, key: String): InputStream = {
-    val obj: S3Object = s3Client.getObject(bucketName, key)
+    val obj: S3Object = s3Client.getObject(new GetObjectRequest(bucketName, key))
 
     println("S3Object content type: " + obj.getObjectMetadata.getContentType)
 
