@@ -72,7 +72,7 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
       jsonAdminFileLemma.endObject()
 
       jsonAdminFileLemma.startObject("settings")
-      jsonAdminFileLemma.field("number_of_shards",3)
+      jsonAdminFileLemma.field("number_of_shards",1)
       jsonAdminFileLemma.endObject()
 
     jsonAdminFileLemma.endObject()
