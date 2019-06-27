@@ -49,12 +49,11 @@ object Main {
         indexPDFLocal(argMap("localinput"))
       }
     }.flatten
-    /*
     val f1 = Future {
       indexParticipants("https://kf-api-dataservice.kids-first.io", "/participants", argMap("endurl"))
     }.flatten
-*/
-    val f = Future.sequence(Seq( f2))
+
+    val f = Future.sequence(Seq(f1, f2))
     Await.result(f, Duration.Inf)
 
     println("took " + (System.currentTimeMillis() - startTime) / 1000 + " seconds")
