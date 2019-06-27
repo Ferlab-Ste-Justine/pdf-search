@@ -14,7 +14,7 @@ class S3Downloader(region: String = "us-east-1") {
     .build()
 
   def download(bucketName: String, key: String): InputStream = {
-    val obj: S3Object = s3Client.getObject(new GetObjectRequest(bucketName, key))
+    val obj: S3Object = s3Client.getObject(bucketName, key)
 
     println("S3Object content type: " + obj.getObjectMetadata.getContentType)
 
