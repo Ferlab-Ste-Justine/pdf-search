@@ -80,7 +80,7 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
       Strings.toString(jsonAdminFileLemma),
       XContentType.JSON)
 
-    //request.settings(Settings.builder().put("induex.number_of_shards", 1))
+    request.settings(Settings.builder().put("index.number_of_shards", 1))
 
     /*
     Try to create the index. If it already exists, don't do anything
