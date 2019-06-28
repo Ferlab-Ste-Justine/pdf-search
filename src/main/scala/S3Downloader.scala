@@ -1,9 +1,11 @@
-import java.io.InputStream
+import java.io.{File, FileInputStream, InputStream}
 
-import com.amazonaws.auth.profile.ProfileCredentialsProvider
+import com.amazonaws.SdkClientException
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.model.{GetObjectRequest, S3Object}
 import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
+
+import scala.annotation.tailrec
 
 
 class S3Downloader {
@@ -15,12 +17,23 @@ class S3Downloader {
     .withRegion(Regions.US_EAST_1)
     .build()
 
-  def download(bucketName: String, key: String): InputStream = {
-    val obj: S3Object = s3Client.getObject(new GetObjectRequest(bucketName, key))
+  def download(bucketName: String, key: String,  retries: Int = 10): InputStream = {
 
-    println("S3Object content type: " + obj.getObjectMetadata.getContentType)
+    @tailrec
+    def iter(tries: Int): InputStream = {
+      try {
+        val obj: S3Object = s3Client.getObject(new GetObjectRequest(bucketName, key))
 
-    obj.getObjectContent
+        println("S3Object content type: " + obj.getObjectMetadata.getContentType)
+
+        obj.getObjectContent
+      } catch {
+        case _: SdkClientException =>
+          if(tries < retries) iter(tries+1)
+          else new FileInputStream(new File("./defaultPDF/default.pdf"))
+      }
+    }
+
+    iter(0)
   }
-
 }
