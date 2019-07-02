@@ -30,7 +30,7 @@ object Main {
 
       val defaults = Map[String, String](
         "esurl" -> "http://localhost:9200",
-        "endurl" -> "limit=100",
+        "endurl" -> "limit=100&visible=true",
         "studyid" -> "",
         "do" -> "adminremote",
         "localinput" -> "./input/",

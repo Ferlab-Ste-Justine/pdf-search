@@ -2,4 +2,5 @@
 target
 project
 input/*
-*.pdf
+out
+out/*
