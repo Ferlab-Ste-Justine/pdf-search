@@ -7,10 +7,6 @@ import scala.concurrent.{Await, Future}
 
 object Main {
 
-  var ocrParser: OCRParser = _
-  var nlpParser: NLPParser = _
-  var esIndexer: ESIndexer = _
-  var s3Downloader: S3Downloader = _
   var argMap: Map[String, String] = _
 
   def main(args: Array[String]) {

@@ -13,6 +13,7 @@ object IndexProcedures {
   val esIndexer = new ESIndexer(argMap("esurl"))
 
   def indexParticipants(start: String, mid: String, end: String): Future[List[Unit]] = {
+    println("Starting indexing participants")
     URLIterator.fetchWithBatchedCont(start, mid, end) { participants: List[Participant] =>
       esIndexer.bulkIndexAsync(Future.sequence(participants.map(_.toJson)))
       println("Participant.........................")
@@ -21,8 +22,10 @@ object IndexProcedures {
   }
 
   def indexPDFRemote(start: String, mid: String, end: String = ""): Future[List[Unit]] = {
+    println("Starting indexing pdfs")
     URLIterator.fetchWithCont(start, mid, s"file_format=pdf&$end") { pdf: PDF => //TODO change study ID to not-harcoded once integrated into ETL
       //start a future to do: S3 -> OCR -> NLP -> ES
+      println("PDF.........................")
       esIndexer.indexAsync(pdf.toJson)
       ()
     }
