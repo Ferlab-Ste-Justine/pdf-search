@@ -21,7 +21,7 @@ object IndexProcedures {
   }
 
   def indexPDFRemote(start: String, mid: String, end: String = ""): Future[List[Unit]] = {
-    URLIterator.fetchWithCont(start, mid, s"study_id=SD_BHJXBDQK&file_format=pdf&$end") { pdf: PDF => //TODO change study ID to not-harcoded once integrated into ETL
+    URLIterator.fetchWithCont(start, mid, s"file_format=pdf&$end") { pdf: PDF => //TODO change study ID to not-harcoded once integrated into ETL
       //start a future to do: S3 -> OCR -> NLP -> ES
       esIndexer.indexAsync(pdf.toJson)
       ()

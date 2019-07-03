@@ -42,7 +42,7 @@ object URLIterator {
 
     def fetchWithCont[A](cont: B => A): Future[List[A]] = { //wrapper allors us to not pass cont
       def singler(iter: String, resList: List[A]): Future[List[A]] = {
-        request(iter, resList.isEmpty).flatMap { json =>
+        request(iter).flatMap { json =>
           val results: Seq[JsValue] = json("results").as[Array[JsObject]]
 
           val models = resList ++ results.map(result => cont(result.as[B]))
@@ -61,7 +61,7 @@ object URLIterator {
 
     def fetchWithBatchedcont[A](batchedCont: List[B] => A, batchSize: Int = 1500): Future[List[A]] = {
       def batcher(iter: String, builder: List[B], resList: List[A]): Future[List[A]] = {
-        request(iter, resList.isEmpty).flatMap { json =>
+        request(iter).flatMap { json =>
           val results: Seq[JsValue] = json("results").as[Array[JsObject]]
 
           val batchResult = ListBuffer[A]() ++= resList
@@ -97,10 +97,10 @@ object URLIterator {
       *
       * @return the response as a String
       */
-    def request(iter: String, first: Boolean, tries: Int = 0): Future[JsValue] = {
+    def request(iter: String, tries: Int = 0): Future[JsValue] = {
       def requestIter(tries: Int): Future[JsValue] = {
         if (tries >= retries) throw new IllegalArgumentException
-        val temp: Future[StandaloneWSRequest#Response] = client.url(start + iter + (if (first) "?" else "&") + end).get()
+        val temp: Future[StandaloneWSRequest#Response] = client.url(start + iter + (if (iter.contains("?")) "?" else "&") + end).get() //test if iter contains ?: when asking for study id next will contain it
         temp.flatMap { resp =>
           val code = resp.status
           if (code < 200 || code >= 300) requestIter(tries + 1)

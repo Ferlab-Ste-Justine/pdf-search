@@ -44,7 +44,7 @@ object Main {
 
     val f2 = Future {
       if (argMap("do").equals("adminremote")) {
-        indexPDFRemote("https://kf-api-dataservice.kids-first.io", "/genomic-files", argMap("endurl"))
+        indexPDFRemote("https://kf-api-dataservice.kids-first.io", "/genomic-files?study_id=SD_BHJXBDQK", argMap("endurl"))
       } else {
         indexPDFLocal(argMap("localinput"))
       }
