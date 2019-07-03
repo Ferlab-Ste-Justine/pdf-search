@@ -100,7 +100,8 @@ object URLIterator {
     def request(iter: String, tries: Int = 0): Future[JsValue] = {
       def requestIter(tries: Int): Future[JsValue] = {
         if (tries >= retries) throw new IllegalArgumentException
-        val temp: Future[StandaloneWSRequest#Response] = client.url(start + iter + (if (iter.contains("?")) "?" else "&") + end).get() //test if iter contains ?: when asking for study id next will contain it
+
+        val temp: Future[StandaloneWSRequest#Response] = client.url(start + iter + (if (!iter.contains("?")) "?" else "&") + end).get() //test if iter contains ?: when asking for study id next will contain it
         temp.flatMap { resp =>
           val code = resp.status
           if (code < 200 || code >= 300) requestIter(tries + 1)
