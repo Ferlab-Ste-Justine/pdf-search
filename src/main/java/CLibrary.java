@@ -5,7 +5,7 @@ import com.sun.jna.Platform;
 public interface CLibrary extends Library {
     //https://github.com/nguyenq/tess4j/issues/106
 
-    CLibrary INSTANCE = Native.loadLibrary((Platform.isWindows() ? "msvcrt" : "c"), CLibrary.class);
+    CLibrary INSTANCE = (CLibrary) Native.loadLibrary((Platform.isWindows() ? "msvcrt" : "c"), CLibrary.class);
 
     int LC_CTYPE = 0;
     int LC_NUMERIC = 1;

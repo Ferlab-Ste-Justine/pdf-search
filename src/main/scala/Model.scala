@@ -35,7 +35,7 @@ case class Participant(kf_id: String, ethnicity: Option[String], race: Option[St
 
     val words: List[String] = asMap.values.toList
 
-    Future.successful(IndexingRequest(kf_id, text, Some(s"Participant $kf_id"), words, Some("participant"), Some("participant")))
+    Future.successful(IndexingRequest(kf_id, text, Some(s"Participant $kf_id"), Some("participant"), Some("participant")))
   }
 }
 
@@ -56,7 +56,7 @@ case class PDF(kf_id: String, bucket: Option[String], data_type: Option[String],
       Future {
         val text = ocrParser.parsePDF(stream)
 
-        IndexingRequest(kf_id, text, file_name, nlpParser.getLemmas(text), file_format, data_type)
+        IndexingRequest(kf_id, text, file_name, file_format, data_type)
       }
 
     }.getOrElse(Future.failed(new Exception("PDF has no external id (S3 key)")))
@@ -70,11 +70,11 @@ case class Holder(valList: List[Option[String]]) extends Model {
       value.map(acc :+ _).getOrElse(acc)
     }
 
-    Future.successful(IndexingRequest("id", valList.mkString(", "), Some("name"), temp, Some("format"), Some("type")))
+    Future.successful(IndexingRequest("id", valList.mkString(", "), Some("name"), Some("format"), Some("type")))
   }
 }
 
-case class IndexingRequest(kf_id: String, text: String, name: Option[String], words: Iterable[String], file_format: Option[String], data_type: Option[String]) {
+case class IndexingRequest(kf_id: String, text: String, name: Option[String], file_format: Option[String], data_type: Option[String]) {
   def toJson: String = Json.toJson(this).toString()
 }
 
@@ -85,7 +85,6 @@ object Model {
    */
   object Internals {
     val ocrParser = new OCRParser
-    val nlpParser = new NLPParser
     val s3Downloader = new S3Downloader()
     val pdfPattern = Pattern.compile("^s3://([a-zA-Z0-9\\.-]{3,63})/(.+)")
   }

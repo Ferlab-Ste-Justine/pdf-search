@@ -15,25 +15,15 @@ import org.elasticsearch.common.xcontent.XContentType
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 
-class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
-  //https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/java-docs-index.html
-  //https://www.elastic.co/guide/en/elasticsearch/reference/7.0/docs-index_.html
-  //https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html
-  //https://www.elastic.co/guide/en/elasticsearch/client/java-rest/master/java-rest-high-document-bulk.html
-
-  val esClient = new RestHighLevelClient(RestClient.builder(HttpHost.create(url)))
-
+class BoundESIndexer(index: String, esClient: RestHighLevelClient) {
+  initIndexes()
 
   //https://www.elastic.co/guide/en/elasticsearch/client/java-rest/master/java-rest-high-create-index.html
   //https://discuss.elastic.co/t/elasticsearch-total-term-frequency-and-doc-count-from-given-set-of-documents/115223
   //https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-termvectors.html
-
-  initIndexes()
-
-  def initIndexes(): Unit = {
-
+  private def initIndexes(): Unit = {
     val exists = new GetIndexRequest()
-    exists.indices("qsearch")
+    exists.indices(index)
 
     if (esClient.indices().exists(exists, RequestOptions.DEFAULT)) return //if index exists, stop
 
@@ -42,45 +32,39 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
     jsonAdminFileLemma.startObject()
     jsonAdminFileLemma.startObject("_doc")
 
-      jsonAdminFileLemma.startObject("properties")
+    jsonAdminFileLemma.startObject("properties")
 
-        jsonAdminFileLemma.startObject("name")
-        jsonAdminFileLemma.field("type", "text")
-        jsonAdminFileLemma.field("analyzer", "english") //use the custom analyser we're creating in jsonSettings
-        jsonAdminFileLemma.endObject()
+    jsonAdminFileLemma.startObject("name")
+    jsonAdminFileLemma.field("type", "text")
+    jsonAdminFileLemma.field("analyzer", "english") //use the custom analyser we're creating in jsonSettings
+    jsonAdminFileLemma.endObject()
 
-        jsonAdminFileLemma.startObject("text")
-        jsonAdminFileLemma.field("type", "text")
-        jsonAdminFileLemma.field("analyzer", "english") //use the custom analyser we're creating in jsonSettings
-        jsonAdminFileLemma.endObject()
+    jsonAdminFileLemma.startObject("text")
+    jsonAdminFileLemma.field("type", "text")
+    jsonAdminFileLemma.field("analyzer", "english") //use the custom analyser we're creating in jsonSettings
+    jsonAdminFileLemma.endObject()
 
-        jsonAdminFileLemma.startObject("words")
-        jsonAdminFileLemma.field("type", "keyword")
-        jsonAdminFileLemma.endObject()
+    jsonAdminFileLemma.startObject("file_format")
+    jsonAdminFileLemma.field("type", "keyword")
+    jsonAdminFileLemma.endObject()
 
-        jsonAdminFileLemma.startObject("file_format")
-        jsonAdminFileLemma.field("type", "keyword")
-        jsonAdminFileLemma.endObject()
+    jsonAdminFileLemma.startObject("data_type")
+    jsonAdminFileLemma.field("type", "keyword")
+    jsonAdminFileLemma.endObject()
 
-        jsonAdminFileLemma.startObject("data_type")
-        jsonAdminFileLemma.field("type", "keyword")
-        jsonAdminFileLemma.endObject()
+    jsonAdminFileLemma.startObject("kf_id")
+    jsonAdminFileLemma.field("type", "keyword")
+    jsonAdminFileLemma.endObject()
 
-        jsonAdminFileLemma.startObject("kf_id")
-        jsonAdminFileLemma.field("type", "keyword")
-        jsonAdminFileLemma.endObject()
-
-      jsonAdminFileLemma.endObject()
+    jsonAdminFileLemma.endObject()
 
     jsonAdminFileLemma.endObject()
     jsonAdminFileLemma.endObject()
 
-    val request = new CreateIndexRequest("qsearch")
+    val request = new CreateIndexRequest(index)
     request.mapping("_doc",
       Strings.toString(jsonAdminFileLemma),
       XContentType.JSON)
-
-    request.settings(Settings.builder().put("index.number_of_shards", 1))
 
     /*
     Try to create the index. If it already exists, don't do anything
@@ -92,14 +76,6 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
     }
   }
 
-  def indexAsync(req: Future[String]): Future[Unit] = req.flatMap(indexAsync)
-
-  def indexAsync(req: String): Future[Unit] = {
-    val p = Promise[Unit]()
-    esClient.indexAsync(makeIndexRequest(req), RequestOptions.DEFAULT, makeListener[IndexResponse](p))
-    p.future
-  }
-
   /**
     * Makes an ES IndexRequest from an IndexingRequest
     *
@@ -107,11 +83,19 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
     * @return
     */
   private def makeIndexRequest(req: String) = {
-    val request = new IndexRequest("qsearch")
+    val request = new IndexRequest(index)
     request.`type`("_doc")
     request.source(req, XContentType.JSON)
 
     request
+  }
+
+  def indexAsync(req: Future[String]): Future[Unit] = req.flatMap(indexAsync)
+
+  def indexAsync(req: String): Future[Unit] = {
+    val p = Promise[Unit]()
+    esClient.indexAsync(makeIndexRequest(req), RequestOptions.DEFAULT, makeListener[IndexResponse](p))
+    p.future
   }
 
   private def makeListener[A <: ActionResponse](p: Promise[Unit]): ActionListener[A] =
@@ -134,3 +118,15 @@ class ESIndexer(url: String = "http://localhost:9200", bulking: Int = 1500) {
     p.future
   }
 }
+
+class ESIndexer(url: String = "http://localhost:9200", index: String="qsearch") {
+  //https://www.elastic.co/guide/en/elasticsearch/client/java-api/current/java-docs-index.html
+  //https://www.elastic.co/guide/en/elasticsearch/reference/7.0/docs-index_.html
+  //https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html
+  //https://www.elastic.co/guide/en/elasticsearch/client/java-rest/master/java-rest-high-document-bulk.html
+
+  val esClient: RestHighLevelClient = new RestHighLevelClient(RestClient.builder(HttpHost.create(url)))
+
+  def forIndex(index: String) = new BoundESIndexer(index, esClient)
+}
+

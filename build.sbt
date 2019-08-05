@@ -27,3 +27,7 @@ libraryDependencies += "com.typesafe.play" %% "play-json" % "2.7.0"
 libraryDependencies += "com.typesafe.play" %% "play-ahc-ws-standalone" % "2.1.0-M3"
 
 libraryDependencies += "com.typesafe.play" %% "play-ws-standalone-json" % "2.1.0-M3"
+
+libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value
+
+libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value

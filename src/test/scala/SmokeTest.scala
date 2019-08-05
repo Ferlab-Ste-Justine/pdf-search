@@ -6,6 +6,7 @@ import play.api.libs.json.Json
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
+/*
 class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
   val ocrParser = new OCRParser
   val nlpParser = new NLPParser
@@ -132,3 +133,4 @@ class SmokeTest extends FlatSpec with Matchers with PrivateMethodTester {
     }
   }
 }
+*/

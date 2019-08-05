@@ -5,6 +5,7 @@ import play.api.libs.json.Json
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
+/*
 class ModelTest extends FlatSpec with Matchers {
   var participant: Participant = Json.obj("kf_id" -> "Yoda", "ethnicity" -> "Light side of the Force", "race" -> "Jedi Master", "_links" -> "nothing").as[Participant]
 
@@ -31,5 +32,5 @@ class ModelTest extends FlatSpec with Matchers {
 }
 
 
-
+*/
 
