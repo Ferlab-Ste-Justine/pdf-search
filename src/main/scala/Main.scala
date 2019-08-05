@@ -26,7 +26,6 @@ object Main {
             |- esurl : ElasticSearch UR
             |- starturl : first portion of the URL on which we iterate to get the file's S3 keys (url of the dataservice)
             |- endurl : end portion of the url (additionnal options for the GET request). Must fit all requests (example: limit=100 is ok, but not file_format=something)
-            |As an example of the syntax, to change the localinput to MYFOLDER, one would write "localinput:MYFOLDER"
           """.stripMargin
         )
         System.exit(0)

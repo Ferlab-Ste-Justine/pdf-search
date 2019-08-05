@@ -19,7 +19,7 @@ object CaseClassUtils {
       val argList = m.foldLeft(List[String]()){ (acc, kv) =>
         val (k, v) = kv
 
-        s"""$k="$v"""" +: acc
+        s"$k=\"$v\"" +: acc
       }.mkString(", ")
 
       import scala.reflect.runtime.currentMirror
