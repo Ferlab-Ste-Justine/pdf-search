@@ -16,10 +16,13 @@ object CaseClassUtils {
 
 
     def fromMap(m: Map[String,String]): T = {
+      val fields = cc.getClass.getDeclaredFields.map(_.getName)
+
       val argList = m.foldLeft(List[String]()){ (acc, kv) =>
         val (k, v) = kv
 
-        s"$k=\"$v\"" +: acc
+        if(!fields.contains(k)) acc
+        else s"""$k="$v"""" +: acc
       }.mkString(", ")
 
       import scala.reflect.runtime.currentMirror
