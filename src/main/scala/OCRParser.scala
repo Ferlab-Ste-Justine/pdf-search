@@ -1,6 +1,9 @@
 import java.io.{ByteArrayInputStream, File, FileInputStream, InputStream}
 
+import javax.imageio.ImageIO
+import javax.imageio.spi.IIORegistry
 import net.sourceforge.tess4j.Tesseract
+import org.apache.pdfbox.jbig2.JBIG2ImageReaderSpi
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.rendering.{ImageType, PDFRenderer}
 import org.apache.pdfbox.text.PDFTextStripper
@@ -88,6 +91,8 @@ class OCRParser(languages: String = "eng") {
       tesseract
     }
 
+    ImageIO.scanForPlugins()
+    IIORegistry.getDefaultInstance.registerServiceProvider(new JBIG2ImageReaderSpi)
     val renderer = new PDFRenderer(document)
 
     /*

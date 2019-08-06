@@ -31,7 +31,6 @@ object Main {
   val ESIndexer: ESIndexer = new ESIndexer(argMap.esurl)
 
   def main(args: Array[String]) {
-
     val studyList = System.getenv("KF_STUDY_ID").split(" ").toList.map(_.toLowerCase())
     val releaseID = System.getenv("KF_RELEASE_ID").toLowerCase()
 
