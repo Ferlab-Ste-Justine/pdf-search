@@ -45,15 +45,7 @@ class OCRParser(languages: String = "eng") {
 
       } catch {
         case _: Exception =>
-          //https://stackoverflow.com/questions/34805134/pdfbox-1-8-10-error-in-generating-pddocument-from-load-method
-
-          /*
-          We're going to /maybe/ fix the file by prepending as PDF marker to it. If it doesn't work, the file
-          is beyond repair
-           */
-          val fixed: Array[Byte] = Array[Byte](25, 50, 44, 46) ++ pdf.readAllBytes()
-
-          PDDocument.load(new ByteArrayInputStream(fixed))
+          return "thisfileiscorrupted"
       }
 
     /*
