@@ -1,51 +1,115 @@
-import java.net.URI
-import java.net.http.HttpResponse.BodyHandlers
-import java.net.http.{HttpClient, HttpRequest, HttpResponse}
+import akka.actor.ActorSystem
+import akka.stream.ActorMaterializer
+import play.api.libs.json.{JsObject, JsValue, Reads}
+import play.api.libs.ws.JsonBodyReadables._
+import play.api.libs.ws.StandaloneWSRequest
+import play.api.libs.ws.ahc.StandaloneAhcWSClient
 
-import play.api.libs.json.{JsObject, Json}
+import scala.collection.mutable.ListBuffer
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
-import scala.annotation.tailrec
+//https://github.com/netty/netty/issues/7768
 
-//https://stackoverflow.com/questions/1359689/how-to-send-http-request-in-java
 object URLIterator {
-    def applyOnAllFrom[B](start: String, mid: String, end: String = "", fields: List[String], method: String = "GET")(cont: List[String] => B): List[B] = {
 
-        @tailrec
-        def getAllFrom(iter: String, resList: List[B]): List[B] = {
+  def fetchGeneric(start: String, mid: String, end: String = "", fields: List[String] = List(), method: String = "GET", retries: Int = 10):
+  Future[List[Holder]] = Util(start, mid, end, method, retries)(Model.ExternalImplicits.readHolder(fields)).fetch
 
-            def request = {
-                val client = HttpClient.newHttpClient()
-                val request = HttpRequest.newBuilder().uri(URI.create(start + iter + (if(resList.isEmpty) "?" else "&") + end)).build()
+  def fetch[B <: Model](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)
+                       (implicit r: Reads[B]): Future[List[B]] = Util(start, mid, end, method, retries).fetch
 
-                val temp: HttpResponse[String] = client.send(request, BodyHandlers.ofString())
+  def fetchWithCont[B <: Model, A](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)(cont: B => A)
+                                  (implicit r: Reads[B]): Future[List[A]] = Util(start, mid, end, method, retries).fetchWithCont(cont)
 
-                temp.body()
-            }
+  def fetchWithBatchedCont[B <: Model, A](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10, batchSize: Int = 1500)(cont: List[B] => A)
+                                         (implicit r: Reads[B]): Future[List[A]] = Util(start, mid, end, method, retries).fetchWithBatchedcont(cont, batchSize)
 
-            val json= Json.parse(request)
-
-            val fList = json("results").as[Array[JsObject]].foldLeft(resList){ (acc, jsonObj: JsObject) =>
-                val temp = fields.map{ item =>
-                    jsonObj(item).asOpt[String] match {
-                        case Some(value) => value
-                        case None => "null"
-                    }
-                }
-
-                acc :+ cont(temp)
-            }
-
-            val next: Option[String] = (json \ "_links" \ "next").asOpt[String]
-
-            next match {
-                case Some(url) => print(url); getAllFrom(url, fList)
-                case None => fList
-            }
-        }
-
-        getAllFrom(mid, List())
+  private sealed case class Util[B <: Model](start: String, mid: String, end: String = "", method: String = "GET", retries: Int = 10)(implicit reader: Reads[B]) {
+    implicit val system: ActorSystem = ActorSystem()
+    system.registerOnTermination {
+      System.exit(0)
     }
 
-    //def getNameFromUrl(url: String): String =  url.substring(url.indexOf('/', url.indexOf('/')) + 1, url.length).replaceAll("(.pdf)$", "")
+    implicit val materializer: ActorMaterializer = ActorMaterializer()
+    // Create the standalone WS client
+    // no argument defaults to a AhcWSClientConfig created from
+    // "AhcWSClientConfigFactory.forConfig(ConfigFactory.load, this.getClass.getClassLoader)"
 
+    val client = StandaloneAhcWSClient()
+
+    def fetch: Future[List[B]] = fetchWithCont(identity)
+
+    def fetchWithCont[A](cont: B => A): Future[List[A]] = { //wrapper allors us to not pass cont
+      def singler(iter: String, resList: List[A]): Future[List[A]] = {
+        request(iter).flatMap { json =>
+          val results: Seq[JsValue] = json("results").as[Array[JsObject]]
+
+          val models = resList ++ results.map(result => cont(result.as[B]))
+
+          val next: Option[String] = (json \ "_links" \ "next").asOpt[String]
+
+          next match {
+            case Some(url) => singler(url, models)
+            case None => Future.successful(models)
+          }
+        }
+      }
+
+      singler(mid, List())
+    }
+
+    def fetchWithBatchedcont[A](batchedCont: List[B] => A, batchSize: Int = 1500): Future[List[A]] = {
+      def batcher(iter: String, builder: List[B], resList: List[A]): Future[List[A]] = {
+        request(iter).flatMap { json =>
+          val results: Seq[JsValue] = json("results").as[Array[JsObject]]
+
+          val batchResult = ListBuffer[A]() ++= resList
+
+          val accumulator = results.foldLeft(builder) { (acc: List[B], result) =>
+            val asModel = result.as[B]
+
+            if (acc.length >= batchSize) {
+              batchResult += batchedCont(acc)
+              List(asModel)
+            } else {
+              acc :+ asModel
+            }
+
+          }
+
+          val next: Option[String] = (json \ "_links" \ "next").asOpt[String]
+
+          next match {
+            case Some(url) => batcher(url, accumulator, batchResult.toList)
+            case None =>
+              if (accumulator.nonEmpty) batchResult += batchedCont(accumulator)
+              Future.successful(batchResult.toList)
+          }
+        }
+      }
+
+      batcher(mid, List(), List())
+    }
+
+    /**
+      * Sends a request
+      *
+      * @return the response as a String
+      */
+    def request(iter: String, tries: Int = 0): Future[JsValue] = {
+      def requestIter(tries: Int): Future[JsValue] = {
+        if (tries >= retries) throw new IllegalArgumentException
+
+        val temp: Future[StandaloneWSRequest#Response] = client.url(start + iter + (if (!iter.contains("?")) "?" else "&") + end).get() //test if iter contains ?: when asking for study id next will contain it
+        temp.flatMap { resp =>
+          val code = resp.status
+          if (code < 200 || code >= 300) requestIter(tries + 1)
+          else Future(resp.body[JsValue])
+        }
+      }
+
+      requestIter(0)
+    }
+  }
 }
