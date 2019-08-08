@@ -42,7 +42,6 @@ class OCRParser(languages: String = "eng") {
     val document =
       try {
         PDDocument.load(pdf)
-
       } catch {
         case _: Exception =>
           return "thisfileiscorrupted"

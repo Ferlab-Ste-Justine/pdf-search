@@ -1,4 +1,3 @@
-
 import scala.annotation.tailrec
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
@@ -20,12 +19,16 @@ object Main {
 
     import CaseClassUtils._
     import scala.io.BufferedSource
+    import java.nio.file.{Files, Paths}
 
-    val bufferedSource: BufferedSource = scala.io.Source.fromFile("conf.properties")
-    val lines = bufferedSource.getLines().toArray
-    bufferedSource.close()
+    if(Files.exists(Paths.get("conf.properties"))) {
+      val bufferedSource: BufferedSource = scala.io.Source.fromFile("conf.properties")
+      val lines = bufferedSource.getLines().toArray
+      bufferedSource.close()
 
-    ArgMap().fromMap(mapFromArgsIter(lines))
+      ArgMap().fromMap(mapFromArgsIter(lines))
+
+    } else ArgMap()
   }
 
   val ESIndexer: ESIndexer = new ESIndexer(argMap.esurl)
